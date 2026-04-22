@@ -2,10 +2,8 @@ import axios from 'axios';
 import type { 
   MiRNACore, 
   MiRNADetail, 
-  PaginatedResponse, 
   Stats, 
   FamilyInfo,
-  PaginatedSearchResponse,
   MatchingTarget
 } from '../types/mirna';
 
@@ -20,6 +18,7 @@ class DataManager {
   private targets: Map<number, any[]> = new Map();
   private samples: any[] | null = null;
   private studies: any[] | null = null;
+  private browserIndex: any | null = null;
 
   private constructor() {}
 
@@ -100,6 +99,14 @@ class DataManager {
     return this.studies!;
   }
 
+  public async getBrowserIndex(): Promise<any> {
+    if (!this.browserIndex) {
+      const response = await axios.get(`${DATA_BASE}/browser_filter_index.json`);
+      this.browserIndex = response.data;
+    }
+    return this.browserIndex;
+  }
+
   public async fetchAllTargets(): Promise<void> {
     const mirnas = await this.getMirnas();
     const accessions = mirnas.map(m => m.accession);
@@ -111,6 +118,10 @@ const dataManager = DataManager.getInstance();
 
 // API Methods
 export const miRNAApi = {
+  getBrowserIndex: async () => {
+    return dataManager.getBrowserIndex();
+  },
+
   getMiRNAs: async (params: {
     page: number;
     limit: number;
@@ -118,10 +129,69 @@ export const miRNAApi = {
     family?: string;
     search?: string;
     reference?: string;
+    filters?: {
+      tissues?: string[];
+      conditions?: string[];
+      genotypes?: string[];
+      phases?: string[];
+      ages?: string[];
+      studies?: string[];
+    }
   }) => {
-    let mirnas = await dataManager.getMirnas();
+    const browserIndex = await dataManager.getBrowserIndex();
+    let mirnas = [...browserIndex.items];
 
-    // Filters
+    // 1. FILTROS ESTRUTURADOS
+    if (params.filters) {
+      const { tissues, conditions, genotypes, phases, ages, studies } = params.filters;
+      const hasAnyFilter = (tissues?.length || 0) + (conditions?.length || 0) + (genotypes?.length || 0) + (phases?.length || 0) + (ages?.length || 0) + (studies?.length || 0) > 0;
+
+      if (hasAnyFilter) {
+        mirnas = mirnas.filter((mirna: any) => {
+          let hasMatchingStudyEntry = false;
+          const filteredLoci: any[] = [];
+
+          for (const entry of mirna.study_entries) {
+            // Study filter
+            const studyMatches = !studies || studies.length === 0 || studies.includes(entry.study_name) || studies.includes(entry.study_id.toString());
+            
+            // Biological filters (must use samples_with_expression)
+            const samples = entry.samples_with_expression || [];
+            
+            const tissueMatches = !tissues || tissues.length === 0 || samples.some((s: any) => tissues.includes(s.tissue) || s.tissue_terms?.some((t:string) => tissues.includes(t)));
+            const conditionMatches = !conditions || conditions.length === 0 || samples.some((s: any) => conditions.includes(s.condition));
+            const genotypeMatches = !genotypes || genotypes.length === 0 || samples.some((s: any) => genotypes.includes(s.genotype));
+            const phaseMatches = !phases || phases.length === 0 || samples.some((s: any) => s.phase?.some((p:string) => phases.includes(p)));
+            const ageMatches = !ages || ages.length === 0 || samples.some((s: any) => s.age?.some((a:string) => ages.includes(a)));
+
+            if (studyMatches && tissueMatches && conditionMatches && genotypeMatches && phaseMatches && ageMatches) {
+              hasMatchingStudyEntry = true;
+              if (entry.loci) {
+                filteredLoci.push(...entry.loci);
+              }
+            }
+          }
+
+          if (hasMatchingStudyEntry) {
+            mirna._filtered_loci = filteredLoci;
+            return true;
+          }
+          return false;
+        });
+      } else {
+        // No filters: provide all loci
+        mirnas.forEach((m: any) => {
+          m._filtered_loci = m.study_entries.flatMap((e: any) => e.loci || []);
+        });
+      }
+    } else {
+      // Legacy or no filters
+      mirnas.forEach((m: any) => {
+        m._filtered_loci = m.study_entries.flatMap((e: any) => e.loci || []);
+      });
+    }
+
+    // 2. FILTROS BÁSICOS
     if (params.situation) {
       mirnas = mirnas.filter(m => m.situation === params.situation);
     }
@@ -129,12 +199,12 @@ export const miRNAApi = {
       mirnas = mirnas.filter(m => m.family === params.family);
     }
 
+    // 3. BUSCA GLOBAL (SEARCH)
     if (params.search) {
       const searchTerm = params.search.toLowerCase();
       
-      await dataManager.getGeneAnnotations();
-      await dataManager.fetchAllTargets();
       const annotations = await dataManager.getGeneAnnotations();
+      await dataManager.fetchAllTargets();
       
       const matchingGeneAccessions = new Set(
         annotations
@@ -188,22 +258,12 @@ export const miRNAApi = {
           results.push({
             ...mirna,
             matching_targets: matchingTargetsForThisMiRNA,
-            total_targets: 0
+            total_targets: mirnaTargets.length
           });
         }
       }
 
-      const total = results.length;
-      const totalPages = Math.ceil(total / params.limit);
-      const start = (params.page - 1) * params.limit;
-      const paginatedData = results.slice(start, start + params.limit);
-
-      return {
-        data: paginatedData,
-        total,
-        page: params.page,
-        total_pages: totalPages
-      } as PaginatedSearchResponse;
+      mirnas = results;
     }
 
     const total = mirnas.length;
@@ -216,7 +276,7 @@ export const miRNAApi = {
       total,
       page: params.page,
       total_pages: totalPages
-    } as PaginatedResponse<MiRNACore>;
+    } as any;
   },
 
   getFamilies: async () => {

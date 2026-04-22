@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { miRNAApi } from '../services/api';
 import { ChevronLeft, ChevronRight, Search, Tag, X, CheckSquare, Square, DownloadCloud, FileText, FileCode, FileSpreadsheet, Filter, ChevronDown, ChevronUp } from 'lucide-react';
-import { REFERENCES_DB } from '../utils/referencesData';
 
 export default function Browser() {
   const [page, setPage] = useState(1);
@@ -22,13 +21,59 @@ export default function Browser() {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const [selectedContextTag, setSelectedContextTag] = useState<string | null>(null);
+  // FILTROS BIOLÓGICOS ESTRUTURADOS
+  const [activeFilters, setActiveFilters] = useState<{
+    tissues: string[];
+    conditions: string[];
+    genotypes: string[];
+    phases: string[];
+    ages: string[];
+    studies: string[];
+  }>({
+    tissues: [],
+    conditions: [],
+    genotypes: [],
+    phases: [],
+    ages: [],
+    studies: []
+  });
+
+  const toggleFilter = (category: keyof typeof activeFilters, value: string) => {
+    setActiveFilters(prev => {
+      const current = prev[category];
+      const next = current.includes(value) 
+        ? current.filter(v => v !== value) 
+        : [...current, value];
+      return { ...prev, [category]: next };
+    });
+    setPage(1);
+  };
+
+  const clearFilters = () => {
+    setActiveFilters({
+      tissues: [],
+      conditions: [],
+      genotypes: [],
+      phases: [],
+      ages: [],
+      studies: []
+    });
+    setSituation('');
+    setSelectedFamily('');
+    setSearchInput('');
+    setDebouncedSearchTerm('');
+    setPage(1);
+  };
+
+  const hasAnyFilter = useMemo(() => {
+    return Object.values(activeFilters).some(arr => arr.length > 0) || situation || selectedFamily || debouncedSearchTerm;
+  }, [activeFilters, situation, selectedFamily, debouncedSearchTerm]);
 
   // ESTADO DE SELEÇÃO
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // ESTADO DE EXPANSÃO (para targets)
+  // ESTADO DE EXPANSÃO (para targets e loci)
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
 
   const toggleRowExpansion = (accession: number) => {
@@ -43,32 +88,19 @@ export default function Browser() {
     });
   };
 
-  const activeReferenceIds = useMemo(() => {
-    if (!selectedContextTag) return '';
-    const matchingIds = Object.entries(REFERENCES_DB)
-      .filter(([_, details]) => 
-        details.tags.tissues.includes(selectedContextTag) || 
-        details.tags.conditions.includes(selectedContextTag)
-      )
-      .map(([id]) => id);
-    return matchingIds.join(',');
-  }, [selectedContextTag]);
+  // FETCH DATA
+  const { data: browserIndex } = useQuery({ 
+    queryKey: ['browserIndex'], 
+    queryFn: () => miRNAApi.getBrowserIndex() 
+  });
 
-  const availableTags = useMemo(() => {
-    const tissues = new Set<string>();
-    const conditions = new Set<string>();
-    Object.values(REFERENCES_DB).forEach(details => {
-      details.tags.tissues.forEach(t => tissues.add(t));
-      details.tags.conditions.forEach(c => conditions.add(c));
-    });
-    return { tissues: Array.from(tissues).sort(), conditions: Array.from(conditions).sort() };
-  }, []);
+  const facetCounts = browserIndex?.facet_counts;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['mirnas', page, limit, situation, selectedFamily, activeReferenceIds, debouncedSearchTerm],
+    queryKey: ['mirnas', page, limit, situation, selectedFamily, activeFilters, debouncedSearchTerm],
     queryFn: () => miRNAApi.getMiRNAs({
       page, limit, situation: situation || undefined, family: selectedFamily || undefined, 
-      reference: activeReferenceIds || undefined, search: debouncedSearchTerm || undefined,
+      filters: activeFilters, search: debouncedSearchTerm || undefined,
     }),
   });
 
@@ -142,11 +174,6 @@ export default function Browser() {
   const isAllPageSelected = data?.data && data.data.length > 0 && data.data.every((m: any) => selectedIds.includes(m.accession));
   const hasSelection = selectedIds.length > 0;
 
-  const SITUATION_INFO = {
-    known: "Experimentally supported miRNA previously annotated for Eucalyptus grandis.",
-    novel: "Experimentally supported miRNA with no known homology (species-specific)."
-  };
-
   const getSituationStyle = (situation: string) => {
     switch (situation) {
       case 'known': return 'badge bg-success-subtle text-success border border-success';
@@ -156,8 +183,28 @@ export default function Browser() {
   };
 
   const handleRowClick = (accession: number) => {
-    // Navigate using the same pattern as standard links
     window.location.hash = `/mirna/${accession}`;
+  };
+
+  const FilterTagList = ({ title, category, facets }: { title: string, category: keyof typeof activeFilters, facets: Record<string, number> | undefined }) => {
+    if (!facets || Object.keys(facets).length === 0) return null;
+    return (
+      <div className="mb-2">
+        <span className="small text-ema-muted me-2 fw-bold" style={{ minWidth: '80px', display: 'inline-block' }}>{title}:</span>
+        <div className="d-inline-flex flex-wrap gap-1">
+          {Object.entries(facets).map(([val, count]) => (
+            <button
+              key={val}
+              onClick={() => toggleFilter(category, val)}
+              className={`btn btn-sm py-0 px-2 rounded-pill border ${activeFilters[category].includes(val) ? 'btn-primary border-primary' : 'btn-outline-secondary'}`}
+              style={{ fontSize: '0.75rem' }}
+            >
+              {val} <span className="opacity-50 ms-1">({count})</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -184,25 +231,17 @@ export default function Browser() {
             <div className="position-relative">
               <input
                 type="text"
-                placeholder="Search by miRNA ID, sequence, target gene ID (e.g. Eucgr.A02441) or gene description (e.g. SPL, Kinase)..."
+                placeholder="Search by miRNA ID, sequence, target gene ID or gene description..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="form-control form-control-lg rounded-3"
                 style={{ paddingLeft: '3rem' }}
               />
               <Search size={24} className="text-muted position-absolute top-50 start-0 translate-middle-y ms-3" />
-              {isLoading && searchInput !== debouncedSearchTerm && (
-                <div className="position-absolute top-50 end-0 translate-middle-y me-3 spinner-border spinner-border-sm text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              )}
             </div>
-            <p className="small text-secondary mt-2 mb-0">
-              Tip: You can search for gene descriptions (e.g. "heat shock 70kDa protein") or GO terms (e.g. "GO:005524") that might be related to targets of interest.
-            </p>
           </div>
 
-          <hr className="my-3" />
+          <hr className="my-1" />
 
           {/* 2. Grid de Filtros Secundários */}
           <div className="row row-cols-1 row-cols-md-3 g-3">
@@ -210,7 +249,7 @@ export default function Browser() {
               <label className="d-flex align-items-center gap-2 small fw-bold text-ema-muted text-uppercase mb-2">
                 <Filter size={12} /> Situation
               </label>
-              <select value={situation} onChange={(e) => setSituation(e.target.value)} className="form-select rounded-3">
+              <select value={situation} onChange={(e) => { setSituation(e.target.value); setPage(1); }} className="form-select rounded-3">
                 <option value="">All situations</option>
                 <option value="known">Known</option>
                 <option value="novel">Novel</option>
@@ -218,14 +257,14 @@ export default function Browser() {
             </div>
             <div className="col">
               <label className="small fw-bold text-ema-muted text-uppercase mb-2 d-block">Family</label>
-              <select value={selectedFamily} onChange={(e) => setSelectedFamily(e.target.value)} className="form-select rounded-3">
+              <select value={selectedFamily} onChange={(e) => { setSelectedFamily(e.target.value); setPage(1); }} className="form-select rounded-3">
                 <option value="">All families</option>
                 {families?.map((f: any) => (<option key={f.family} value={f.family}>{f.family} ({f.total_members})</option>))}
               </select>
             </div>
             <div className="col">
               <label className="small fw-bold text-ema-muted text-uppercase mb-2 d-block">Rows per page</label>
-              <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="form-select rounded-3">
+              <select value={limit} onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }} className="form-select rounded-3">
                 <option value="25">25 rows</option>
                 <option value="50">50 rows</option>
                 <option value="100">100 rows</option>
@@ -233,45 +272,27 @@ export default function Browser() {
             </div>
           </div>
 
-          <hr className="my-3" />
+          <hr className="my-1" />
 
           <div className="row g-4">
-            {/* 3. Filtros de Contexto (Tags) */}
-            <div className="col-lg-6">
+            {/* 3. Filtros de Contexto (Tags Grouped) */}
+            <div className="col-lg-8">
               <div className="d-flex align-items-center gap-2 mb-3">
                 <Tag size={16} className="text-ema-primary" />
-                <h3 className="small fw-bold text-ema-text text-uppercase mb-0">Filter by Experimental Context</h3>
+                <h3 className="small fw-bold text-ema-text text-uppercase mb-0">Experimental Context Filters</h3>
               </div>
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex flex-wrap gap-2 align-items-center">
-                  <span className="small text-ema-muted me-2">Tissues:</span>
-                  {availableTags.tissues.map(tag => (
-                    <button
-                      key={tag}
-                      onClick={() => setSelectedContextTag(selectedContextTag === tag ? null : tag)}
-                      className={`btn btn-sm rounded-pill ${selectedContextTag === tag ? 'btn-success fw-bold' : 'btn-outline-secondary'}`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-                <div className="d-flex flex-wrap gap-2 align-items-center">
-                  <span className="small text-ema-muted me-2">Conditions:</span>
-                  {availableTags.conditions.map(tag => (
-                    <button
-                      key={tag}
-                      onClick={() => setSelectedContextTag(selectedContextTag === tag ? null : tag)}
-                      className={`btn btn-sm rounded-pill ${selectedContextTag === tag ? 'bg-purple-subtle text-purple fw-bold border-purple' : 'btn-outline-secondary'}`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
+              <div className="bg-light p-3 rounded-3 border overflow-auto" style={{ maxHeight: '300px' }}>
+                <FilterTagList title="Studies" category="studies" facets={facetCounts?.studies} />
+                <FilterTagList title="Tissues" category="tissues" facets={facetCounts?.tissues} />
+                <FilterTagList title="Conditions" category="conditions" facets={facetCounts?.conditions} />
+                <FilterTagList title="Genotypes" category="genotypes" facets={facetCounts?.genotypes} />
+                <FilterTagList title="Phases" category="phases" facets={facetCounts?.phases} />
+                <FilterTagList title="Ages" category="ages" facets={facetCounts?.ages} />
               </div>
             </div>
 
             {/* 4. Data Export */}
-            <div className="col-lg-6 border-start">
+            <div className="col-lg-4 border-start">
               <div className="d-flex align-items-center gap-2 mb-3">
                 <DownloadCloud size={16} className="text-ema-primary" />
                 <h3 className="small fw-bold text-ema-text text-uppercase mb-0">Data Export</h3>
@@ -281,65 +302,30 @@ export default function Browser() {
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex align-items-center justify-content-between">
                     <span className={`small fw-bold ${hasSelection ? 'text-ema-primary' : 'text-secondary'}`}>
-                      {selectedIds.length > 0 ? `${selectedIds.length} sequence(s) selected` : 'Export current view or select items'}
+                      {selectedIds.length > 0 ? `${selectedIds.length} sequence(s) selected` : 'Export current selection'}
                     </span>
-                    {hasSelection && (
-                      <button
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedIds([]); }}
-                        className="btn btn-link btn-sm text-danger"
-                        type="button"
-                      >
-                        <X size={14} className="me-1" />
-                        Clear selection
-                      </button>
-                    )}
                   </div>
 
-                  <div className="row row-cols-1 row-cols-sm-3 g-2">
-                    <div className="col">
-                      <button
-                        onClick={handleDownloadTable}
-                        className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center"
-                        title={hasSelection ? "Download metadata for selected items" : "Download metadata for this page"}
-                      >
-                        <FileSpreadsheet size={16} className="me-2" />
-                        Table (.csv)
-                      </button>
-                    </div>
-                    <div className="col">
-                      <button
-                        onClick={() => handleDownloadFasta('mature')}
-                        disabled={!hasSelection || isDownloading}
-                        className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-primary' : 'btn-secondary disabled'}`}
-                      >
-                        <FileCode size={16} className="me-2" />
-                        Mature (.fasta)
-                      </button>
-                    </div>
-                    <div className="col">
-                      <button
-                        onClick={() => handleDownloadFasta('stem-loop')}
-                        disabled={!hasSelection || isDownloading}
-                        className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}
-                      >
-                        <FileText size={16} className="me-2" />
-                        Stem-loop (.fasta)
-                      </button>
-                    </div>
+                  <div className="d-flex flex-column gap-2">
+                    <button onClick={handleDownloadTable} className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center">
+                      <FileSpreadsheet size={16} className="me-2" /> Table (.csv)
+                    </button>
+                    <button onClick={() => handleDownloadFasta('mature')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-primary' : 'btn-secondary disabled'}`}>
+                      <FileCode size={16} className="me-2" /> Mature (.fasta)
+                    </button>
+                    <button onClick={() => handleDownloadFasta('stem-loop')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}>
+                      <FileText size={16} className="me-2" /> Stem-loop (.fasta)
+                    </button>
                   </div>
-                  {!hasSelection && <p className="small text-secondary text-center fst-italic mb-0">Select entries to enable FASTA downloads.</p>}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Clear Filters Geral */}
-          {(situation || selectedFamily || searchInput || selectedContextTag) && (
+          {hasAnyFilter && (
             <div className="d-flex justify-content-end border-top pt-3 mt-3">
-              <button
-                onClick={() => { setSituation(''); setSelectedFamily(''); setSearchInput(''); setDebouncedSearchTerm(''); setSelectedContextTag(null); }}
-                className="btn btn-link btn-sm text-danger fw-bold text-uppercase p-0"
-              >
+              <button onClick={clearFilters} className="btn btn-link btn-sm text-danger fw-bold text-uppercase p-0">
                 <X size={12} className="me-1" /> Clear all filters
               </button>
             </div>
@@ -360,162 +346,133 @@ export default function Browser() {
             <div className="spinner-border text-primary mb-3" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
-            <p className="text-ema-muted fw-medium">
-              {debouncedSearchTerm ? 'Searching database and analyzing targets...' : 'Fetching genomic data...'}
-            </p>
-            {debouncedSearchTerm && (
-              <p className="text-secondary small fst-italic mt-2">
-                This may take a while for complex searches
-              </p>
-            )}
+            <p className="text-ema-muted fw-medium">Processing data...</p>
           </div>
         ) : isError ? (
-          <div className="p-5 text-center text-danger">Error loading data. Check backend connection.</div>
+          <div className="p-5 text-center text-danger">Error loading data.</div>
         ) : (
           <div className="table-responsive">
             <table className="table table-hover align-middle mb-0">
               <thead className="table-light border-bottom">
                 <tr>
                   <th className="text-center" style={{ width: '3rem' }}>
-                    <button onClick={toggleSelectAll} className="btn btn-link p-0 text-primary" title="Select all on this page">
+                    <button onClick={toggleSelectAll} className="btn btn-link p-0 text-primary">
                       {isAllPageSelected ? <CheckSquare size={20} /> : <Square size={20} />}
                     </button>
                   </th>
-                  {debouncedSearchTerm && <th className="px-2" style={{ width: '2rem' }}></th>}
+                  <th className="px-2" style={{ width: '2rem' }}></th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">miRNA ID</th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Mature Sequence</th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Family</th>
                   <th className="px-4 py-3 text-center small fw-bold text-ema-muted text-uppercase">Situation</th>
-                  {debouncedSearchTerm && <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Matching targets</th>}
                 </tr>
               </thead>
               <tbody>
                 {data?.data.map((mirna: any) => {
                   const isSelected = selectedIds.includes(mirna.accession);
                   const isExpanded = expandedRows.has(mirna.accession);
+                  const hasFilteredLoci = mirna._filtered_loci && mirna._filtered_loci.length > 0;
                   const hasMatchingTargets = mirna.matching_targets && mirna.matching_targets.length > 0;
 
                   return (
-                    <>
-                      <tr key={mirna.accession} className={isSelected ? 'table-primary' : ''}>
+                    <Fragment key={mirna.accession}>
+                      <tr className={isSelected ? 'table-primary' : ''}>
                         <td className="text-center">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); toggleSelection(mirna.accession); }}
-                            className={`btn btn-link p-0 ${isSelected ? 'text-primary' : 'text-secondary'}`}
-                          >
+                          <button onClick={(e) => { e.stopPropagation(); toggleSelection(mirna.accession); }} className={`btn btn-link p-0 ${isSelected ? 'text-primary' : 'text-secondary'}`}>
                             {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
                           </button>
                         </td>
-                        {debouncedSearchTerm && (
-                          <td className="px-2">
-                            {hasMatchingTargets && (
-                              <button
-                                onClick={(e) => { e.stopPropagation(); toggleRowExpansion(mirna.accession); }}
-                                className="btn btn-link p-0 text-primary"
-                                title={isExpanded ? "Collapse targets" : "Expand targets"}
-                              >
-                                {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                              </button>
-                            )}
-                          </td>
-                        )}
+                        <td className="px-2">
+                          <button onClick={(e) => { e.stopPropagation(); toggleRowExpansion(mirna.accession); }} className="btn btn-link p-0 text-primary">
+                            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                          </button>
+                        </td>
                         <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 fw-bold text-ema-text cursor-pointer">{mirna.mirna_id}</td>
                         <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 font-monospace small text-ema-muted cursor-pointer">{mirna.mature_sequence}</td>
                         <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 cursor-pointer">
                           <span className="badge bg-secondary-subtle text-secondary border">{mirna.family}</span>
                         </td>
                         <td className="px-4 py-3 text-center cursor-pointer" onClick={() => handleRowClick(mirna.accession)}>
-                          <div className="position-relative d-inline-block">
-                            <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`} title={SITUATION_INFO[mirna.situation as keyof typeof SITUATION_INFO]}>
-                              {mirna.situation}
-                            </span>
-                          </div>
+                          <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`}>{mirna.situation}</span>
                         </td>
-                        {debouncedSearchTerm && (
-                          <td className="px-4 py-3 small">
-                            {hasMatchingTargets ? (
-                              <span className="badge bg-success-subtle text-success">
-                                {mirna.matching_targets.length} match{mirna.matching_targets.length !== 1 ? 'es' : ''}
-                                {mirna.total_targets && mirna.total_targets > mirna.matching_targets.length &&
-                                  ` of ${mirna.total_targets} total`
-                                }
-                              </span>
-                            ) : (
-                              <span className="text-muted small fst-italic">No target matches</span>
-                            )}
-                          </td>
-                        )}
                       </tr>
 
-                      {/* Expandable row showing matching targets */}
-                      {debouncedSearchTerm && isExpanded && hasMatchingTargets && (
-                        <tr key={`${mirna.accession}-expanded`} className={isSelected ? 'table-primary' : ''}>
-                          <td colSpan={7} className="p-0">
-                            <div className="bg-light border-top">
-                              <div className="p-3">
-                                <h6 className="small fw-bold text-ema-text mb-3">
-                                  Matching Targets for {mirna.mirna_id}
-                                  <span className="text-muted fw-normal ms-2">
-                                    (showing {mirna.matching_targets.length}
-                                    {mirna.total_targets && mirna.total_targets > mirna.matching_targets.length &&
-                                      ` of ${mirna.total_targets} total targets`
-                                    })
-                                  </span>
-                                </h6>
-                                <div className="table-responsive">
-                                  <table className="table table-sm table-bordered mb-0 small">
-                                    <thead className="table-secondary">
-                                      <tr>
-                                        <th className="px-3 py-2">Target Gene</th>
-                                        <th className="px-3 py-2">Locus</th>
-                                        <th className="px-3 py-2">Description</th>
-                                        <th className="px-3 py-2">GO Terms</th>
-                                        <th className="px-3 py-2 text-center">Expectation</th>
-                                        <th className="px-3 py-2 text-center">Inhibition</th>
-                                        <th className="px-3 py-2">Match reason</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {mirna.matching_targets.map((target: any, idx: number) => (
-                                        <tr key={idx}>
-                                          <td className="px-3 py-2 font-monospace">{target.target_accession}</td>
-                                          <td className="px-3 py-2">{target.target_locus}</td>
-                                          <td className="px-3 py-2" style={{ maxWidth: '300px' }}>
-                                            <div className="text-truncate" title={target.description}>
-                                              {target.description || <span className="text-muted fst-italic">No description</span>}
-                                            </div>
-                                          </td>
-                                          <td className="px-3 py-2" style={{ maxWidth: '200px' }}>
-                                            <div className="text-truncate" title={target.go_terms}>
-                                              {target.go_terms || <span className="text-muted fst-italic">-</span>}
-                                            </div>
-                                          </td>
-                                          <td className="px-3 py-2 text-center">
-                                            <span className="badge bg-info-subtle text-info">
-                                              {target.expectation?.toFixed(2) || 'N/A'}
-                                            </span>
-                                          </td>
-                                          <td className="px-3 py-2 text-center">
-                                            <span className={`badge ${target.inhibition_type === 'Cleavage' ? 'bg-danger-subtle text-danger' : 'bg-warning-subtle text-warning'}`}>
-                                              {target.inhibition_type || 'Unknown'}
-                                            </span>
-                                          </td>
-                                          <td className="px-3 py-2">
-                                            <span className="badge bg-success-subtle text-success">
-                                              {target.match_reason}
-                                            </span>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
+                      {isExpanded && (
+                        <tr>
+                          <td colSpan={6} className="p-0">
+                            <div className="bg-light border-top p-4">
+                              <div className="row g-4">
+                                {/* LOCI PANEL */}
+                                <div className="col-md-5">
+                                  <h6 className="small fw-bold text-ema-text text-uppercase mb-3 d-flex align-items-center gap-2">
+                                    <Filter size={14} className="text-primary" /> Discovery Evidence (Filtered)
+                                  </h6>
+                                  {hasFilteredLoci ? (
+                                    <div className="table-responsive">
+                                      <table className="table table-sm table-bordered bg-white small mb-0">
+                                        <thead className="table-secondary">
+                                          <tr>
+                                            <th>Study</th>
+                                            <th>Locus</th>
+                                            <th className="text-center">Score</th>
+                                            <th className="text-center">Randfold</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {mirna._filtered_loci.map((locus: any, idx: number) => (
+                                            <tr key={idx}>
+                                              <td className="fw-bold">{locus.study_name}</td>
+                                              <td className="font-monospace">{locus.provisional_id}</td>
+                                              <td className="text-center">{locus.score}</td>
+                                              <td className="text-center">{locus.randfold}</td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  ) : (
+                                    <div className="alert alert-warning py-2 px-3 small mb-0">No discovery evidence matches the active filters.</div>
+                                  )}
+                                </div>
+
+                                {/* TARGETS PANEL */}
+                                <div className="col-md-7">
+                                  <h6 className="small fw-bold text-ema-text text-uppercase mb-3 d-flex align-items-center gap-2">
+                                    <Search size={14} className="text-success" /> Matching Targets
+                                  </h6>
+                                  {hasMatchingTargets ? (
+                                    <div className="table-responsive">
+                                      <table className="table table-sm table-bordered bg-white small mb-0">
+                                        <thead className="table-secondary">
+                                          <tr>
+                                            <th>Target Gene</th>
+                                            <th>Description</th>
+                                            <th className="text-center">Expect.</th>
+                                            <th className="text-center">Inhib.</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {mirna.matching_targets.map((target: any, idx: number) => (
+                                            <tr key={idx}>
+                                              <td className="font-monospace">{target.target_accession}</td>
+                                              <td><div className="text-truncate" style={{ maxWidth: '200px' }} title={target.description}>{target.description || '-'}</div></td>
+                                              <td className="text-center">{target.expectation?.toFixed(1)}</td>
+                                              <td className="text-center">{target.inhibition_type?.charAt(0)}</td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  ) : (
+                                    <div className="text-muted small fst-italic">Search for targets to see matching evidence here.</div>
+                                  )}
                                 </div>
                               </div>
                             </div>
                           </td>
                         </tr>
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
               </tbody>
@@ -548,4 +505,8 @@ export default function Browser() {
       </div>
     </div>
   );
+}
+
+function Fragment({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
