@@ -108,16 +108,16 @@ export default function MiRNADetail() {
   }, [highConfidenceEvidence]);
 
   const filteredExpressions = useMemo(() => {
-    if (!mirna?.expressions || mirna.situation === 'novel') return [];
+    if (!mirna?.expressions) return [];
     if (supportedStudyIds.size === 0) return mirna.expressions;
     return mirna.expressions.filter((exp: any) => supportedStudyIds.has(exp.sample?.study_id));
-  }, [mirna?.expressions, mirna?.situation, supportedStudyIds]);
+  }, [mirna?.expressions, supportedStudyIds]);
 
   const filteredDegs = useMemo(() => {
-    if (!mirna?.degs || mirna.situation === 'novel') return [];
+    if (!mirna?.degs) return [];
     if (supportedStudyIds.size === 0) return mirna.degs;
     return mirna.degs.filter((deg: any) => supportedStudyIds.has(deg.study_id));
-  }, [mirna?.degs, mirna?.situation, supportedStudyIds]);
+  }, [mirna?.degs, supportedStudyIds]);
 
   const filteredReferences = useMemo(() => {
     if (!mirna?.references) return [];
