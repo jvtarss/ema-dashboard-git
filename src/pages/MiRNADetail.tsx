@@ -103,27 +103,17 @@ export default function MiRNADetail() {
     );
   }, [mirna?.discovery_evidence]);
 
-  const supportedStudyIds = useMemo(() => {
-    return new Set(highConfidenceEvidence.map((metric: any) => metric.study_id));
-  }, [highConfidenceEvidence]);
-
   const filteredExpressions = useMemo(() => {
-    if (!mirna?.expressions) return [];
-    if (supportedStudyIds.size === 0) return mirna.expressions;
-    return mirna.expressions.filter((exp: any) => supportedStudyIds.has(exp.sample?.study_id));
-  }, [mirna?.expressions, supportedStudyIds]);
+    return mirna?.expressions || [];
+  }, [mirna?.expressions]);
 
   const filteredDegs = useMemo(() => {
-    if (!mirna?.degs) return [];
-    if (supportedStudyIds.size === 0) return mirna.degs;
-    return mirna.degs.filter((deg: any) => supportedStudyIds.has(deg.study_id));
-  }, [mirna?.degs, supportedStudyIds]);
+    return mirna?.degs || [];
+  }, [mirna?.degs]);
 
   const filteredReferences = useMemo(() => {
-    if (!mirna?.references) return [];
-    if (supportedStudyIds.size === 0) return mirna.references;
-    return mirna.references.filter((ref: any) => supportedStudyIds.has(ref.study_id));
-  }, [mirna?.references, supportedStudyIds]);
+    return mirna?.references || [];
+  }, [mirna?.references]);
 
   if (isLoading) return <div className="d-flex justify-content-center align-items-center vh-100"><div className="spinner-border text-primary" role="status" style={{ width: '3rem', height: '3rem' }}><span className="visually-hidden">Loading...</span></div></div>;
   if (!mirna) return <div className="p-5 text-center text-danger">miRNA not found.</div>;
@@ -421,7 +411,7 @@ export default function MiRNADetail() {
                         </tbody>
                       </table>
                     </div>
-                ) : <div className="p-5 text-center bg-secondary-subtle rounded-4 border border-secondary border-dashed"><p className="text-ema-muted mb-0">No expression data available for supported studies.</p></div>}
+                ) : <div className="p-5 text-center bg-secondary-subtle rounded-4 border border-secondary border-dashed"><p className="text-ema-muted mb-0">No expression data available for this miRNA.</p></div>}
               </div>
               <div className="col-12 col-lg-5">
                 <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-4"><ArrowUpDown size={20} className="me-2 text-ema-primary"/> Differential Expression</h3>
@@ -464,7 +454,7 @@ export default function MiRNADetail() {
                         });
                     })()}
                   </div>
-                ) : <div className="p-5 text-center bg-secondary-subtle rounded-4 border border-secondary border-dashed"><p className="text-ema-muted mb-0">No DEG analysis available for supported studies.</p></div>}
+                ) : <div className="p-5 text-center bg-secondary-subtle rounded-4 border border-secondary border-dashed"><p className="text-ema-muted mb-0">No differential expression data available for this miRNA.</p></div>}
               </div>
             </div>
           </div>
