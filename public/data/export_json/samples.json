@@ -1,0 +1,182 @@
+[
+  {
+    "srr_accession": "SRR11749594",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 1,
+    "total_mapped_reads": 4924803
+  },
+  {
+    "srr_accession": "SRR11749595",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 3,
+    "total_mapped_reads": 7851908
+  },
+  {
+    "srr_accession": "SRR11749596",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 2,
+    "total_mapped_reads": 7615187
+  },
+  {
+    "srr_accession": "SRR11749597",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 1,
+    "total_mapped_reads": 5595785
+  },
+  {
+    "srr_accession": "SRR11749598",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 3,
+    "total_mapped_reads": 3922069
+  },
+  {
+    "srr_accession": "SRR11749599",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 2,
+    "total_mapped_reads": 4374390
+  },
+  {
+    "srr_accession": "SRR11749600",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 1,
+    "total_mapped_reads": 3337457
+  },
+  {
+    "srr_accession": "SRR11749601",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 3,
+    "total_mapped_reads": 7139036
+  },
+  {
+    "srr_accession": "SRR11749602",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 3,
+    "total_mapped_reads": 5263470
+  },
+  {
+    "srr_accession": "SRR11749603",
+    "study_id": 1,
+    "tissue": "callus",
+    "genotype": "GL9",
+    "condition": null,
+    "replicate": 2,
+    "total_mapped_reads": 2999629
+  },
+  {
+    "srr_accession": "SRR11749604",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 2,
+    "total_mapped_reads": 6484107
+  },
+  {
+    "srr_accession": "SRR11749605",
+    "study_id": 1,
+    "tissue": "stem",
+    "genotype": "DH201-2",
+    "condition": null,
+    "replicate": 1,
+    "total_mapped_reads": 7886357
+  },
+  {
+    "srr_accession": "SRR14138141",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "tension_wood",
+    "replicate": 1,
+    "total_mapped_reads": 2322472
+  },
+  {
+    "srr_accession": "SRR14138142",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "opposite_wood",
+    "replicate": 1,
+    "total_mapped_reads": 2320551
+  },
+  {
+    "srr_accession": "SRR14138143",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "unbent_control",
+    "replicate": 1,
+    "total_mapped_reads": 3142756
+  },
+  {
+    "srr_accession": "SRR14138144",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "tension_wood",
+    "replicate": 2,
+    "total_mapped_reads": 3871442
+  },
+  {
+    "srr_accession": "SRR14138145",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "opposite_wood",
+    "replicate": 2,
+    "total_mapped_reads": 2011494
+  },
+  {
+    "srr_accession": "SRR14138146",
+    "study_id": 3,
+    "tissue": "stem",
+    "genotype": null,
+    "condition": "unbent_control",
+    "replicate": 2,
+    "total_mapped_reads": 4555273
+  },
+  {
+    "srr_accession": "SRR5433935",
+    "study_id": 4,
+    "tissue": "leaves-stems",
+    "genotype": null,
+    "condition": null,
+    "replicate": 1,
+    "total_mapped_reads": 795373
+  },
+  {
+    "srr_accession": "SRR5433936",
+    "study_id": 4,
+    "tissue": "leaves-stems",
+    "genotype": null,
+    "condition": null,
+    "replicate": 2,
+    "total_mapped_reads": 1384187
+  }
+]

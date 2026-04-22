@@ -1,0 +1,51 @@
+// EMA Color Palette → Bootstrap Theme Variables
+$primary: #08B148;           // EMA Primary (new green)
+$secondary: #2C3B2D;         // EMA Secondary (darker green/dark)
+$success: #08B148;
+$info: #60a5fa;
+$warning: #fbbf24;
+$danger: #ef4444;
+
+// Custom EMA colors (non-Bootstrap standard)
+$ema-accent: #effaf2;       // Light version of the new green
+$ema-text: #2C3B2D;
+$ema-muted: #64748b;
+
+// Base styles
+$body-bg: #f8fafc;
+$border-color: #e2e8f0;
+$border-radius: 0.75rem;
+$border-radius-sm: 0.5rem;
+$border-radius-lg: 1rem;
+
+// Typography
+$font-family-sans-serif: 'Arch', system-ui, -apple-system, sans-serif;
+$font-family-monospace: 'Courier New', monospace;
+$headings-font-family: 'Arch Condensed', sans-serif;
+
+// Spacing (Bootstrap uses rem, similar to Tailwind's scale)
+$spacer: 1rem;
+
+// Shadows (standard Bootstrap - no glassmorphism)
+$box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+$box-shadow-lg: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+// Card
+$card-border-width: 1px;
+$card-border-color: $border-color;
+$card-border-radius: $border-radius-lg;
+$card-bg: #ffffff;
+
+// Buttons
+$btn-border-radius: $border-radius;
+$btn-font-weight: 700;
+
+// Forms
+$input-border-radius: $border-radius;
+$input-focus-border-color: rgba($primary, 0.5);
+$input-focus-box-shadow: 0 0 0 0.25rem rgba($primary, 0.1);
+
+// Table
+$table-hover-bg: rgba($primary, 0.05);
+$table-striped-bg: rgba($primary, 0.02);

@@ -1,0 +1,40 @@
+[
+  {
+    "target_interaction_id": 1140,
+    "mirna_core_accession": 47,
+    "target_accession": "Eucgr.F03409.1",
+    "target_pacid": "32057829",
+    "target_locus": "Eucgr.F03409",
+    "target_full_id": "Eucgr.F03409.1.v2.0",
+    "target_annot_version": "v2.0",
+    "expectation": 3.0,
+    "upe": null,
+    "mirna_align_start": 1,
+    "mirna_align_end": 20,
+    "target_align_start": 186,
+    "target_align_end": 205,
+    "mirna_aligned_fragment": "UGCCAUCCUUCUACGACAUG",
+    "target_aligned_fragment": "UGUGUUGUACAAGGAUGGCG",
+    "inhibition_type": "Translation",
+    "gene_annotation": null
+  },
+  {
+    "target_interaction_id": 1141,
+    "mirna_core_accession": 47,
+    "target_accession": "Eucgr.K01681.1",
+    "target_pacid": "32067059",
+    "target_locus": "Eucgr.K01681",
+    "target_full_id": "Eucgr.K01681.1.v2.0",
+    "target_annot_version": "v2.0",
+    "expectation": 3.0,
+    "upe": null,
+    "mirna_align_start": 1,
+    "mirna_align_end": 20,
+    "target_align_start": 136,
+    "target_align_end": 155,
+    "mirna_aligned_fragment": "UGCCAUCCUUCUACGACAUG",
+    "target_aligned_fragment": "GAUUUCGUGGAUGGAUGGCA",
+    "inhibition_type": "Cleavage",
+    "gene_annotation": null
+  }
+]

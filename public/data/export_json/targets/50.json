@@ -1,0 +1,21 @@
+[
+  {
+    "target_interaction_id": 233,
+    "mirna_core_accession": 50,
+    "target_accession": "Eucgr.I02250.1",
+    "target_pacid": "32062894",
+    "target_locus": "Eucgr.I02250",
+    "target_full_id": "Eucgr.I02250.1.v2.0",
+    "target_annot_version": "v2.0",
+    "expectation": 2.0,
+    "upe": null,
+    "mirna_align_start": 1,
+    "mirna_align_end": 20,
+    "target_align_start": 149,
+    "target_align_end": 168,
+    "mirna_aligned_fragment": "UACUCCAGGCUACUUUCAAU",
+    "target_aligned_fragment": "AUUGCAAGUGGCCUGGGGUA",
+    "inhibition_type": "Cleavage",
+    "gene_annotation": null
+  }
+]

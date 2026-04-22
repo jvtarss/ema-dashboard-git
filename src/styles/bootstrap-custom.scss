@@ -1,0 +1,9 @@
+// 1. Import custom variables FIRST
+@import './variables';
+
+// 2. Import Bootstrap core
+@import 'bootstrap/scss/bootstrap';
+
+// 3. Import fonts and animations
+@import './fonts';
+@import './animations';

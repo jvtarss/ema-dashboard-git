@@ -1,0 +1,11 @@
+{
+  "db_source": "ema_mirdeep2_union.db",
+  "total_mirnas": 91,
+  "detail_files_by_accession": 91,
+  "detail_files_by_mirna_id": 91,
+  "target_files": 91,
+  "notes": [
+    "Only loci with passed_am2018_filters = 1 and score_total >= 0 are exported as visible discovery evidence.",
+    "References and expression data are restricted to studies that have at least one visible locus for that miRNA."
+  ]
+}

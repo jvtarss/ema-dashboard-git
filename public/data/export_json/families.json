@@ -1,0 +1,218 @@
+[
+  {
+    "accession": 65,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 66,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156b",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 67,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156c",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 68,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156f",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 69,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156g",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 70,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156h",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 71,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156i",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 72,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156k",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 73,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156l",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 74,
+    "family_consensus": "miR156.0",
+    "best_hit_id": "Egr-miR156n",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 75,
+    "family_consensus": "miR164.0",
+    "best_hit_id": "Egr-miR164a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 76,
+    "family_consensus": "miR165.0",
+    "best_hit_id": "Egr-miR165c",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 77,
+    "family_consensus": "miR165.0",
+    "best_hit_id": "Egr-miR165e",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 78,
+    "family_consensus": "miR167.0",
+    "best_hit_id": "Egr-miR167a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 79,
+    "family_consensus": "miR167.0",
+    "best_hit_id": "Egr-miR167b",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 80,
+    "family_consensus": "miR167.0",
+    "best_hit_id": "Egr-miR167c",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 81,
+    "family_consensus": "miR396.0",
+    "best_hit_id": "Egr-miR396a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 82,
+    "family_consensus": "miR396.0",
+    "best_hit_id": "Egr-miR396c",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 83,
+    "family_consensus": "miR482.0",
+    "best_hit_id": "Egr-miR482a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 84,
+    "family_consensus": "miR482.0",
+    "best_hit_id": "Egr-miR482b",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 85,
+    "family_consensus": "miR535.0",
+    "best_hit_id": "Egr-miR535a",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 86,
+    "family_consensus": "miR535.0",
+    "best_hit_id": "Egr-miR535b",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 87,
+    "family_consensus": "miR5651.0",
+    "best_hit_id": "Egr-miRN5651",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 88,
+    "family_consensus": "miR5652.0",
+    "best_hit_id": "Egr-miRN5652",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 89,
+    "family_consensus": "miR5654.0",
+    "best_hit_id": "Egr-miRN5654",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 90,
+    "family_consensus": "miR5668.0",
+    "best_hit_id": "Egr-miRN5668",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  },
+  {
+    "accession": 91,
+    "family_consensus": "miR5674.0",
+    "best_hit_id": "Egr-miRN5674",
+    "pident": null,
+    "evalue": null,
+    "bitscore": null
+  }
+]
