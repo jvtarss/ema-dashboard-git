@@ -13,33 +13,41 @@ export default function Home() {
     <div className="d-flex flex-column gap-5 pb-5">
 
       {/* Hero Section */}
-      <section className="text-center position-relative py-4 animate-fade-in d-flex flex-column align-items-center">
-
+      <section 
+        className="text-center position-relative py-5 animate-fade-in d-flex flex-column align-items-center rounded-4 overflow-hidden shadow-lg"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('hero-background.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '450px',
+          justifyContent: 'center'
+        }}
+      >
         {/* Badge da Versão */}
-        <span className="badge rounded-pill mb-4 border" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148', borderColor: 'rgba(8, 177, 72, 0.2)' }}>
+        <span className="badge rounded-pill mb-4 border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: '#fff', borderColor: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(4px)' }}>
           <span className="small fw-bold text-uppercase letter-spacing-wider">Version 1.0.0</span>
         </span>
 
         {/* LOGO */}
         <img
-          src="logo-color.png"
+          src="logo-branca.svg"
           alt="Eucalyptus microRNA Archive"
           className="mb-4 transition-transform"
-          style={{ height: '12rem', width: 'auto', objectFit: 'contain', background: 'transparent', boxShadow: 'none' }}
+          style={{ height: '14rem', width: 'auto', objectFit: 'contain', background: 'transparent', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }}
         />
 
         {/* Descrição */}
-        <p className="fs-5 text-ema-muted mx-auto lh-base mb-5" style={{ maxWidth: '42rem' }}>
+        <p className="fs-5 text-white mx-auto lh-base mb-5 fw-medium" style={{ maxWidth: '42rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
           A comprehensive database of validated microRNAs in <em>Eucalyptus grandis</em>,
           featuring experimentally confirmed sequences and target predictions.
         </p>
 
         {/* Botões de Ação */}
         <div className="d-flex justify-content-center gap-3">
-          <Link to="/browser" className="btn btn-primary btn-lg px-5 rounded-3 fw-bold shadow d-flex align-items-center">
+          <Link to="/browser" className="btn btn-primary btn-lg px-5 rounded-3 fw-bold shadow-lg d-flex align-items-center border-0" style={{ backgroundColor: '#08B148' }}>
             Start browsing
           </Link>
-          <Link to="/documentation" className="btn btn-outline-secondary btn-lg px-5 rounded-3 fw-bold d-flex align-items-center">
+          <Link to="/documentation" className="btn btn-outline-light btn-lg px-5 rounded-3 fw-bold d-flex align-items-center backdrop-blur" style={{ backdropFilter: 'blur(4px)' }}>
             Documentation
           </Link>
         </div>
