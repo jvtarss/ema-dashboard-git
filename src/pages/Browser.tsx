@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { miRNAApi } from '../services/api';
 import { ChevronLeft, ChevronRight, Search, Tag, X, CheckSquare, Square, DownloadCloud, FileText, FileCode, FileSpreadsheet, Filter } from 'lucide-react';
 
@@ -159,10 +160,6 @@ export default function Browser() {
       case 'novel': return 'badge bg-purple-subtle text-purple border border-purple';
       default: return 'badge bg-secondary-subtle text-secondary border border-secondary';
     }
-  };
-
-  const handleRowClick = (accession: number) => {
-    window.location.hash = `/mirna/${accession}`;
   };
 
   const formatTagName = (category: string, name: string) => {
@@ -349,12 +346,16 @@ export default function Browser() {
                           {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
                         </button>
                       </td>
-                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 fw-bold text-ema-text cursor-pointer">{mirna.mirna_id}</td>
-                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 font-monospace small text-ema-muted cursor-pointer">{mirna.mature_sequence}</td>
-                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 cursor-pointer">
+                      <td className="px-4 py-3 fw-bold text-ema-text">
+                        <Link to={`/mirna/${mirna.accession}`} className="text-decoration-none text-ema-primary hover-underline">
+                          {mirna.mirna_id}
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3 font-monospace small text-ema-muted">{mirna.mature_sequence}</td>
+                      <td className="px-4 py-3">
                         <span className="badge bg-secondary-subtle text-secondary border">{mirna.family}</span>
                       </td>
-                      <td className="px-4 py-3 text-center cursor-pointer" onClick={() => handleRowClick(mirna.accession)}>
+                      <td className="px-4 py-3 text-center">
                         <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`}>{mirna.situation}</span>
                       </td>
                     </tr>

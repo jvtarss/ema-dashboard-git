@@ -2,7 +2,7 @@ import { useState, useMemo, Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { miRNAApi } from '../services/api';
-import { ArrowLeft, Dna, Target, BookOpen, Layers, ExternalLink, Info, ArrowUpDown, Microscope, Tag, Activity, Scissors, Map, Search, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, HelpCircle, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Dna, Target, BookOpen, Layers, ExternalLink, Info, ArrowUpDown, Microscope, Tag, Activity, Scissors, Map, Search, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
 import { REFERENCES_DB } from '../utils/referencesData';
 
 interface SituationConfigItem {
@@ -21,7 +21,6 @@ export default function MiRNADetail() {
   const [targetPage, setTargetPage] = useState(1);
   const targetsPerPage = 10;
   const [expressionMode, setExpressionMode] = useState<'raw' | 'rpm'>('raw');
-  const [isMethodologyOpen, setIsMethodologyOpen] = useState(false);
 
   const { data: mirna, isLoading } = useQuery({
     queryKey: ['mirna', id],
@@ -349,19 +348,6 @@ export default function MiRNADetail() {
         {/* ABA: EXPRESSION & DEG */}
         {activeTab === 'expression' && (
           <div className="animate-fade-in">
-            <div className="mb-4">
-              <button onClick={() => setIsMethodologyOpen(!isMethodologyOpen)} className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 fw-bold transition-all"><Info size={16} /> Methodology Notes {isMethodologyOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</button>
-              {isMethodologyOpen && (
-                <div className="card mt-2 border shadow-sm bg-light-subtle animate-fade-in">
-                  <div className="card-body small text-ema-text">
-                    <p className="mb-2"><strong>Expression quantification</strong> was performed using a multi-study miRDeep2 pipeline. Data is aggregated from libraries across 3 independent publications (LIN-2018, QIN-2021, TOLENTINO-2022).</p>
-                    <p className="mb-2"><strong>Raw counts</strong> represent the sum of read multiplicities mapping to each miRNA locus.</p>
-                    <p className="mb-0"><strong>RPM normalization</strong> is computed per-sample using each library's total mapped reads.</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
             <div className="row g-4">
               <div className="col-12 col-lg-7">
                 <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
@@ -469,8 +455,7 @@ export default function MiRNADetail() {
                                     <AlertTriangle size={14} className="mt-1 flex-shrink-0"/><span style={{ fontSize: '0.75rem' }}><strong>Interaction detected</strong> (padj = {interactionEntry.padj?.toFixed(4)}) — the effect is not uniform across genotypes</span>
                                   </div>
                                 )}
-                                <div className="mt-2 text-end d-flex justify-content-between align-items-center">
-                                  {deg.confidence_class && <span className={`badge ${deg.confidence_class === 'high_confidence' ? 'bg-success-subtle text-success' : 'bg-info-subtle text-info'} border`} style={{ fontSize: '0.65rem' }}>{deg.confidence_class.replace('_', ' ')}</span>}
+                                <div className="mt-2 text-end">
                                   <span className="small text-muted fst-italic" style={{ fontSize: '0.7rem' }}>{deg.study?.author_id || deg.author_id}</span>
                                 </div>
                               </div>
