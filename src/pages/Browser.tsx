@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { miRNAApi } from '../services/api';
-import { ChevronLeft, ChevronRight, Search, Tag, X, CheckSquare, Square, DownloadCloud, FileText, FileCode, FileSpreadsheet, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, Tag, X, CheckSquare, Square, DownloadCloud, FileText, FileCode, FileSpreadsheet, Filter } from 'lucide-react';
 
 export default function Browser() {
   const [page, setPage] = useState(1);
@@ -9,15 +9,15 @@ export default function Browser() {
   const [situation, setSituation] = useState<string>('');
   const [selectedFamily, setSelectedFamily] = useState<string>('');
   
-  // LÓGICA DE DEBOUNCE (Resolve a lentidão na pesquisa)
-  const [searchInput, setSearchInput] = useState(''); // O que o usuário digita
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(''); // O que vai para a API
+  // LÓGICA DE DEBOUNCE
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchInput);
-      setPage(1); // Reseta para a página 1 ao pesquisar
-    }, 600); // Espera 600ms após parar de digitar
+      setPage(1);
+    }, 600);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
@@ -73,21 +73,6 @@ export default function Browser() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // ESTADO DE EXPANSÃO (para targets e loci)
-  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
-
-  const toggleRowExpansion = (accession: number) => {
-    setExpandedRows(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(accession)) {
-        newSet.delete(accession);
-      } else {
-        newSet.add(accession);
-      }
-      return newSet;
-    });
-  };
-
   // FETCH DATA
   const { data: browserIndex } = useQuery({ 
     queryKey: ['browserIndex'], 
@@ -139,18 +124,13 @@ export default function Browser() {
     }
   };
 
-  // Download Tabela CSV
   const handleDownloadTable = () => {
     if (!data?.data) return;
-
     const rowsToExport = selectedIds.length > 0
         ? data.data.filter((m: any) => selectedIds.includes(m.accession))
         : data.data;
-
     if (rowsToExport.length === 0) return;
-
     const headers = ["miRNA ID", "Mature Sequence", "Family", "Situation"];
-    
     const csvContent = [
         headers.join(","), 
         ...rowsToExport.map((row: any) => [
@@ -160,12 +140,11 @@ export default function Browser() {
             row.situation
         ].join(","))
     ].join("\n");
-
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `ema_mirna_table_${selectedIds.length > 0 ? 'selected' : 'page'}.csv`);
+    link.setAttribute("download", `ema_mirna_table.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -186,20 +165,30 @@ export default function Browser() {
     window.location.hash = `/mirna/${accession}`;
   };
 
+  const formatTagName = (category: string, name: string) => {
+    if (!name) return "";
+    if (category === 'conditions' || category === 'tissues') {
+      return name
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (l) => l.toUpperCase());
+    }
+    return name;
+  };
+
   const FilterTagList = ({ title, category, facets }: { title: string, category: keyof typeof activeFilters, facets: Record<string, number> | undefined }) => {
     if (!facets || Object.keys(facets).length === 0) return null;
     return (
       <div className="mb-2">
         <span className="small text-ema-muted me-2 fw-bold" style={{ minWidth: '80px', display: 'inline-block' }}>{title}:</span>
         <div className="d-inline-flex flex-wrap gap-1">
-          {Object.entries(facets).map(([val, count]) => (
+          {Object.entries(facets).sort((a,b) => b[1] - a[1]).map(([val, count]) => (
             <button
               key={val}
               onClick={() => toggleFilter(category, val)}
               className={`btn btn-sm py-0 px-2 rounded-pill border ${activeFilters[category].includes(val) ? 'btn-primary border-primary' : 'btn-outline-secondary'}`}
               style={{ fontSize: '0.75rem' }}
             >
-              {val} <span className="opacity-50 ms-1">({count})</span>
+              {formatTagName(category, val)} <span className="opacity-50 ms-1">({count})</span>
             </button>
           ))}
         </div>
@@ -219,11 +208,10 @@ export default function Browser() {
         </div>
       </div>
 
-      {/* --- CONTAINER DE FILTROS E AÇÕES --- */}
+      {/* --- CONTAINER DE FILTROS --- */}
       <div className="card border shadow rounded-4 p-4">
         <div className="card-body d-flex flex-column gap-4">
         
-          {/* 1. SEARCH BAR */}
           <div>
             <label className="d-flex align-items-center gap-2 small fw-bold text-ema-primary text-uppercase letter-spacing-wider mb-3">
               <Search size={16} /> Global Search
@@ -231,7 +219,7 @@ export default function Browser() {
             <div className="position-relative">
               <input
                 type="text"
-                placeholder="Search by miRNA ID, sequence, target gene ID or gene description..."
+                placeholder="Search by miRNA ID, sequence, target gene ID or description..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="form-control form-control-lg rounded-3"
@@ -243,7 +231,6 @@ export default function Browser() {
 
           <hr className="my-1" />
 
-          {/* 2. Grid de Filtros Secundários */}
           <div className="row row-cols-1 row-cols-md-3 g-3">
             <div className="col">
               <label className="d-flex align-items-center gap-2 small fw-bold text-ema-muted text-uppercase mb-2">
@@ -275,7 +262,6 @@ export default function Browser() {
           <hr className="my-1" />
 
           <div className="row g-4">
-            {/* 3. Filtros de Contexto (Tags Grouped) */}
             <div className="col-lg-8">
               <div className="d-flex align-items-center gap-2 mb-3">
                 <Tag size={16} className="text-ema-primary" />
@@ -291,38 +277,27 @@ export default function Browser() {
               </div>
             </div>
 
-            {/* 4. Data Export */}
             <div className="col-lg-4 border-start">
               <div className="d-flex align-items-center gap-2 mb-3">
                 <DownloadCloud size={16} className="text-ema-primary" />
                 <h3 className="small fw-bold text-ema-text text-uppercase mb-0">Data Export</h3>
               </div>
-
               <div className="bg-light rounded-3 p-3 border">
-                <div className="d-flex flex-column gap-3">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span className={`small fw-bold ${hasSelection ? 'text-ema-primary' : 'text-secondary'}`}>
-                      {selectedIds.length > 0 ? `${selectedIds.length} sequence(s) selected` : 'Export current selection'}
-                    </span>
-                  </div>
-
-                  <div className="d-flex flex-column gap-2">
-                    <button onClick={handleDownloadTable} className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center">
-                      <FileSpreadsheet size={16} className="me-2" /> Table (.csv)
-                    </button>
-                    <button onClick={() => handleDownloadFasta('mature')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-primary' : 'btn-secondary disabled'}`}>
-                      <FileCode size={16} className="me-2" /> Mature (.fasta)
-                    </button>
-                    <button onClick={() => handleDownloadFasta('stem-loop')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}>
-                      <FileText size={16} className="me-2" /> Stem-loop (.fasta)
-                    </button>
-                  </div>
+                <div className="d-flex flex-column gap-2">
+                  <button onClick={handleDownloadTable} className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center">
+                    <FileSpreadsheet size={16} className="me-2" /> Table (.csv)
+                  </button>
+                  <button onClick={() => handleDownloadFasta('mature')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-primary' : 'btn-secondary disabled'}`}>
+                    <FileCode size={16} className="me-2" /> Mature (.fasta)
+                  </button>
+                  <button onClick={() => handleDownloadFasta('stem-loop')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}>
+                    <FileText size={16} className="me-2" /> Stem-loop (.fasta)
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Clear Filters Geral */}
           {hasAnyFilter && (
             <div className="d-flex justify-content-end border-top pt-3 mt-3">
               <button onClick={clearFilters} className="btn btn-link btn-sm text-danger fw-bold text-uppercase p-0">
@@ -333,19 +308,17 @@ export default function Browser() {
         </div>
       </div>
 
-      {/* --- TABELA DE RESULTADOS --- */}
+      {/* --- TABELA --- */}
       <div className="card border shadow rounded-4 overflow-hidden">
-        <div className="card-header bg-success-subtle border-bottom d-flex justify-content-between align-items-center">
-          <div className="small fw-medium text-primary">
-            {isLoading ? 'Loading...' : `Showing ${data?.total ? ((page - 1) * limit) + 1 : 0}-${Math.min(page * limit, data?.total || 0)} of ${data?.total || 0} entries`}
+        <div className="card-header bg-success-subtle border-bottom d-flex justify-content-between align-items-center py-3">
+          <div className="small fw-bold text-primary">
+            {isLoading ? 'Loading...' : `FOUND ${data?.total || 0} miRNAs`}
           </div>
         </div>
 
         {isLoading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-5">
-            <div className="spinner-border text-primary mb-3" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+            <div className="spinner-border text-primary mb-3" role="status"><span className="visually-hidden">Loading...</span></div>
             <p className="text-ema-muted fw-medium">Processing data...</p>
           </div>
         ) : isError ? (
@@ -360,7 +333,6 @@ export default function Browser() {
                       {isAllPageSelected ? <CheckSquare size={20} /> : <Square size={20} />}
                     </button>
                   </th>
-                  <th className="px-2" style={{ width: '2rem' }}></th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">miRNA ID</th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Mature Sequence</th>
                   <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Family</th>
@@ -370,109 +342,22 @@ export default function Browser() {
               <tbody>
                 {data?.data.map((mirna: any) => {
                   const isSelected = selectedIds.includes(mirna.accession);
-                  const isExpanded = expandedRows.has(mirna.accession);
-                  const hasFilteredLoci = mirna._filtered_loci && mirna._filtered_loci.length > 0;
-                  const hasMatchingTargets = mirna.matching_targets && mirna.matching_targets.length > 0;
-
                   return (
-                    <Fragment key={mirna.accession}>
-                      <tr className={isSelected ? 'table-primary' : ''}>
-                        <td className="text-center">
-                          <button onClick={(e) => { e.stopPropagation(); toggleSelection(mirna.accession); }} className={`btn btn-link p-0 ${isSelected ? 'text-primary' : 'text-secondary'}`}>
-                            {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
-                          </button>
-                        </td>
-                        <td className="px-2">
-                          <button onClick={(e) => { e.stopPropagation(); toggleRowExpansion(mirna.accession); }} className="btn btn-link p-0 text-primary">
-                            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                          </button>
-                        </td>
-                        <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 fw-bold text-ema-text cursor-pointer">{mirna.mirna_id}</td>
-                        <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 font-monospace small text-ema-muted cursor-pointer">{mirna.mature_sequence}</td>
-                        <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 cursor-pointer">
-                          <span className="badge bg-secondary-subtle text-secondary border">{mirna.family}</span>
-                        </td>
-                        <td className="px-4 py-3 text-center cursor-pointer" onClick={() => handleRowClick(mirna.accession)}>
-                          <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`}>{mirna.situation}</span>
-                        </td>
-                      </tr>
-
-                      {isExpanded && (
-                        <tr>
-                          <td colSpan={6} className="p-0">
-                            <div className="bg-light border-top p-4">
-                              <div className="row g-4">
-                                {/* LOCI PANEL */}
-                                <div className="col-md-5">
-                                  <h6 className="small fw-bold text-ema-text text-uppercase mb-3 d-flex align-items-center gap-2">
-                                    <Filter size={14} className="text-primary" /> Discovery Evidence (Filtered)
-                                  </h6>
-                                  {hasFilteredLoci ? (
-                                    <div className="table-responsive">
-                                      <table className="table table-sm table-bordered bg-white small mb-0">
-                                        <thead className="table-secondary">
-                                          <tr>
-                                            <th>Study</th>
-                                            <th>Locus</th>
-                                            <th className="text-center">Score</th>
-                                            <th className="text-center">Randfold</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {mirna._filtered_loci.map((locus: any, idx: number) => (
-                                            <tr key={idx}>
-                                              <td className="fw-bold">{locus.study_name}</td>
-                                              <td className="font-monospace">{locus.provisional_id}</td>
-                                              <td className="text-center">{locus.score}</td>
-                                              <td className="text-center">{locus.randfold}</td>
-                                            </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  ) : (
-                                    <div className="alert alert-warning py-2 px-3 small mb-0">No discovery evidence matches the active filters.</div>
-                                  )}
-                                </div>
-
-                                {/* TARGETS PANEL */}
-                                <div className="col-md-7">
-                                  <h6 className="small fw-bold text-ema-text text-uppercase mb-3 d-flex align-items-center gap-2">
-                                    <Search size={14} className="text-success" /> Matching Targets
-                                  </h6>
-                                  {hasMatchingTargets ? (
-                                    <div className="table-responsive">
-                                      <table className="table table-sm table-bordered bg-white small mb-0">
-                                        <thead className="table-secondary">
-                                          <tr>
-                                            <th>Target Gene</th>
-                                            <th>Description</th>
-                                            <th className="text-center">Expect.</th>
-                                            <th className="text-center">Inhib.</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {mirna.matching_targets.map((target: any, idx: number) => (
-                                            <tr key={idx}>
-                                              <td className="font-monospace">{target.target_accession}</td>
-                                              <td><div className="text-truncate" style={{ maxWidth: '200px' }} title={target.description}>{target.description || '-'}</div></td>
-                                              <td className="text-center">{target.expectation?.toFixed(1)}</td>
-                                              <td className="text-center">{target.inhibition_type?.charAt(0)}</td>
-                                            </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  ) : (
-                                    <div className="text-muted small fst-italic">Search for targets to see matching evidence here.</div>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </Fragment>
+                    <tr key={mirna.accession} className={isSelected ? 'table-primary' : ''}>
+                      <td className="text-center">
+                        <button onClick={() => toggleSelection(mirna.accession)} className={`btn btn-link p-0 ${isSelected ? 'text-primary' : 'text-secondary'}`}>
+                          {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
+                        </button>
+                      </td>
+                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 fw-bold text-ema-text cursor-pointer">{mirna.mirna_id}</td>
+                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 font-monospace small text-ema-muted cursor-pointer">{mirna.mature_sequence}</td>
+                      <td onClick={() => handleRowClick(mirna.accession)} className="px-4 py-3 cursor-pointer">
+                        <span className="badge bg-secondary-subtle text-secondary border">{mirna.family}</span>
+                      </td>
+                      <td className="px-4 py-3 text-center cursor-pointer" onClick={() => handleRowClick(mirna.accession)}>
+                        <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`}>{mirna.situation}</span>
+                      </td>
+                    </tr>
                   );
                 })}
               </tbody>
@@ -480,19 +365,16 @@ export default function Browser() {
           </div>
         )}
 
-        {/* Pagination */}
         {data && data.total_pages > 1 && (
           <div className="card-footer bg-light border-top">
-            <nav aria-label="Page navigation">
+            <nav>
               <ul className="pagination justify-content-between mb-0">
                 <li className="page-item">
                   <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="page-link d-flex align-items-center">
                     <ChevronLeft size={16} className="me-1" /> Prev
                   </button>
                 </li>
-                <li className="page-item disabled">
-                  <span className="page-link">Page {page} of {data.total_pages}</span>
-                </li>
+                <li className="page-item disabled px-3 py-2 small fw-bold text-ema-muted">Page {page} of {data.total_pages}</li>
                 <li className="page-item">
                   <button onClick={() => setPage(p => Math.min(data.total_pages, p + 1))} disabled={page === data.total_pages} className="page-link d-flex align-items-center">
                     Next <ChevronRight size={16} className="ms-1" />
@@ -505,8 +387,4 @@ export default function Browser() {
       </div>
     </div>
   );
-}
-
-function Fragment({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
 }

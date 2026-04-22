@@ -155,20 +155,38 @@ export const miRNAApi = {
             // Study filter
             const studyMatches = !studies || studies.length === 0 || studies.includes(entry.study_name) || studies.includes(entry.study_id.toString());
             
-            // Biological filters (must use samples_with_expression)
+            // NEW STRICT REQUIREMENT: Only consider this study entry if it has visible loci
+            // Visible criteria: passed_am2018_filters = 1 AND score_total >= 0
+            const visibleLoci = (entry.loci || []).filter((l: any) => l.passed_am2018_filters === 1 && l.score_total >= 0);
+            
+            if (visibleLoci.length === 0) continue;
+
             const samples = entry.samples_with_expression || [];
             
-            const tissueMatches = !tissues || tissues.length === 0 || samples.some((s: any) => tissues.includes(s.tissue) || s.tissue_terms?.some((t:string) => tissues.includes(t)));
-            const conditionMatches = !conditions || conditions.length === 0 || samples.some((s: any) => conditions.includes(s.condition));
-            const genotypeMatches = !genotypes || genotypes.length === 0 || samples.some((s: any) => genotypes.includes(s.genotype));
-            const phaseMatches = !phases || phases.length === 0 || samples.some((s: any) => s.phase?.some((p:string) => phases.includes(p)));
-            const ageMatches = !ages || ages.length === 0 || samples.some((s: any) => s.age?.some((a:string) => ages.includes(a)));
+            // Biological filters evaluation (Samples OR Fallbacks)
+            const tissueMatches = !tissues || tissues.length === 0 || 
+              samples.some((s: any) => tissues.includes(s.tissue) || s.tissue_terms?.some((t:string) => tissues.includes(t))) ||
+              entry.fallback_tissues?.some((t: string) => tissues.includes(t));
+
+            const conditionMatches = !conditions || conditions.length === 0 || 
+              samples.some((s: any) => conditions.includes(s.condition)) ||
+              entry.fallback_conditions?.some((c: string) => conditions.includes(c));
+
+            const genotypeMatches = !genotypes || genotypes.length === 0 || 
+              samples.some((s: any) => genotypes.includes(s.genotype)) ||
+              entry.fallback_genotypes?.some((g: string) => genotypes.includes(g));
+
+            const phaseMatches = !phases || phases.length === 0 || 
+              samples.some((s: any) => s.phase?.some((p:string) => phases.includes(p))) ||
+              entry.fallback_phases?.some((p: string) => phases.includes(p));
+
+            const ageMatches = !ages || ages.length === 0 || 
+              samples.some((s: any) => s.age?.some((a:string) => ages.includes(a))) ||
+              entry.fallback_ages?.some((a: string) => ages.includes(a));
 
             if (studyMatches && tissueMatches && conditionMatches && genotypeMatches && phaseMatches && ageMatches) {
               hasMatchingStudyEntry = true;
-              if (entry.loci) {
-                filteredLoci.push(...entry.loci);
-              }
+              filteredLoci.push(...visibleLoci);
             }
           }
 
@@ -179,15 +197,19 @@ export const miRNAApi = {
           return false;
         });
       } else {
-        // No filters: provide all loci
+        // No filters: provide only visible loci
         mirnas.forEach((m: any) => {
-          m._filtered_loci = m.study_entries.flatMap((e: any) => e.loci || []);
+          m._filtered_loci = m.study_entries.flatMap((e: any) => 
+            (e.loci || []).filter((l: any) => l.passed_am2018_filters === 1 && l.score_total >= 0)
+          );
         });
       }
     } else {
-      // Legacy or no filters
+      // Legacy or no filters: provide only visible loci
       mirnas.forEach((m: any) => {
-        m._filtered_loci = m.study_entries.flatMap((e: any) => e.loci || []);
+        m._filtered_loci = m.study_entries.flatMap((e: any) => 
+          (e.loci || []).filter((l: any) => l.passed_am2018_filters === 1 && l.score_total >= 0)
+        );
       });
     }
 
