@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": null,
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -278,7 +278,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 152,
+      "evidence_id": 151,
       "mirna_core_accession": 52,
       "mirna_id": "Chr09_37979",
       "situation": "novel",
@@ -335,7 +335,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 153,
+      "evidence_id": 152,
       "mirna_core_accession": 52,
       "mirna_id": "Chr09_37979",
       "situation": "novel",
@@ -369,7 +369,7 @@
       "passed_am2018_filters": 0,
       "chr_scaf": "Chr09",
       "strand": "-",
-      "start_genomic": 26160622,
+      "start_genomic": 26160623,
       "end_genomic": 26160703,
       "precursor_id": 52,
       "origin_sequence": null,

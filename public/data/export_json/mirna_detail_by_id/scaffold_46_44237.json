@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": "miR399.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -285,7 +285,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 187,
+      "evidence_id": 185,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -342,7 +342,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 188,
+      "evidence_id": 186,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -399,7 +399,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 189,
+      "evidence_id": 187,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -456,7 +456,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 190,
+      "evidence_id": 188,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -513,7 +513,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 191,
+      "evidence_id": 189,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -570,7 +570,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 192,
+      "evidence_id": 190,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",
@@ -627,7 +627,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 193,
+      "evidence_id": 191,
       "mirna_core_accession": 65,
       "mirna_id": "scaffold_46_44237",
       "situation": "novel",

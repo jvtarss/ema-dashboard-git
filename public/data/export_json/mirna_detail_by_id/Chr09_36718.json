@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": null,
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -285,7 +285,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 148,
+      "evidence_id": 147,
       "mirna_core_accession": 51,
       "mirna_id": "Chr09_36718",
       "situation": "novel",
@@ -342,7 +342,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 149,
+      "evidence_id": 148,
       "mirna_core_accession": 51,
       "mirna_id": "Chr09_36718",
       "situation": "novel",
@@ -399,7 +399,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 150,
+      "evidence_id": 149,
       "mirna_core_accession": 51,
       "mirna_id": "Chr09_36718",
       "situation": "novel",
@@ -433,8 +433,8 @@
       "passed_am2018_filters": 0,
       "chr_scaf": "Chr09",
       "strand": "+",
-      "start_genomic": 29025840,
-      "end_genomic": 29025915,
+      "start_genomic": 29025839,
+      "end_genomic": 29025913,
       "precursor_id": 51,
       "origin_sequence": null,
       "premir_sequence_stem_loop": "UCGCAAGGAGAGACGGCACUUGCAUGCCUUUUGGUGUGACAAGUCAUGGUUUGCAAGUGCCGUCGCUUCUGGCG",
@@ -456,7 +456,7 @@
       "mature_similarity": 0.1905
     },
     {
-      "evidence_id": 151,
+      "evidence_id": 150,
       "mirna_core_accession": 51,
       "mirna_id": "Chr09_36718",
       "situation": "novel",
@@ -491,7 +491,7 @@
       "chr_scaf": "Chr09",
       "strand": "+",
       "start_genomic": 29025839,
-      "end_genomic": 29025912,
+      "end_genomic": 29025913,
       "precursor_id": 51,
       "origin_sequence": null,
       "premir_sequence_stem_loop": "UCGCAAGGAGAGACGGCACUUGCAUGCCUUUUGGUGUGACAAGUCAUGGUUUGCAAGUGCCGUCGCUUCUGGCG",

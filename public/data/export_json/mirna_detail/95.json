@@ -6,8 +6,8 @@
     "situation": "known",
     "family": "miR5651.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": {
     "accession": 95,
@@ -25,8 +25,8 @@
     {
       "study_id": 4,
       "author_id": "LIN-2018",
-      "doi": "10.1007/s11295-018-1273-x",
-      "title": "Identification of novel miRNAs and their target genes in Eucalyptus grandis"
+      "doi": null,
+      "title": null
     }
   ],
   "references": [
@@ -104,7 +104,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 341,
+      "evidence_id": 266,
       "mirna_core_accession": 95,
       "mirna_id": "Egr-miRN5651",
       "situation": "known",

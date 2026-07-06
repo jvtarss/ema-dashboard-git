@@ -6,8 +6,8 @@
     "situation": "known",
     "family": "miR5674.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": {
     "accession": 99,
@@ -39,8 +39,8 @@
     {
       "study_id": 4,
       "author_id": "LIN-2018",
-      "doi": "10.1007/s11295-018-1273-x",
-      "title": "Identification of novel miRNAs and their target genes in Eucalyptus grandis"
+      "doi": null,
+      "title": null
     }
   ],
   "references": [
@@ -514,7 +514,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 350,
+      "evidence_id": 275,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",
@@ -571,7 +571,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 351,
+      "evidence_id": 276,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",
@@ -628,7 +628,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 352,
+      "evidence_id": 277,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",
@@ -636,7 +636,7 @@
       "study_id": 3,
       "study_name": "TOLENTINO-2022",
       "provisional_id": "Chr09_35877",
-      "evidence_relation": "canonical_direct",
+      "evidence_relation": "same_mirbase_id",
       "retained_for_dashboard": 1,
       "source_result_file": "result_03_07_2026_t_06_48_26TOLENTINO-2022.csv",
       "observed_mature_sequence": "ACAAGUAAUGAUUGACGAGUCC",
@@ -666,10 +666,10 @@
       "end_genomic": 36957492,
       "precursor_id": 99,
       "origin_sequence": null,
-      "premir_sequence_stem_loop": "ACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUC",
-      "precursor_length": 77,
+      "premir_sequence_stem_loop": "ACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUCC",
+      "precursor_length": 78,
       "mfe": -31.1,
-      "amfe": -40.39,
+      "amfe": -39.87,
       "mapq": null,
       "gff_annotation": null,
       "param_analysis_type": "miRDeep2",
@@ -677,15 +677,15 @@
       "star_length": 20,
       "duplex_status": "Valid_Duplex",
       "has_genome_gaps": null,
-      "pri_mirna_context_seq": "AUGAUCCCUGAAUCACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUCCUUCAUGGGUCGUAUUCU",
-      "stem_loop_structure_dotbracket": "((((((((((((((((((.(((((((.......((....))........))))))).))))))).))))))))))).",
+      "pri_mirna_context_seq": "AUGAUCCCUGAAUCACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUCCUUCAUGGGUCGUAUUCUC",
+      "stem_loop_structure_dotbracket": "(((((((.((((..((((((((((((((((((.(((((((.......((....))........))))))).))))))).)))))))))))..)))).)))))))......",
       "tier_classification": null,
       "classification_reason": "randfold=yes",
       "coord_overlap": 0.0,
       "mature_similarity": 0.9545
     },
     {
-      "evidence_id": 353,
+      "evidence_id": 278,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",
@@ -742,7 +742,7 @@
       "mature_similarity": 0.9545
     },
     {
-      "evidence_id": 354,
+      "evidence_id": 279,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",
@@ -750,7 +750,7 @@
       "study_id": 4,
       "study_name": "LIN-2018",
       "provisional_id": "Chr09_37645",
-      "evidence_relation": "canonical_direct",
+      "evidence_relation": "same_mirbase_id",
       "retained_for_dashboard": 1,
       "source_result_file": "result_03_07_2026_t_10_21_59LIN-2018.csv",
       "observed_mature_sequence": "ACAAGUAAUGAUUGACGAGUCCU",
@@ -780,26 +780,26 @@
       "end_genomic": 36957493,
       "precursor_id": 99,
       "origin_sequence": null,
-      "premir_sequence_stem_loop": "ACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUC",
-      "precursor_length": 77,
+      "premir_sequence_stem_loop": "ACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUCCU",
+      "precursor_length": 79,
       "mfe": -31.1,
-      "amfe": -40.39,
+      "amfe": -39.37,
       "mapq": null,
       "gff_annotation": null,
       "param_analysis_type": "miRDeep2",
-      "star_sequence_predicted": "ACUCGUCAAUCUUACUUGGG",
-      "star_length": 20,
+      "star_sequence_predicted": "ACUCGUCAAUCUUACUUGGGA",
+      "star_length": 21,
       "duplex_status": "Valid_Duplex",
       "has_genome_gaps": null,
       "pri_mirna_context_seq": "AUGAUCCCUGAAUCACUCGUCAAUCUUACUUGGGAUUUUGUUCAUGUCGACGCCGUUUCUUCUCGAAAUCACAAGUAAUGAUUGACGAGUCCUUCAUGGGUCGUAUUCU",
-      "stem_loop_structure_dotbracket": "((((((((((((((((((.(((((((.......((....))........))))))).))))))).))))))))))).",
+      "stem_loop_structure_dotbracket": "(((((((.((((..((((((((((((((((((.(((((((.......((....))........))))))).))))))).)))))))))))..)))).))))))).....",
       "tier_classification": null,
       "classification_reason": "randfold=yes",
       "coord_overlap": 0.0,
       "mature_similarity": 0.913
     },
     {
-      "evidence_id": 355,
+      "evidence_id": 280,
       "mirna_core_accession": 99,
       "mirna_id": "Egr-miRN5674",
       "situation": "known",

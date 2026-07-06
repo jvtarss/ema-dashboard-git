@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": null,
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -292,7 +292,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 136,
+      "evidence_id": 135,
       "mirna_core_accession": 45,
       "mirna_id": "Chr08_34494",
       "situation": "novel",
@@ -349,7 +349,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 137,
+      "evidence_id": 136,
       "mirna_core_accession": 45,
       "mirna_id": "Chr08_34494",
       "situation": "novel",

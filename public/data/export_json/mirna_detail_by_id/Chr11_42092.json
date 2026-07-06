@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": "miR167.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -278,7 +278,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 167,
+      "evidence_id": 165,
       "mirna_core_accession": 58,
       "mirna_id": "Chr11_42092",
       "situation": "novel",

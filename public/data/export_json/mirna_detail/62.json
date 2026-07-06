@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": null,
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -154,7 +154,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 179,
+      "evidence_id": 177,
       "mirna_core_accession": 62,
       "mirna_id": "scaffold_233_45604",
       "situation": "novel",

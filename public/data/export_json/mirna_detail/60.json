@@ -6,8 +6,8 @@
     "situation": "novel",
     "family": "miR170.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-05 14:09:31",
-    "last_modification": "2026-07-05 14:09:31"
+    "entry_date": "2026-07-06 19:43:34",
+    "last_modification": "2026-07-06 19:43:34"
   },
   "family_info": null,
   "visible_study_ids": [
@@ -25,8 +25,8 @@
     {
       "study_id": 4,
       "author_id": "LIN-2018",
-      "doi": "10.1007/s11295-018-1273-x",
-      "title": "Identification of novel miRNAs and their target genes in Eucalyptus grandis"
+      "doi": null,
+      "title": null
     }
   ],
   "references": [
@@ -365,7 +365,7 @@
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 169,
+      "evidence_id": 167,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -422,7 +422,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 170,
+      "evidence_id": 168,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -479,7 +479,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 171,
+      "evidence_id": 169,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -536,7 +536,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 172,
+      "evidence_id": 170,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -593,7 +593,7 @@
       "mature_similarity": 1.0
     },
     {
-      "evidence_id": 173,
+      "evidence_id": 171,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -627,7 +627,7 @@
       "passed_am2018_filters": 0,
       "chr_scaf": "Chr11",
       "strand": "-",
-      "start_genomic": 34630244,
+      "start_genomic": 34630245,
       "end_genomic": 34630322,
       "precursor_id": 60,
       "origin_sequence": null,
@@ -650,7 +650,7 @@
       "mature_similarity": 0.9524
     },
     {
-      "evidence_id": 174,
+      "evidence_id": 172,
       "mirna_core_accession": 60,
       "mirna_id": "Chr11_43106",
       "situation": "novel",
@@ -684,7 +684,7 @@
       "passed_am2018_filters": 1,
       "chr_scaf": "Chr11",
       "strand": "-",
-      "start_genomic": 34630243,
+      "start_genomic": 34630245,
       "end_genomic": 34630322,
       "precursor_id": 60,
       "origin_sequence": null,

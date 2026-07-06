@@ -4,7 +4,7 @@ import sqlite3
 import json
 
 def main():
-    db_path = "public/data/ema_mirdeep2_union.db"
+    db_path = "ema_mirdeep2_union.db"
     annot_file_path = "Egrandis_297_v2.0.P14.annotation_info.txt"
     export_dir = "public/data/export_json"
     
