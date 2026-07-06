@@ -1,42 +1,314 @@
 {
   "core": {
-    "accession": 52,
+    "accession": 56,
     "mirna_id": "Chr10_40549",
     "mature_sequence": "UGGAGAAGCAGGGCACAUGC",
     "situation": "novel",
     "family": "miR164.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-04-21 16:34:42",
-    "last_modification": "2026-04-21 16:34:42"
+    "entry_date": "2026-07-05 14:09:31",
+    "last_modification": "2026-07-05 14:09:31"
   },
   "family_info": null,
   "visible_study_ids": [
-    1
+    1,
+    4
   ],
-  "visible_loci_count": 1,
+  "visible_loci_count": 2,
   "studies": [
     {
       "study_id": 1,
       "author_id": "QIN-2021",
-      "doi": null,
-      "title": null
+      "doi": "10.1093/g3journal/jkab070",
+      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus"
+    },
+    {
+      "study_id": 4,
+      "author_id": "LIN-2018",
+      "doi": "10.1007/s11295-018-1273-x",
+      "title": "Identification of novel miRNAs and their target genes in Eucalyptus grandis"
     }
   ],
   "references": [
     {
-      "ref_id": 82,
-      "mirna_core_accession": 52,
+      "ref_id": 145,
+      "mirna_core_accession": 56,
       "study_id": 1,
+      "acc_in_work": null,
+      "detection_source": "per_study_discovery"
+    },
+    {
+      "ref_id": 147,
+      "mirna_core_accession": 56,
+      "study_id": 4,
       "acc_in_work": null,
       "detection_source": "per_study_discovery"
     }
   ],
-  "expressions": [],
-  "degs": [],
+  "expressions": [
+    {
+      "id": 817,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749594",
+      "raw_count": 67.0,
+      "cpm": 4.9344,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 13578251,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 818,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749595",
+      "raw_count": 26.0,
+      "cpm": 1.6176,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 3,
+      "total_mapped_reads": 16073686,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 819,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749596",
+      "raw_count": 40.0,
+      "cpm": 2.4593,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 2,
+      "total_mapped_reads": 16264504,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 820,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749597",
+      "raw_count": 56.0,
+      "cpm": 4.1221,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 13585273,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 821,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749598",
+      "raw_count": 10.0,
+      "cpm": 0.7941,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 3,
+      "total_mapped_reads": 12593516,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 822,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749599",
+      "raw_count": 6.0,
+      "cpm": 0.451,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 2,
+      "total_mapped_reads": 13304126,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 823,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749600",
+      "raw_count": 7.0,
+      "cpm": 0.5428,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 12895100,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 824,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749601",
+      "raw_count": 12.0,
+      "cpm": 0.7931,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 3,
+      "total_mapped_reads": 15130611,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 825,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749602",
+      "raw_count": 74.0,
+      "cpm": 5.1062,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 3,
+      "total_mapped_reads": 14492232,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 826,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749603",
+      "raw_count": 41.0,
+      "cpm": 3.2972,
+      "sample_study_id": 1,
+      "tissue": "callus",
+      "genotype": "GL9",
+      "condition": null,
+      "replicate": 2,
+      "total_mapped_reads": 12434908,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 827,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749604",
+      "raw_count": 25.0,
+      "cpm": 1.691,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 2,
+      "total_mapped_reads": 14784548,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 828,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR11749605",
+      "raw_count": 12.0,
+      "cpm": 0.741,
+      "sample_study_id": 1,
+      "tissue": "stem",
+      "genotype": "DH201-2",
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 16194801,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": []
+    },
+    {
+      "id": 832,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR5433935",
+      "raw_count": 17.0,
+      "cpm": 1.1805,
+      "sample_study_id": 4,
+      "tissue": "leaves",
+      "genotype": null,
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 14400854,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": [
+        "5 months"
+      ]
+    },
+    {
+      "id": 833,
+      "mirna_core_accession": 56,
+      "srr_accession": "SRR5433936",
+      "raw_count": 14.0,
+      "cpm": 0.621,
+      "sample_study_id": 4,
+      "tissue": "stem",
+      "genotype": null,
+      "condition": null,
+      "replicate": 1,
+      "total_mapped_reads": 22544199,
+      "phase": [
+        "juvenile phase"
+      ],
+      "age": [
+        "5 months"
+      ]
+    }
+  ],
+  "degs": [
+    {
+      "comparison": "GL9_stem_vs_GL9_callus",
+      "study_id": 1,
+      "log2_fold_change": -1.55247150918243,
+      "padj": 0.00209309007118191,
+      "direction": "up_in_GL9_callus"
+    },
+    {
+      "comparison": "GL9_callus_vs_DH201_callus",
+      "study_id": 1,
+      "log2_fold_change": 2.86223873628821,
+      "padj": 2.25066070853953e-07,
+      "direction": "up_in_GL9_callus"
+    }
+  ],
   "discovery_metrics": [
     {
-      "id": 82,
-      "mirna_core_accession": 52,
+      "id": 88,
+      "mirna_core_accession": 56,
       "study_id": 1,
       "provisional_id": "Chr10_40549",
       "score_total": 96.5,
@@ -54,12 +326,33 @@
       "rfam_alert": "-",
       "mature_matches_mirbase": null,
       "passed_am2018_filters": 1
+    },
+    {
+      "id": 89,
+      "mirna_core_accession": 56,
+      "study_id": 4,
+      "provisional_id": "Chr10_42358",
+      "score_total": 51.5,
+      "score_star": 3.9,
+      "score_read_counts": 44.5,
+      "score_mfe": 2.1,
+      "score_randfold": 1.6,
+      "score_cons_seed": -0.6,
+      "total_read_count": 99,
+      "mature_read_count": 68,
+      "loop_read_count": 0,
+      "star_read_count": 31,
+      "randfold": "yes",
+      "true_positive_probability": "29 +/- 7%",
+      "rfam_alert": "-",
+      "mature_matches_mirbase": null,
+      "passed_am2018_filters": 1
     }
   ],
   "discovery_evidence": [
     {
-      "evidence_id": 147,
-      "mirna_core_accession": 52,
+      "evidence_id": 160,
+      "mirna_core_accession": 56,
       "mirna_id": "Chr10_40549",
       "situation": "novel",
       "family": "miR164.0",
@@ -68,7 +361,7 @@
       "provisional_id": "Chr10_40549",
       "evidence_relation": "canonical_direct",
       "retained_for_dashboard": 1,
-      "source_result_file": "result_05_04_2026_t_11_13_39QIN-2021.csv",
+      "source_result_file": "result_03_07_2026_t_00_15_48QIN-2021.csv",
       "observed_mature_sequence": "UGGAGAAGCAGGGCACAUGC",
       "observed_star_sequence": "CGUGUGCCCUGGCUCUCCAU",
       "observed_precursor_sequence": "UGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAU",
@@ -94,7 +387,7 @@
       "strand": "-",
       "start_genomic": 31100833,
       "end_genomic": 31100918,
-      "precursor_id": 52,
+      "precursor_id": 56,
       "origin_sequence": null,
       "premir_sequence_stem_loop": "UGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAU",
       "precursor_length": 85,
@@ -108,18 +401,132 @@
       "duplex_status": "Valid_Duplex",
       "has_genome_gaps": null,
       "pri_mirna_context_seq": "GGGAGAGGAUAAAACCAGGCUGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAUCUUGG",
-      "stem_loop_structure_dotbracket": "..............(((((.((((((..(((((((((((((.(((((.((..(.....((((....))))..)..))))))).)))))))))))))..)))))).)))))",
+      "stem_loop_structure_dotbracket": "((((((..(((((((((((((.(((((.((..(.....((((....))))..)..))))))).)))))))))))))..)))))).",
       "tier_classification": null,
       "classification_reason": "randfold=yes;miRBase_ref=ath-miR164a",
       "coord_overlap": 1.0,
       "mature_similarity": 1.0
+    },
+    {
+      "evidence_id": 161,
+      "mirna_core_accession": 56,
+      "mirna_id": "Chr10_40549",
+      "situation": "novel",
+      "family": "miR164.0",
+      "study_id": 1,
+      "study_name": "QIN-2021",
+      "provisional_id": "Chr06_24984",
+      "evidence_relation": "same_mature_sequence",
+      "retained_for_dashboard": 1,
+      "source_result_file": "result_03_07_2026_t_00_15_48QIN-2021.csv",
+      "observed_mature_sequence": "UGGAGAAGCAGGGCACAUGC",
+      "observed_star_sequence": "AUGUGCUCUGGCUCUCCAGC",
+      "observed_precursor_sequence": "UGGAGAAGCAGGGCACAUGCGGAAAUUGAUCACAUCUUUGAAUUGAUGAUCUGAACAGAAAACCAUGCAUGUGCUCUGGCUCUCCAGC",
+      "precursor_coordinate": "Chr06:36822959..36823047:+",
+      "mirbase_mirna": "Egr-miRN5651",
+      "seed_ref": "ath-miR164a",
+      "mature_matches_mirbase": null,
+      "score_total": 5.4,
+      "score_star": -1.3,
+      "score_read_counts": 0.0,
+      "score_mfe": 2.1,
+      "score_randfold": 1.6,
+      "score_cons_seed": 3.0,
+      "total_read_count": 153,
+      "mature_read_count": 153,
+      "loop_read_count": 0,
+      "star_read_count": 0,
+      "randfold": "yes",
+      "true_positive_probability": "54 +/- 6%",
+      "rfam_alert": "-",
+      "passed_am2018_filters": 0,
+      "chr_scaf": "Chr06",
+      "strand": "+",
+      "start_genomic": 36822959,
+      "end_genomic": 36823047,
+      "precursor_id": 56,
+      "origin_sequence": null,
+      "premir_sequence_stem_loop": "UGGAGAAGCAGGGCACAUGCGGAAAUUGAUCACAUCUUUGAAUUGAUGAUCUGAACAGAAAACCAUGCAUGUGCUCUGGCUCUCCAGC",
+      "precursor_length": 88,
+      "mfe": -38.1,
+      "amfe": -43.3,
+      "mapq": null,
+      "gff_annotation": null,
+      "param_analysis_type": "miRDeep2",
+      "star_sequence_predicted": "AUGUGCUCUGGCUCUCCAGC",
+      "star_length": 20,
+      "duplex_status": "Valid_Duplex",
+      "has_genome_gaps": null,
+      "pri_mirna_context_seq": "AGGAGAGGUUAUCGCCAUGCUGGAGAAGCAGGGCACAUGCGGAAAUUGAUCACAUCUUUGAAUUGAUGAUCUGAACAGAAAACCAUGCAUGUGCUCUGGCUCUCCAGCUU",
+      "stem_loop_structure_dotbracket": ".((.((.....)).))..((((((((..((((((((((((((...(((.(((((((........))))...))).)))....))..))))))))))))..))))))))..",
+      "tier_classification": null,
+      "classification_reason": "randfold=yes;miRBase_ref=ath-miR164a",
+      "coord_overlap": 0.0,
+      "mature_similarity": 1.0
+    },
+    {
+      "evidence_id": 162,
+      "mirna_core_accession": 56,
+      "mirna_id": "Chr10_40549",
+      "situation": "novel",
+      "family": "miR164.0",
+      "study_id": 4,
+      "study_name": "LIN-2018",
+      "provisional_id": "Chr10_42358",
+      "evidence_relation": "canonical_direct",
+      "retained_for_dashboard": 1,
+      "source_result_file": "result_03_07_2026_t_10_21_59LIN-2018.csv",
+      "observed_mature_sequence": "CGUGUGCCCUGGCUCUCCAUC",
+      "observed_star_sequence": "UGGAGAAGCAGGGCACAUGCU",
+      "observed_precursor_sequence": "UGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAUC",
+      "precursor_coordinate": "Chr10:31100832..31100918:-",
+      "mirbase_mirna": "-",
+      "seed_ref": "-",
+      "mature_matches_mirbase": null,
+      "score_total": 51.5,
+      "score_star": 3.9,
+      "score_read_counts": 44.5,
+      "score_mfe": 2.1,
+      "score_randfold": 1.6,
+      "score_cons_seed": -0.6,
+      "total_read_count": 99,
+      "mature_read_count": 68,
+      "loop_read_count": 0,
+      "star_read_count": 31,
+      "randfold": "yes",
+      "true_positive_probability": "29 +/- 7%",
+      "rfam_alert": "-",
+      "passed_am2018_filters": 1,
+      "chr_scaf": "Chr10",
+      "strand": "-",
+      "start_genomic": 31100833,
+      "end_genomic": 31100918,
+      "precursor_id": 56,
+      "origin_sequence": null,
+      "premir_sequence_stem_loop": "UGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAU",
+      "precursor_length": 85,
+      "mfe": -43.2,
+      "amfe": -50.82,
+      "mapq": null,
+      "gff_annotation": null,
+      "param_analysis_type": "miRDeep2",
+      "star_sequence_predicted": "CGUGUGCCCUGGCUCUCCAU",
+      "star_length": 20,
+      "duplex_status": "Valid_Duplex",
+      "has_genome_gaps": null,
+      "pri_mirna_context_seq": "GGGAGAGGAUAAAACCAGGCUGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAUCUUGG",
+      "stem_loop_structure_dotbracket": "((((((..(((((((((((((.(((((.((..(.....((((....))))..)..))))))).)))))))))))))..)))))).",
+      "tier_classification": null,
+      "classification_reason": "randfold=yes;miRBase_ref=ath-miR164a",
+      "coord_overlap": 0.9884,
+      "mature_similarity": 0.1905
     }
   ],
   "precursors": [
     {
-      "id": 52,
-      "precursor_id": 52,
-      "mirna_accession": 52,
+      "id": 56,
+      "precursor_id": 56,
+      "mirna_accession": 56,
       "origin_sequence": null,
       "premir_sequence_stem_loop": "UGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAU",
       "chr_scaf": "Chr10",
@@ -137,15 +544,15 @@
       "duplex_status": "Valid_Duplex",
       "has_genome_gaps": null,
       "pri_mirna_context_seq": "GGGAGAGGAUAAAACCAGGCUGGAGAAGCAGGGCACAUGCUGAAUUUAGUUUUGUAAUGCCUAUGCAGGUUGAUCACAAAUUGAGCGUGUGCCCUGGCUCUCCAUCUUGG",
-      "stem_loop_structure_dotbracket": "..............(((((.((((((..(((((((((((((.(((((.((..(.....((((....))))..)..))))))).)))))))))))))..)))))).)))))",
-      "tier_classification": null,
+      "stem_loop_structure_dotbracket": "((((((..(((((((((((((.(((((.((..(.....((((....))))..)..))))))).)))))))))))))..)))))).",
+      "tier_classification": "novel_multi_study_replicated",
       "classification_reason": "randfold=yes;miRBase_ref=ath-miR164a"
     }
   ],
   "targets": [
     {
-      "target_interaction_id": 39,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 42,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.F01449.1",
       "target_pacid": "32056318",
       "target_locus": "Eucgr.F01449",
@@ -163,8 +570,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 160,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 221,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.B00529.1",
       "target_pacid": "32060583",
       "target_locus": "Eucgr.B00529",
@@ -182,8 +589,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 234,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 306,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.F01170.1",
       "target_pacid": "32052502",
       "target_locus": "Eucgr.F01170",
@@ -201,8 +608,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 235,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 307,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.F02958.1",
       "target_pacid": "32055125",
       "target_locus": "Eucgr.F02958",
@@ -220,8 +627,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 525,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 598,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.K01669.3",
       "target_pacid": "32067738",
       "target_locus": "Eucgr.K01669",
@@ -239,8 +646,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 526,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 599,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.K01669.2",
       "target_pacid": "32067737",
       "target_locus": "Eucgr.K01669",
@@ -258,8 +665,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 527,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 600,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.K01669.1",
       "target_pacid": "32067736",
       "target_locus": "Eucgr.K01669",
@@ -277,8 +684,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 528,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 601,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.B02388.1",
       "target_pacid": "32058456",
       "target_locus": "Eucgr.B02388",
@@ -296,8 +703,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 529,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 602,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.C00432.1",
       "target_pacid": "32039441",
       "target_locus": "Eucgr.C00432",
@@ -315,8 +722,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 530,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 603,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.D01196.1",
       "target_pacid": "32050360",
       "target_locus": "Eucgr.D01196",
@@ -334,8 +741,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1155,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1275,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.A01709.2",
       "target_pacid": "32048501",
       "target_locus": "Eucgr.A01709",
@@ -353,8 +760,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1156,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1276,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.A01709.1",
       "target_pacid": "32048500",
       "target_locus": "Eucgr.A01709",
@@ -372,8 +779,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1157,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1277,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.D00907.3",
       "target_pacid": "32051982",
       "target_locus": "Eucgr.D00907",
@@ -391,8 +798,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1158,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1278,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.D00907.2",
       "target_pacid": "32051981",
       "target_locus": "Eucgr.D00907",
@@ -410,8 +817,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1159,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1279,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.D00907.1",
       "target_pacid": "32051980",
       "target_locus": "Eucgr.D00907",
@@ -429,8 +836,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1160,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1280,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.D01503.1",
       "target_pacid": "32051183",
       "target_locus": "Eucgr.D01503",
@@ -448,8 +855,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1161,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1281,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.K03271.1",
       "target_pacid": "32066525",
       "target_locus": "Eucgr.K03271",
@@ -467,8 +874,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1162,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1282,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.L02794.1",
       "target_pacid": "32027708",
       "target_locus": "Eucgr.L02794",
@@ -486,8 +893,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1163,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1283,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.G00901.1",
       "target_pacid": "32070944",
       "target_locus": "Eucgr.G00901",
@@ -505,8 +912,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1164,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1284,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.G00904.1",
       "target_pacid": "32072666",
       "target_locus": "Eucgr.G00904",
@@ -524,8 +931,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1165,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1285,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.G02483.1",
       "target_pacid": "32071637",
       "target_locus": "Eucgr.G02483",
@@ -543,8 +950,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1166,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1286,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.J01434.1",
       "target_pacid": "32033666",
       "target_locus": "Eucgr.J01434",
@@ -562,8 +969,8 @@
       "gene_annotation": null
     },
     {
-      "target_interaction_id": 1167,
-      "mirna_core_accession": 52,
+      "target_interaction_id": 1287,
+      "mirna_core_accession": 56,
       "target_accession": "Eucgr.K02663.1",
       "target_pacid": "32066614",
       "target_locus": "Eucgr.K02663",

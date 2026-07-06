@@ -199,7 +199,15 @@ export default function MiRNADetail() {
                     </div>
                     {highConfidenceEvidence && highConfidenceEvidence.length > 0 ? (
                         <div className="d-flex flex-column gap-4 animate-fade-in">
-                            <div><span className="small fw-bold text-ema-muted text-uppercase d-block mb-1">Family Name</span><p className="h3 fw-bold text-ema-text mb-0">{mirna.family || 'Unclassified'}</p></div>
+                            <div>
+                              <span className="small fw-bold text-ema-muted text-uppercase d-block mb-1">Family Name</span>
+                              <p className="h3 fw-bold text-ema-text mb-0">{mirna.family || 'Unclassified'}</p>
+                              {mirna.precursors?.[0]?.classification_reason && (
+                                <div className="mt-2 text-muted small lh-sm">
+                                  <span className="font-mono bg-light px-2 py-0.5 rounded border" style={{ fontSize: '0.75rem' }}>{mirna.precursors[0].classification_reason}</span>
+                                </div>
+                              )}
+                            </div>
                             <div className="pt-2 border-top">
                                 <span className="small fw-bold text-ema-muted text-uppercase d-block mb-3">Discovery Evidence (per Study/Locus)</span>
                                 <div className="d-flex flex-column gap-3">
@@ -342,7 +350,7 @@ export default function MiRNADetail() {
               <div className="col-12 col-lg-7">
                 <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                   <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-0">
-                    <Activity size={20} className="me-2 text-ema-primary"/> Expression Profile
+                    <Activity size={20} className="me-2 text-ema-primary"/> Expression profile
                     <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148' }}>{filteredExpressions?.length || 0} samples</span>
                   </h3>
                   {mirna.situation !== 'novel' && (
@@ -414,7 +422,7 @@ export default function MiRNADetail() {
                 ) : <div className="p-5 text-center bg-secondary-subtle rounded-4 border border-secondary border-dashed"><p className="text-ema-muted mb-0">No expression data available for this miRNA.</p></div>}
               </div>
               <div className="col-12 col-lg-5">
-                <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-4"><ArrowUpDown size={20} className="me-2 text-ema-primary"/> Differential Expression</h3>
+                <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-4"><ArrowUpDown size={20} className="me-2 text-ema-primary"/> Differential expression</h3>
                 {filteredDegs && filteredDegs.length > 0 ? (
                   <div className="d-flex flex-column gap-3">
                     {(() => {

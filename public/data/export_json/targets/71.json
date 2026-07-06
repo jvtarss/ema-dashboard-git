@@ -1,6 +1,6 @@
 [
   {
-    "target_interaction_id": 80,
+    "target_interaction_id": 54,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.E03260.1",
     "target_pacid": "32030592",
@@ -19,7 +19,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 81,
+    "target_interaction_id": 55,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.B03518.1",
     "target_pacid": "32060274",
@@ -38,7 +38,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 82,
+    "target_interaction_id": 56,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K01046.3",
     "target_pacid": "32066956",
@@ -57,7 +57,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 83,
+    "target_interaction_id": 57,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K01046.2",
     "target_pacid": "32066955",
@@ -76,7 +76,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 84,
+    "target_interaction_id": 58,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K01046.1",
     "target_pacid": "32066954",
@@ -95,7 +95,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 85,
+    "target_interaction_id": 59,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.F03303.1",
     "target_pacid": "32055899",
@@ -114,7 +114,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 86,
+    "target_interaction_id": 60,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K02708.3",
     "target_pacid": "32067231",
@@ -133,7 +133,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 87,
+    "target_interaction_id": 61,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.D02505.1",
     "target_pacid": "32050650",
@@ -152,7 +152,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 88,
+    "target_interaction_id": 62,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K02708.1",
     "target_pacid": "32067229",
@@ -171,7 +171,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 89,
+    "target_interaction_id": 63,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K02708.2",
     "target_pacid": "32067230",
@@ -190,7 +190,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 90,
+    "target_interaction_id": 64,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.A02441.1",
     "target_pacid": "32046838",
@@ -209,7 +209,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 91,
+    "target_interaction_id": 65,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K01828.1",
     "target_pacid": "32068216",
@@ -228,7 +228,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 92,
+    "target_interaction_id": 66,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.B00631.1",
     "target_pacid": "32060069",
@@ -247,7 +247,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 93,
+    "target_interaction_id": 67,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K02545.1",
     "target_pacid": "32068115",
@@ -266,7 +266,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 94,
+    "target_interaction_id": 68,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.B03500.1",
     "target_pacid": "32061907",
@@ -285,7 +285,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 95,
+    "target_interaction_id": 69,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K02545.2",
     "target_pacid": "32068116",
@@ -304,7 +304,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 168,
+    "target_interaction_id": 223,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.F02583.1",
     "target_pacid": "32054876",
@@ -323,7 +323,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 269,
+    "target_interaction_id": 336,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.F01108.1",
     "target_pacid": "32057744",
@@ -342,7 +342,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 270,
+    "target_interaction_id": 337,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K00131.1",
     "target_pacid": "32067878",
@@ -361,7 +361,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 569,
+    "target_interaction_id": 631,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.G03188.1",
     "target_pacid": "32073317",
@@ -380,7 +380,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 570,
+    "target_interaction_id": 632,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.C00100.1",
     "target_pacid": "32037808",
@@ -399,7 +399,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 571,
+    "target_interaction_id": 633,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.C00100.2",
     "target_pacid": "32037809",
@@ -418,7 +418,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 572,
+    "target_interaction_id": 634,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.F03545.1",
     "target_pacid": "32054134",
@@ -437,7 +437,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 1237,
+    "target_interaction_id": 1331,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.A00359.1",
     "target_pacid": "32049226",
@@ -456,7 +456,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 1238,
+    "target_interaction_id": 1332,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.E01830.2",
     "target_pacid": "32031187",
@@ -475,7 +475,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 1239,
+    "target_interaction_id": 1333,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.E01830.1",
     "target_pacid": "32031186",
@@ -494,7 +494,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 1240,
+    "target_interaction_id": 1334,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.K03390.1",
     "target_pacid": "32068634",
@@ -513,7 +513,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 1241,
+    "target_interaction_id": 1335,
     "mirna_core_accession": 71,
     "target_accession": "Eucgr.J01144.1",
     "target_pacid": "32032221",

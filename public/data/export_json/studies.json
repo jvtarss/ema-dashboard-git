@@ -2,19 +2,19 @@
   {
     "study_id": 1,
     "author_id": "QIN-2021",
-    "doi": null,
-    "title": null
+    "doi": "10.1093/g3journal/jkab070",
+    "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus"
   },
   {
     "study_id": 3,
     "author_id": "TOLENTINO-2022",
-    "doi": null,
-    "title": null
+    "doi": "10.1007/s40626-022-00259-9",
+    "title": "Identification of microRNAs and their expression profiles on tension and opposite wood of Eucalyptus"
   },
   {
     "study_id": 4,
     "author_id": "LIN-2018",
-    "doi": null,
-    "title": null
+    "doi": "10.1007/s11295-018-1273-x",
+    "title": "Identification of novel miRNAs and their target genes in Eucalyptus grandis"
   }
 ]

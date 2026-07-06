@@ -323,7 +323,6 @@ export const miRNAApi = {
     const studies = await dataManager.getStudies();
     const samples = await dataManager.getSamples();
     const annotations = await dataManager.getGeneAnnotations();
-    const degAnalysis = await axios.get(`${DATA_BASE}/deg_analysis.json`).then(r => r.data);
 
     // Deep copy and map data
     const mirnaData: MiRNADetail = {
@@ -352,10 +351,8 @@ export const miRNAApi = {
     if (mirnaData.degs) {
       mirnaData.degs = mirnaData.degs.map((deg: any) => {
         const study = studies.find(st => st.study_id === deg.study_id);
-        const analysis = degAnalysis.find((a: any) => a.study_id === deg.study_id && a.comparison === deg.comparison);
         return {
           ...deg,
-          ...analysis,
           study: study
         };
       });
@@ -390,7 +387,7 @@ export const miRNAApi = {
     return mirnaData;
   },
 
-  downloadSequences: async (accessions: number[], type: 'mature' | 'stem-loop') => {
+  downloadSequences: async (accessions: number[], type: 'mature' | 'stem-loop-best' | 'stem-loop-all') => {
     const mirnas = await dataManager.getMirnas();
     let fastaContent = '';
 
@@ -400,11 +397,30 @@ export const miRNAApi = {
 
       if (type === 'mature') {
         fastaContent += `>${mirna.mirna_id}\n${mirna.mature_sequence}\n`;
-      } else {
+      } else if (type === 'stem-loop-best') {
         const detail = await miRNAApi.getMiRNADetail(acc);
         const seq = detail.precursors?.[0]?.premir_sequence_stem_loop || '';
         if (seq) {
-          fastaContent += `>${mirna.mirna_id}_stem_loop\n${seq}\n`;
+          fastaContent += `>${mirna.mirna_id}_stem_loop_best\n${seq}\n`;
+        }
+      } else if (type === 'stem-loop-all') {
+        const detail = await miRNAApi.getMiRNADetail(acc);
+        const loci = detail.discovery_evidence || [];
+        const visibleLoci = loci.filter((l: any) => l.passed_am2018_filters === 1 && (l.score_total === null || l.score_total >= 0));
+        
+        if (visibleLoci.length > 0) {
+          visibleLoci.forEach((locus: any, idx: number) => {
+            const seq = locus.premir_sequence_stem_loop || locus.observed_precursor_sequence || '';
+            if (seq) {
+              const provId = locus.provisional_id || `locus_${idx + 1}`;
+              fastaContent += `>${mirna.mirna_id}_${provId}_stem_loop\n${seq}\n`;
+            }
+          });
+        } else {
+          const seq = detail.precursors?.[0]?.premir_sequence_stem_loop || '';
+          if (seq) {
+            fastaContent += `>${mirna.mirna_id}_stem_loop_best\n${seq}\n`;
+          }
         }
       }
     }

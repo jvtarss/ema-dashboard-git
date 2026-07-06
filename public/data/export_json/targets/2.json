@@ -1,6 +1,6 @@
 [
   {
-    "target_interaction_id": 25,
+    "target_interaction_id": 31,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.H01257.1",
     "target_pacid": "32043239",
@@ -19,7 +19,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 135,
+    "target_interaction_id": 198,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.E01510.2",
     "target_pacid": "32031470",
@@ -38,7 +38,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 136,
+    "target_interaction_id": 199,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.E01509.1",
     "target_pacid": "32029065",
@@ -57,7 +57,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 137,
+    "target_interaction_id": 200,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.E01510.1",
     "target_pacid": "32031469",
@@ -76,7 +76,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 317,
+    "target_interaction_id": 395,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.F03769.1",
     "target_pacid": "32055069",
@@ -95,7 +95,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 318,
+    "target_interaction_id": 396,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.L03490.1",
     "target_pacid": "32069861",
@@ -114,7 +114,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 702,
+    "target_interaction_id": 798,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.D01801.1",
     "target_pacid": "32049711",
@@ -133,7 +133,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 703,
+    "target_interaction_id": 799,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.B00601.1",
     "target_pacid": "32061447",
@@ -152,7 +152,7 @@
     "gene_annotation": null
   },
   {
-    "target_interaction_id": 704,
+    "target_interaction_id": 800,
     "mirna_core_accession": 2,
     "target_accession": "Eucgr.B00599.1",
     "target_pacid": "32060558",

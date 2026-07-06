@@ -1,10 +1,10 @@
 {
-  "total_mirnas": 91,
-  "known_mirnas": 27,
-  "novel_mirnas": 64,
-  "distinct_families": 12,
-  "total_targets": 1590,
+  "total_mirnas": 99,
+  "known_mirnas": 31,
+  "novel_mirnas": 68,
+  "distinct_families": 34,
+  "total_targets": 1773,
   "total_studies": 3,
   "total_samples": 20,
-  "total_high_confidence": 72
+  "total_high_confidence": 47
 }

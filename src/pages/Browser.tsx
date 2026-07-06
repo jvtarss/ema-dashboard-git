@@ -73,6 +73,7 @@ export default function Browser() {
   // ESTADO DE SELEÇÃO
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [stemLoopMode, setStemLoopMode] = useState<'stem-loop-best' | 'stem-loop-all'>('stem-loop-best');
 
   // FETCH DATA
   const { data: browserIndex } = useQuery({ 
@@ -113,7 +114,7 @@ export default function Browser() {
     }
   };
 
-  const handleDownloadFasta = async (type: 'mature' | 'stem-loop') => {
+  const handleDownloadFasta = async (type: 'mature' | 'stem-loop-best' | 'stem-loop-all') => {
     if (selectedIds.length === 0) return;
     setIsDownloading(true);
     try {
@@ -287,9 +288,26 @@ export default function Browser() {
                   <button onClick={() => handleDownloadFasta('mature')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-primary' : 'btn-secondary disabled'}`}>
                     <FileCode size={16} className="me-2" /> Mature (.fasta)
                   </button>
-                  <button onClick={() => handleDownloadFasta('stem-loop')} disabled={!hasSelection || isDownloading} className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}>
-                    <FileText size={16} className="me-2" /> Stem-loop (.fasta)
-                  </button>
+                  <div className="mt-2 border-top pt-2">
+                    <label className="small fw-bold text-ema-muted text-uppercase mb-1 d-block" style={{ fontSize: '0.65rem' }}>Stem-loop Sequence</label>
+                    <select 
+                      value={stemLoopMode} 
+                      onChange={(e) => setStemLoopMode(e.target.value as any)} 
+                      disabled={!hasSelection || isDownloading}
+                      className="form-select form-select-sm mb-2 rounded-3" 
+                      style={{ fontSize: '0.75rem' }}
+                    >
+                      <option value="stem-loop-best">Best candidate only</option>
+                      <option value="stem-loop-all">All candidates</option>
+                    </select>
+                    <button 
+                      onClick={() => handleDownloadFasta(stemLoopMode)} 
+                      disabled={!hasSelection || isDownloading} 
+                      className={`btn btn-sm w-100 d-flex align-items-center justify-content-center ${hasSelection ? 'btn-success' : 'btn-secondary disabled'}`}
+                    >
+                      <FileText size={16} className="me-2" /> Stem-loop (.fasta)
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
