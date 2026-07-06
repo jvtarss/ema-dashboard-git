@@ -1,4 +1,4 @@
-import { BookOpen, ExternalLink, Tag, Microscope } from 'lucide-react';
+import { BookOpen, ExternalLink, Tag, Microscope, Cpu, Calendar } from 'lucide-react';
 import { REFERENCES_DB } from '../utils/referencesData';
 
 export default function Documentation() {
@@ -20,11 +20,11 @@ export default function Documentation() {
         <h2 className="h4 font-display text-ema-primary mb-4 fw-bold">2. Release metrics</h2>
         <div className="row g-4">
           {[
-            { label: "Total miRNAs", value: "91" },
-            { label: "Known", value: "27" },
-            { label: "Novel", value: "64" },
-            { label: "Distinct family groups", value: "12" },
-            { label: "Validated target interactions", value: "1590" }
+            { label: "Total miRNAs", value: "99" },
+            { label: "Known", value: "31" },
+            { label: "Novel", value: "68" },
+            { label: "Distinct family groups", value: "34" },
+            { label: "Predicted target interactions", value: "1,773" }
           ].map((m, i) => (
             <div key={i} className="col-12 col-md-4">
               <div className="p-4 border rounded-4 bg-white shadow-sm h-100 d-flex flex-column align-items-center justify-content-center text-center">
@@ -78,6 +78,20 @@ export default function Documentation() {
                        <div>
                          <span className="d-block small fw-bold text-ema-muted text-uppercase">Conditions</span>
                          <span className="small text-ema-text">{study.tags.conditions.join(", ")}</span>
+                       </div>
+                    </div>
+                    <div className="col-md-6 d-flex align-items-start gap-2">
+                       <Cpu size={16} className="text-ema-primary mt-1 flex-shrink-0"/>
+                       <div>
+                         <span className="d-block small fw-bold text-ema-muted text-uppercase">Genotypes</span>
+                         <span className="small text-ema-text">{study.tags.genotypes?.join(", ") || "—"}</span>
+                       </div>
+                    </div>
+                    <div className="col-md-6 d-flex align-items-start gap-2">
+                       <Calendar size={16} className="text-ema-primary mt-1 flex-shrink-0"/>
+                       <div>
+                         <span className="d-block small fw-bold text-ema-muted text-uppercase">Developmental Stage / Age</span>
+                         <span className="small text-ema-text">{study.tags.stage || "—"}</span>
                        </div>
                     </div>
                   </div>

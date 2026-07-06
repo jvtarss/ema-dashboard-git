@@ -591,7 +591,7 @@
       "passed_am2018_filters": 1,
       "chr_scaf": "Chr01",
       "strand": "-",
-      "start_genomic": 29315381,
+      "start_genomic": 29315380,
       "end_genomic": 29315468,
       "precursor_id": 7,
       "origin_sequence": null,

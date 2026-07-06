@@ -20,21 +20,20 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-vh-100 d-flex flex-column text-ema-text">
 
       {/* --- NAVBAR --- */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
+      <nav className="navbar navbar-expand-lg navbar-dark navbar-custom-gradient fixed-top border-bottom">
         <div className="container-xxl">
           <div className="d-flex justify-content-between align-items-center w-100 py-3">
 
             {/* Logo da Navbar */}
             <Link to="/" className="d-flex align-items-center gap-3 text-decoration-none">
               <img
-                src="favicon.svg"
-                alt="EMA Icon"
-                className="transition-transform"
-                style={{ height: '2.5rem', width: 'auto', objectFit: 'contain' }}
+                src="logo-branca-2.svg"
+                alt="EMA Logo"
+                style={{ height: '3.2rem', width: 'auto', objectFit: 'contain' }}
               />
               <div className="d-flex flex-column">
-                <span className="font-display fw-bold fs-4 lh-1 text-ema-primary">EMA</span>
-                <span style={{ fontSize: '0.625rem' }} className="text-uppercase letter-spacing-wider text-ema-muted fw-bold">Eucalyptus MicroRNA Archive</span>
+                <span className="font-display fw-bold fs-4 lh-1 text-white">EMA</span>
+                <span style={{ fontSize: '0.625rem' }} className="text-uppercase letter-spacing-wider text-white fw-bold">Eucalyptus microRNA Archive</span>
               </div>
             </Link>
 
@@ -47,13 +46,13 @@ const Layout = ({ children }: LayoutProps) => {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`nav-link d-flex align-items-center px-4 py-2 rounded-3 fw-bold transition-all ${
+                    className={`nav-link d-flex align-items-center px-4 py-2 rounded-3 fw-bold ${
                       isActive
-                        ? 'bg-primary text-white shadow'
-                        : 'text-muted hover-accent'
+                        ? 'bg-white text-primary'
+                        : 'text-white hover-accent'
                     }`}
                   >
-                    <Icon size={16} className={`me-2 ${isActive ? 'text-white' : 'text-muted'}`} />
+                    <Icon size={16} className="me-2" />
                     {item.label}
                   </Link>
                 );
@@ -64,7 +63,7 @@ const Layout = ({ children }: LayoutProps) => {
       </nav>
 
       {/* --- CONTEÚDO PRINCIPAL --- */}
-      <main className="flex-grow-1 px-4 px-sm-5 px-lg-4 pb-5 mx-auto w-100 animate-fade-in" style={{ paddingTop: '6rem', maxWidth: '90rem' }}>
+      <main className="flex-grow-1 px-4 px-sm-5 px-lg-4 pb-5 mx-auto w-100" style={{ paddingTop: '8.5rem', maxWidth: '90rem' }}>
         {children}
       </main>
 
@@ -77,7 +76,7 @@ const Layout = ({ children }: LayoutProps) => {
                 <img
                     src="logo-lagemf.png"
                     alt="LAGEMF Logo"
-                    className="opacity-90 transition-opacity"
+                    className="opacity-90"
                     style={{ height: '5rem', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }}
                 />
             </div>

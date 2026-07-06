@@ -6,6 +6,7 @@ export interface ReferenceDetails {
     tissues: string[];    // Ex: Stem, Leaves, Xylem
     conditions: string[]; // Ex: Stress, Development
     stage?: string;
+    genotypes?: string[]; // Adicionado campo de genótipo
   };
 }
 
@@ -16,7 +17,8 @@ export const REFERENCES_DB: Record<string, ReferenceDetails> = {
     tags: {
       tissues: ["Xylem", "Stem"],
       conditions: ["Development", "Adventitious rooting"],
-      stage: "Seedlings (14 days)"
+      stage: "Seedlings (14 days)",
+      genotypes: ["Not specified"]
     }
   },
   "LIN-2018": {
@@ -25,7 +27,8 @@ export const REFERENCES_DB: Record<string, ReferenceDetails> = {
     tags: {
       tissues: ["Leaves", "Stem"],
       conditions: ["Development"],
-      stage: "5 months old"
+      stage: "5 months old",
+      genotypes: ["Not specified"]
     }
   },
   "PAPPAS-2013": {
@@ -34,7 +37,8 @@ export const REFERENCES_DB: Record<string, ReferenceDetails> = {
     tags: {
       tissues: ["Xylem", "Leaves"],
       conditions: ["Conservation"],
-      stage: "Adult and seedlings"
+      stage: "Adult and seedlings",
+      genotypes: ["Not specified"]
     }
   },
   "QIN-2021": {
@@ -43,7 +47,8 @@ export const REFERENCES_DB: Record<string, ReferenceDetails> = {
     tags: {
       tissues: ["Stem", "Callus"],
       conditions: ["Somatic embryogenesis"],
-      stage: "Adult (source)"
+      stage: "Adult (source)",
+      genotypes: ["DH201-2", "GL9"]
     }
   },
   "TOLENTINO-2022": {
@@ -52,7 +57,8 @@ export const REFERENCES_DB: Record<string, ReferenceDetails> = {
     tags: {
       tissues: ["Stem", "Xylem", "Tension wood", "Opposite wood"],
       conditions: ["Mechanical stress", "Tension wood", "Opposite wood", "Control"],
-      stage: "Bent plants"
+      stage: "Bent plants (10 months old)",
+      genotypes: ["Not specified"]
     }
   }
 };

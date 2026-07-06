@@ -11,6 +11,28 @@ interface SituationConfigItem {
     style: string;
 }
 
+const getTierBadge = (tier: string) => {
+  switch (tier) {
+    case 'known_reference_supported':
+      return {
+        label: 'Known reference-supported',
+        style: 'bg-success-subtle text-success border-success'
+      };
+    case 'novel_multi_study_replicated':
+      return {
+        label: 'Novel multi-study replicated',
+        style: 'bg-info-subtle text-info border-info'
+      };
+    case 'novel_single_study':
+      return {
+        label: 'Novel single-study',
+        style: 'bg-warning-subtle text-warning border-warning'
+      };
+    default:
+      return null;
+  }
+};
+
 export default function MiRNADetail() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState<'overview' | 'targets' | 'refs' | 'expression'>('overview');
@@ -130,7 +152,7 @@ export default function MiRNADetail() {
             </Link>
             <div>
                 <div className="d-flex align-items-center gap-3 flex-wrap">
-                    <h1 className="h2 font-display text-ema-primary mb-0">{mirna.mirna_id}</h1>
+                    <h1 className="h2 font-display text-ema-text mb-0">{mirna.mirna_id}</h1>
                     <span className={`badge rounded-pill text-uppercase fw-bold border ${
                     mirna.situation === 'known' ? 'bg-success-subtle text-success border-success' :
                     mirna.situation === 'novel' ? 'bg-purple-subtle text-purple border-purple' :
@@ -138,12 +160,20 @@ export default function MiRNADetail() {
                     }`}>
                     {mirna.situation}
                     </span>
+                    {mirna.precursors?.[0]?.tier_classification && (() => {
+                        const tierInfo = getTierBadge(mirna.precursors[0].tier_classification);
+                        return tierInfo ? (
+                            <span className={`badge rounded-pill fw-bold border ${tierInfo.style}`}>
+                                {tierInfo.label}
+                            </span>
+                        ) : null;
+                    })()}
                     <span className="badge bg-secondary-subtle text-secondary border border-secondary">
                         ACC: {mirna.accession}
                     </span>
                 </div>
                 <div className="d-flex align-items-center gap-2 mt-2">
-                    <span className="small fw-bold text-ema-muted text-uppercase">Mature Sequence:</span>
+                    <span className="small fw-bold text-ema-muted text-uppercase">Mature sequence:</span>
                     <p className="font-mono mb-0 text-ema-text px-2 py-1 rounded border user-select-all" style={{ backgroundColor: 'rgba(8, 177, 72, 0.05)', borderColor: 'rgba(8, 177, 72, 0.2)' }}>
                         {mirna.mature_sequence}
                     </p>
@@ -151,14 +181,14 @@ export default function MiRNADetail() {
             </div>
         </div>
         <div className="text-end small text-ema-muted">
-            <p className="mb-0">Entry Date: {mirna.entry_date ? new Date(mirna.entry_date).toLocaleDateString() : 'N/A'}</p>
+            <p className="mb-0">Entry date: {mirna.entry_date ? new Date(mirna.entry_date).toLocaleDateString() : 'N/A'}</p>
         </div>
       </div>
 
       {/* Tabs */}
       <ul className="nav nav-pills bg-white p-2 rounded-3 border shadow-sm" style={{ width: 'fit-content' }}>
         {[
-          { id: 'overview', label: 'Genomics & Family', icon: Dna },
+          { id: 'overview', label: 'Genomics & family', icon: Dna },
           { id: 'expression', label: 'Expression & DEG', icon: Activity },
           { id: 'targets', label: `Targets (${mirna.targets?.length || 0})`, icon: Target },
           { id: 'refs', label: 'References', icon: BookOpen },
@@ -186,7 +216,7 @@ export default function MiRNADetail() {
                 <div className="card border shadow-sm h-100">
                   <div className="card-body p-4">
                     <h3 className="h5 font-display text-ema-text mb-4 d-flex align-items-center border-bottom pb-3">
-                        <Layers size={20} className="me-2 text-info"/> Family Information
+                        <Layers size={20} className="me-2 text-info"/> Family information
                     </h3>
                     <div className={`p-3 rounded-3 small mb-4 ${currentSituation.style}`}>
                         <div className="d-flex align-items-start gap-2">
@@ -200,7 +230,7 @@ export default function MiRNADetail() {
                     {highConfidenceEvidence && highConfidenceEvidence.length > 0 ? (
                         <div className="d-flex flex-column gap-4 animate-fade-in">
                             <div>
-                              <span className="small fw-bold text-ema-muted text-uppercase d-block mb-1">Family Name</span>
+                              <span className="small fw-bold text-ema-muted text-uppercase d-block mb-1">Family name</span>
                               <p className="h3 fw-bold text-ema-text mb-0">{mirna.family || 'Unclassified'}</p>
                               {mirna.precursors?.[0]?.classification_reason && (
                                 <div className="mt-2 text-muted small lh-sm">
@@ -209,7 +239,7 @@ export default function MiRNADetail() {
                               )}
                             </div>
                             <div className="pt-2 border-top">
-                                <span className="small fw-bold text-ema-muted text-uppercase d-block mb-3">Discovery Evidence (per Study/Locus)</span>
+                                <span className="small fw-bold text-ema-muted text-uppercase d-block mb-3">Discovery evidence (per study/locus)</span>
                                 <div className="d-flex flex-column gap-3">
                                     {highConfidenceEvidence.map((metric: any, mIdx: number) => (
                                         <div key={mIdx} className="p-3 rounded-3 border bg-light shadow-sm">
@@ -265,8 +295,10 @@ export default function MiRNADetail() {
              </div>
              <div className="col-12 col-lg-8">
                 <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-4">
-                    <Dna size={20} className="me-2 text-ema-primary"/> Precursor Candidates
-                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148' }}>{highConfidenceEvidence?.length || 0} high-confidence loci</span>
+                    <Dna size={20} className="me-2 text-ema-primary"/> Precursor loci
+                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148' }}>
+                        {highConfidenceEvidence?.length || 0} {highConfidenceEvidence?.length === 1 ? 'locus' : 'loci'} identified
+                    </span>
                 </h3>
                 {highConfidenceEvidence && highConfidenceEvidence.length > 0 ? (
                     highConfidenceEvidence.map((pre: any, idx: number) => (
@@ -317,12 +349,12 @@ export default function MiRNADetail() {
                                 </div>
                                 {pre.star_sequence_predicted && (
                                     <div className="bg-warning-subtle p-3 rounded-3 border border-warning">
-                                        <span className="small fw-bold text-warning text-uppercase d-flex align-items-center gap-2 mb-2"><Scissors size={16}/> Predicted Star Sequence (miRNA*)</span>
+                                        <span className="small fw-bold text-warning text-uppercase d-flex align-items-center gap-2 mb-2"><Scissors size={16}/> Predicted star sequence (miRNA*)</span>
                                         <div className="font-mono small text-warning-emphasis bg-white p-2 rounded border border-warning text-break shadow-sm">{pre.star_sequence_predicted}</div>
                                     </div>
                                 )}
                                 <div>
-                                    <span className="small fw-bold text-ema-muted text-uppercase d-flex align-items-center gap-1 mb-2">Stem-loop secondary structure (Dot-Bracket) <Info size={12}/></span>
+                                    <span className="small fw-bold text-ema-muted text-uppercase d-flex align-items-center gap-1 mb-2">Stem-loop secondary structure (dot-bracket) <Info size={12}/></span>
                                     <div className="bg-dark text-success p-3 rounded-3 font-mono small lh-base overflow-x-auto" style={{ letterSpacing: '0.1em', whiteSpace: 'nowrap', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.3)' }}>
                                         <div className="text-white mb-1">{pre.premir_sequence_stem_loop}</div>
                                         <div className="d-flex align-items-center gap-2"><span>{pre.stem_loop_structure_dotbracket}</span></div>
@@ -330,7 +362,7 @@ export default function MiRNADetail() {
                                 </div>
                                 {pre.pri_mirna_context_seq && (
                                     <div>
-                                        <span className="small fw-bold text-ema-muted text-uppercase mb-2 d-block">Genomic Context (Pri-miRNA)</span>
+                                        <span className="small fw-bold text-ema-muted text-uppercase mb-2 d-block">Genomic context (pri-miRNA)</span>
                                         <div className="bg-secondary-subtle text-secondary-emphasis p-3 rounded border font-mono small text-break lh-base overflow-y-auto" style={{ maxHeight: '6rem' }}>{pre.pri_mirna_context_seq}</div>
                                     </div>
                                 )}
@@ -406,7 +438,7 @@ export default function MiRNADetail() {
                                       <td className="px-3 py-2 text-ema-text">{clearNA(sample?.condition)}</td>
                                       <td className="px-3 py-2 text-center text-ema-muted">{clearNA(sample?.replicate)}</td>
                                       <td className="px-3 py-2 text-end">
-                                        <div className="fw-bold font-mono text-ema-primary">{expressionMode === 'raw' ? currentVal.toLocaleString() : currentVal.toFixed(2)}</div>
+                                        <div className="fw-bold font-mono text-ema-primary">{expressionMode === 'raw' ? currentVal.toLocaleString('en-US') : currentVal.toFixed(2)}</div>
                                         <div className="small text-muted font-mono" style={{ fontSize: '0.6rem' }}>{expressionMode === 'raw' ? 'Raw' : 'RPM'}</div>
                                       </td>
                                       <td className="px-3 py-2"><div className="progress" style={{ height: '4px' }}><div className="progress-bar bg-ema-primary shadow-sm" role="progressbar" style={{ width: `${percentage}%` }}></div></div></td>
@@ -482,7 +514,7 @@ export default function MiRNADetail() {
                       <div className="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded-3 border">
                           <span className="fw-bold text-ema-muted text-uppercase" style={{ fontSize: '0.625rem' }}>Inhibition:</span>
                           <select value={filterInhibition} onChange={(e) => { setFilterInhibition(e.target.value); setTargetPage(1); }} className="form-select form-select-sm border-0 p-0 fw-medium" style={{ width: 'auto' }}>
-                              <option value="all">All Types</option>
+                              <option value="all">All types</option>
                               <option value="Cleavage">Cleavage</option>
                               <option value="Translation">Translation</option>
                           </select>
@@ -493,7 +525,7 @@ export default function MiRNADetail() {
                 <table className="table table-hover align-middle mb-0">
                   <thead className="table-light border-bottom">
                     <tr>
-                      <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Target Locus</th>
+                      <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Target locus</th>
                       <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase">Annotation</th>
                       <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase"><button onClick={() => handleSort('inhibition')} className="btn btn-link p-0 text-decoration-none d-flex align-items-center text-ema-muted fw-bold">Inhibition <ArrowUpDown size={12} className={sortField === 'inhibition' ? 'text-ema-primary' : 'text-muted'}/></button></th>
                       <th className="px-4 py-3 small fw-bold text-ema-muted text-uppercase"><button onClick={() => handleSort('expectation')} className="btn btn-link p-0 text-decoration-none d-flex align-items-center text-ema-muted fw-bold">Expectation <ArrowUpDown size={12} className={sortField === 'expectation' ? 'text-ema-primary' : 'text-muted'}/></button></th>
@@ -567,7 +599,16 @@ export default function MiRNADetail() {
                                 <div className="p-2 bg-info-subtle text-info rounded-3 shadow-sm"><BookOpen size={20}/></div>
                                 <div>
                                     <h4 className="h5 fw-bold text-ema-text mb-0">{authorId}</h4>
-                                    <span className={`badge rounded-pill shadow-sm border ${ref.detection_source === 'per_sample_quantification' ? 'bg-success-subtle text-success border-success' : 'bg-secondary-subtle text-secondary border-secondary'}`} style={{ fontSize: '0.65rem' }}>{ref.detection_source === 'per_sample_quantification' ? 'Quantified' : 'Detected'}</span>
+                                    <span 
+                                        className={`badge rounded-pill shadow-sm border cursor-help ${ref.detection_source === 'per_sample_quantification' ? 'bg-success-subtle text-success border-success' : 'bg-secondary-subtle text-secondary border-secondary'}`} 
+                                        style={{ fontSize: '0.65rem' }}
+                                        title={ref.detection_source === 'per_sample_quantification'
+                                            ? "This miRNA's expression was measured in this study's samples, though it was not the study where it was first identified."
+                                            : "This miRNA was identified de novo in this study's sequencing data."
+                                        }
+                                    >
+                                        {ref.detection_source === 'per_sample_quantification' ? 'Quantified' : 'Detected'}
+                                    </span>
                                 </div>
                             </div>
                             <a href={details ? details.doi : '#'} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-primary rounded-3 fw-bold">Paper <ExternalLink size={12}/></a>

@@ -19,9 +19,10 @@ $border-radius-sm: 0.5rem;
 $border-radius-lg: 1rem;
 
 // Typography
-$font-family-sans-serif: 'Arch', system-ui, -apple-system, sans-serif;
-$font-family-monospace: 'Courier New', monospace;
-$headings-font-family: 'Arch Condensed', sans-serif;
+$font-family-sans-serif: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
+$font-family-monospace: 'Atkinson Hyperlegible Mono', 'Courier New', monospace;
+$headings-font-family: 'Atkinson Hyperlegible', sans-serif;
+$headings-font-weight: 700;
 
 // Spacing (Bootstrap uses rem, similar to Tailwind's scale)
 $spacer: 1rem;
