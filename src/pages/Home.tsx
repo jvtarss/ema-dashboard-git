@@ -43,7 +43,7 @@ export default function Home() {
 
         {/* Botões de Ação */}
         <div className="d-flex justify-content-center gap-3">
-          <Link to="/browser" className="btn btn-primary btn-lg px-5 rounded-3 fw-bold d-flex align-items-center border-0" style={{ backgroundColor: '#08B148' }}>
+          <Link to="/browser" className="btn btn-primary btn-lg px-5 rounded-3 fw-bold d-flex align-items-center border-0" style={{ backgroundColor: '#219B74' }}>
             Start browsing
           </Link>
           <Link to="/documentation" className="btn btn-outline-light btn-lg px-5 rounded-3 fw-bold d-flex align-items-center backdrop-blur" style={{ backdropFilter: 'blur(4px)' }}>

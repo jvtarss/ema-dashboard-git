@@ -1,10 +1,10 @@
-/* Radial gradient background - updated to new green (#08B148) */
+/* Radial gradient background - updated to new green (#219B74) */
 body {
   margin: 0;
   min-height: 100vh;
-  background-image: radial-gradient(at 0% 0%, hsla(142, 60%, 94%, 1) 0, transparent 50%),
-                    radial-gradient(at 50% 0%, hsla(142, 60%, 96%, 1) 0, transparent 50%),
-                    radial-gradient(at 100% 0%, hsla(142, 60%, 94%, 1) 0, transparent 50%);
+  background-image: radial-gradient(at 0% 0%, hsla(161, 65%, 94%, 1) 0, transparent 50%),
+                    radial-gradient(at 50% 0%, hsla(161, 65%, 96%, 1) 0, transparent 50%),
+                    radial-gradient(at 100% 0%, hsla(161, 65%, 94%, 1) 0, transparent 50%);
   background-attachment: fixed;
   background-size: cover;
 }
@@ -15,15 +15,15 @@ body {
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* EMA color utilities - updated with #08B148 and #2C3B2D */
-.text-ema-primary { color: #08B148 !important; }
+/* EMA color utilities - updated with #219B74 and #2C3B2D */
+.text-ema-primary { color: #219B74 !important; }
 .text-ema-secondary { color: #2C3B2D !important; }
 .text-ema-muted { color: #64748b !important; }
 .text-ema-text { color: #2C3B2D !important; }
-.bg-ema-primary { background-color: #08B148 !important; }
+.bg-ema-primary { background-color: #219B74 !important; }
 .bg-ema-secondary { background-color: #2C3B2D !important; }
-.bg-ema-accent { background-color: #effaf2 !important; }
-.border-ema-primary { border-color: #08B148 !important; }
+.bg-ema-accent { background-color: #eafaf5 !important; }
+.border-ema-primary { border-color: #219B74 !important; }
 
 /* Custom purple (not in Bootstrap) */
 .bg-purple-subtle { background-color: #f3e8ff !important; color: #7c3aed !important; }
@@ -36,8 +36,8 @@ body {
 
 /* Hover effects */
 .hover-accent:hover {
-  background-color: #effaf2 !important;
-  color: #08B148 !important;
+  background-color: #eafaf5 !important;
+  color: #219B74 !important;
 }
 
 /* Letter spacing */
@@ -142,7 +142,7 @@ button, .btn, .nav-link, [role="button"], .cursor-pointer {
 
 /* Custom soft gradient navbar keeping the typical green tone */
 .navbar-custom-gradient {
-  background: linear-gradient(to right, #08B148 0%, #1fd264 100%) !important;
+  background: linear-gradient(to right, #219B74 0%, #35b78c 100%) !important;
 }
 
 

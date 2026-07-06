@@ -296,7 +296,7 @@ export default function MiRNADetail() {
              <div className="col-12 col-lg-8">
                 <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-4">
                     <Dna size={20} className="me-2 text-ema-primary"/> Precursor loci
-                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148' }}>
+                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(33, 155, 116, 0.1)', color: '#219B74' }}>
                         {highConfidenceEvidence?.length || 0} {highConfidenceEvidence?.length === 1 ? 'locus' : 'loci'} identified
                     </span>
                 </h3>
@@ -383,7 +383,7 @@ export default function MiRNADetail() {
                 <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                   <h3 className="h5 font-display text-ema-text d-flex align-items-center mb-0">
                     <Activity size={20} className="me-2 text-ema-primary"/> Expression profile
-                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(8, 177, 72, 0.1)', color: '#08B148' }}>{filteredExpressions?.length || 0} samples</span>
+                    <span className="ms-2 badge rounded-pill" style={{ backgroundColor: 'rgba(33, 155, 116, 0.1)', color: '#219B74' }}>{filteredExpressions?.length || 0} samples</span>
                   </h3>
                   {mirna.situation !== 'novel' && (
                     <div className="btn-group btn-group-sm border rounded-3 shadow-sm overflow-hidden">
