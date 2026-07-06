@@ -15,13 +15,13 @@ body {
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* EMA color utilities - updated with #219B74 and #2C3B2D */
+/* EMA color utilities - updated with #219B74 and #0B3427 */
 .text-ema-primary { color: #219B74 !important; }
-.text-ema-secondary { color: #2C3B2D !important; }
+.text-ema-secondary { color: #0B3427 !important; }
 .text-ema-muted { color: #64748b !important; }
-.text-ema-text { color: #2C3B2D !important; }
+.text-ema-text { color: #0B3427 !important; }
 .bg-ema-primary { background-color: #219B74 !important; }
-.bg-ema-secondary { background-color: #2C3B2D !important; }
+.bg-ema-secondary { background-color: #0B3427 !important; }
 .bg-ema-accent { background-color: #eafaf5 !important; }
 .border-ema-primary { border-color: #219B74 !important; }
 
