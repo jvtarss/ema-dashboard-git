@@ -238,6 +238,12 @@ export interface MiRNADiscoveryEvidence {
   study?: Study;
 }
 
+export interface ParalogGroup {
+  group_id: number;
+  group_size: number;
+  other_members: string[];
+}
+
 export interface MiRNADetail extends MiRNACore {
   targets: MiRNATarget[];
   references: MiRNARef[];
@@ -247,6 +253,7 @@ export interface MiRNADetail extends MiRNACore {
   discovery_metrics: MiRNADiscoveryMetrics[];
   discovery_evidence: MiRNADiscoveryEvidence[];
   family_info?: MiRNAFamily;
+  paralog_group?: ParalogGroup;
 }
 
 export interface PaginatedResponse<T = MiRNACore> {
@@ -267,6 +274,8 @@ export interface Stats {
   total_samples?: number;
   total_high_confidence?: number;
   total_references?: number;
+  paralog_groups?: number;
+  mirnas_in_paralog_groups?: number;
 }
 
 export interface FamilyInfo {

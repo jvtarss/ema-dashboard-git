@@ -18,6 +18,11 @@ const highlightMatch = (text: string, term: string) => {
   );
 };
 
+const formatFamilyName = (name: string) => {
+  if (!name) return '';
+  return name.endsWith('.0') ? name.slice(0, -2) : name;
+};
+
 export default function Browser() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
@@ -46,14 +51,12 @@ export default function Browser() {
     tissues: string[];
     conditions: string[];
     genotypes: string[];
-    phases: string[];
     ages: string[];
     studies: string[];
   }>({
     tissues: [],
     conditions: [],
     genotypes: [],
-    phases: [],
     ages: [],
     studies: []
   });
@@ -74,7 +77,6 @@ export default function Browser() {
       tissues: [],
       conditions: [],
       genotypes: [],
-      phases: [],
       ages: [],
       studies: []
     });
@@ -100,7 +102,100 @@ export default function Browser() {
     queryFn: () => miRNAApi.getBrowserIndex() 
   });
 
-  const facetCounts = browserIndex?.facet_counts;
+  const filteredItemsForFacets = useMemo(() => {
+    if (!browserIndex?.items) return [];
+    let items = [...browserIndex.items];
+
+    // Basic filters
+    if (situation) {
+      items = items.filter((m: any) => m.situation === situation);
+    }
+    if (selectedFamily) {
+      items = items.filter((m: any) => m.family === selectedFamily);
+    }
+
+    // Search query term (basic term search)
+    if (debouncedSearchTerm) {
+      const searchTerm = debouncedSearchTerm.toLowerCase();
+      items = items.filter((mirna: any) => {
+        const familyName = mirna.family || 'Unclassified';
+        return mirna.mirna_id.toLowerCase().includes(searchTerm) || 
+               mirna.mature_sequence.toLowerCase().includes(searchTerm) ||
+               familyName.toLowerCase().includes(searchTerm) ||
+               (mirna.optimized_tags && mirna.optimized_tags.some((tag: string) => tag.toLowerCase().includes(searchTerm)));
+      });
+    }
+
+    // Structured filters (tissues, conditions, genotypes, ages, studies)
+    const { tissues, conditions, genotypes, ages, studies } = activeFilters;
+    const hasAnyFilter = (tissues?.length || 0) + (conditions?.length || 0) + (genotypes?.length || 0) + (ages?.length || 0) + (studies?.length || 0) > 0;
+
+    if (hasAnyFilter) {
+      items = items.filter((mirna: any) => {
+        const itemFacets = mirna.facets || {};
+        const itemStudies = itemFacets.studies || [];
+        const itemTissues = itemFacets.tissues || [];
+        const itemConditions = itemFacets.conditions || [];
+        const itemGenotypes = itemFacets.genotypes || [];
+        const itemAges = itemFacets.ages || [];
+
+        const globalStudyMatches = !studies || studies.length === 0 || studies.every((s: string) => itemStudies.includes(s));
+        const globalTissueMatches = !tissues || tissues.length === 0 || tissues.every((t: string) => itemTissues.includes(t));
+        const globalConditionMatches = !conditions || conditions.length === 0 || conditions.every((c: string) => itemConditions.includes(c));
+        const globalGenotypeMatches = !genotypes || genotypes.length === 0 || genotypes.every((g: string) => itemGenotypes.includes(g));
+        const globalAgeMatches = !ages || ages.length === 0 || ages.every((a: string) => itemAges.includes(a));
+
+        return globalStudyMatches && globalTissueMatches && globalConditionMatches && globalGenotypeMatches && globalAgeMatches;
+      });
+    }
+
+    return items;
+  }, [browserIndex?.items, situation, selectedFamily, activeFilters, debouncedSearchTerm]);
+
+  const dynamicFacetCounts = useMemo(() => {
+    const counts = {
+      studies: {} as Record<string, number>,
+      tissues: {} as Record<string, number>,
+      conditions: {} as Record<string, number>,
+      genotypes: {} as Record<string, number>,
+      ages: {} as Record<string, number>,
+    };
+
+    if (!browserIndex?.facet_counts) return counts;
+
+    // Initialize all options from static counts to 0
+    for (const cat of ['studies', 'tissues', 'conditions', 'genotypes', 'ages'] as const) {
+      if (browserIndex.facet_counts[cat]) {
+        for (const val of Object.keys(browserIndex.facet_counts[cat])) {
+          counts[cat][val] = 0;
+        }
+      }
+    }
+
+    // Count occurrence of each option among filtered items
+    for (const item of filteredItemsForFacets) {
+      const fac = item.facets;
+      if (!fac) continue;
+      
+      for (const val of fac.studies || []) {
+        if (val in counts.studies) counts.studies[val]++;
+      }
+      for (const val of fac.tissues || []) {
+        if (val in counts.tissues) counts.tissues[val]++;
+      }
+      for (const val of fac.conditions || []) {
+        if (val in counts.conditions) counts.conditions[val]++;
+      }
+      for (const val of fac.genotypes || []) {
+        if (val in counts.genotypes) counts.genotypes[val]++;
+      }
+      for (const val of fac.ages || []) {
+        if (val in counts.ages) counts.ages[val]++;
+      }
+    }
+
+    return counts;
+  }, [filteredItemsForFacets, browserIndex?.facet_counts]);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['mirnas', page, limit, situation, selectedFamily, activeFilters, debouncedSearchTerm],
@@ -197,17 +292,33 @@ export default function Browser() {
     return (
       <div className="mb-2">
         <span className="small text-ema-muted me-2 fw-bold" style={{ minWidth: '80px', display: 'inline-block' }}>{title}:</span>
-        <div className="d-inline-flex flex-wrap gap-1">
-          {Object.entries(facets).sort((a,b) => b[1] - a[1]).map(([val, count]) => (
-            <button
-              key={val}
-              onClick={() => toggleFilter(category, val)}
-              className={`btn btn-sm py-0 px-2 rounded-pill border ${activeFilters[category].includes(val) ? 'btn-primary border-primary' : 'btn-outline-secondary'}`}
-              style={{ fontSize: '0.75rem' }}
-            >
-              {formatTagName(category, val)} <span className="opacity-50 ms-1">({count})</span>
-            </button>
-          ))}
+        <div className="d-inline-flex flex-wrap gap-1 align-items-center">
+          {Object.entries(facets).sort((a,b) => b[1] - a[1]).map(([val, count]) => {
+            const isSelected = activeFilters[category].includes(val);
+            const isDisabled = count === 0 && !isSelected;
+            return (
+              <button
+                key={val}
+                onClick={() => {
+                  if (!isDisabled) {
+                    toggleFilter(category, val);
+                  }
+                }}
+                disabled={isDisabled}
+                className={`btn btn-sm py-0.5 px-2.5 rounded-pill border d-inline-flex align-items-center gap-1 ${
+                  isSelected 
+                    ? 'btn-primary border-primary' 
+                    : isDisabled 
+                      ? 'btn-outline-secondary opacity-25 cursor-not-allowed border-dashed' 
+                      : 'btn-outline-secondary'
+                }`}
+                style={{ fontSize: '0.75rem' }}
+              >
+                <span>{formatTagName(category, val)}</span>
+                <span className="opacity-50 ms-1">({count})</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     );
@@ -263,7 +374,7 @@ export default function Browser() {
               <label className="small fw-bold text-ema-muted text-uppercase mb-2 d-block">Family</label>
               <select value={selectedFamily} onChange={(e) => { setSelectedFamily(e.target.value); setPage(1); }} className="form-select rounded-3">
                 <option value="">All families</option>
-                {families?.map((f: any) => (<option key={f.family} value={f.family}>{f.family} ({f.total_members})</option>))}
+                {families?.map((f: any) => (<option key={f.family} value={f.family}>{formatFamilyName(f.family)} ({f.total_members})</option>))}
               </select>
             </div>
             <div className="col">
@@ -285,12 +396,11 @@ export default function Browser() {
                 <h3 className="small fw-bold text-ema-text text-uppercase mb-0">Experimental context filters</h3>
               </div>
               <div className="bg-light p-3 rounded-3 border overflow-auto" style={{ maxHeight: '300px' }}>
-                <FilterTagList title="Studies" category="studies" facets={facetCounts?.studies} />
-                <FilterTagList title="Tissues" category="tissues" facets={facetCounts?.tissues} />
-                <FilterTagList title="Conditions" category="conditions" facets={facetCounts?.conditions} />
-                <FilterTagList title="Genotypes" category="genotypes" facets={facetCounts?.genotypes} />
-                <FilterTagList title="Phases" category="phases" facets={facetCounts?.phases} />
-                <FilterTagList title="Ages" category="ages" facets={facetCounts?.ages} />
+                <FilterTagList title="Studies" category="studies" facets={dynamicFacetCounts?.studies} />
+                <FilterTagList title="Tissues" category="tissues" facets={dynamicFacetCounts?.tissues} />
+                <FilterTagList title="Conditions" category="conditions" facets={dynamicFacetCounts?.conditions} />
+                <FilterTagList title="Genotypes" category="genotypes" facets={dynamicFacetCounts?.genotypes} />
+                <FilterTagList title="Ages" category="ages" facets={dynamicFacetCounts?.ages} />
               </div>
             </div>
 
@@ -402,7 +512,7 @@ export default function Browser() {
                         </td>
                         <td className="px-4 py-3 font-monospace small text-ema-muted">{mirna.mature_sequence}</td>
                         <td className="px-4 py-3">
-                          <span className="badge bg-secondary-subtle text-secondary border">{mirna.family && mirna.family !== 'nan' ? mirna.family : 'Unclassified'}</span>
+                          <span className="badge bg-secondary-subtle text-secondary border">{mirna.family && mirna.family !== 'nan' ? formatFamilyName(mirna.family) : 'Unclassified'}</span>
                         </td>
                         <td className="px-4 py-3 text-center">
                           <span className={`${getSituationStyle(mirna.situation)} small text-uppercase`}>{mirna.situation}</span>
@@ -451,7 +561,7 @@ export default function Browser() {
                                         <div className="mb-2"><strong>Mature sequence:</strong> <span className="font-mono bg-light px-1 py-0.5 rounded border">{highlightMatch(mirna.mature_sequence, debouncedSearchTerm)}</span></div>
                                       )}
                                       {mirna.family && mirna.family.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) && (
-                                        <div><strong>Family:</strong> <span className="badge bg-secondary-subtle text-secondary border">{highlightMatch(mirna.family, debouncedSearchTerm)}</span></div>
+                                        <div><strong>Family:</strong> <span className="badge bg-secondary-subtle text-secondary border">{highlightMatch(formatFamilyName(mirna.family), debouncedSearchTerm)}</span></div>
                                       )}
                                     </div>
                                   </div>

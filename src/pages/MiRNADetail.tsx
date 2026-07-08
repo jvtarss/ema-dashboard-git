@@ -1,13 +1,14 @@
 import { useState, useMemo, Fragment } from 'react';
+import type { ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { miRNAApi } from '../services/api';
-import { ArrowLeft, Dna, Target, BookOpen, Layers, ExternalLink, Info, ArrowUpDown, Microscope, Tag, Activity, Scissors, Map, Search, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Dna, Target, BookOpen, Layers, ExternalLink, Info, ArrowUpDown, Microscope, Activity, Scissors, Map, Search, ChevronLeft, ChevronRight, HelpCircle, AlertTriangle } from 'lucide-react';
 import { REFERENCES_DB } from '../utils/referencesData';
 
 interface SituationConfigItem {
     label: string;
-    description: string;
+    description: string | ReactNode;
     style: string;
 }
 
@@ -28,9 +29,23 @@ const getTierBadge = (tier: string) => {
         label: 'Novel single-study',
         style: 'bg-warning-subtle text-warning border-warning'
       };
-    default:
-      return null;
+      default:
+        return null;
   }
+};
+
+const formatCitation = (citation: string) => {
+  if (!citation) return '';
+  const parts = citation.split(/(Eucalyptus grandis|E\. grandis)/g);
+  return (
+    <>
+      {parts.map((part, i) => 
+        (part === 'Eucalyptus grandis' || part === 'E. grandis') 
+          ? <em key={i}>{part}</em> 
+          : part
+      )}
+    </>
+  );
 };
 
 export default function MiRNADetail() {
@@ -55,7 +70,11 @@ export default function MiRNADetail() {
   const SITUATION_CONFIG: Record<string, SituationConfigItem> = {
     known: {
         label: "Known miRNA",
-        description: "Experimentally supported miRNA previously annotated for Eucalyptus grandis.",
+        description: (
+          <span>
+            Experimentally supported miRNA previously annotated for <em>Eucalyptus grandis</em>.
+          </span>
+        ),
         style: "bg-success-subtle text-success border border-success"
     },
     candidate: {
@@ -107,6 +126,11 @@ export default function MiRNADetail() {
   }, [filteredTargets, targetPage]);
 
   const totalPages = Math.ceil(filteredTargets.length / targetsPerPage);
+
+  const distinctLociCount = useMemo(() => {
+    if (!mirna?.targets) return 0;
+    return new Set(mirna.targets.map((t: any) => t.target_locus).filter(Boolean)).size;
+  }, [mirna?.targets]);
 
   const handleSort = (field: 'expectation' | 'inhibition') => {
       if (sortField === field) {
@@ -190,7 +214,7 @@ export default function MiRNADetail() {
         {[
           { id: 'overview', label: 'Genomics & family', icon: Dna },
           { id: 'expression', label: 'Expression & DEG', icon: Activity },
-          { id: 'targets', label: `Targets (${mirna.targets?.length || 0})`, icon: Target },
+          { id: 'targets', label: `Targets (${mirna.targets?.length || 0} interactions across ${distinctLociCount} distinct loci)`, icon: Target },
           { id: 'refs', label: 'References', icon: BookOpen },
         ].map((tab) => (
           <li key={tab.id} className="nav-item">
@@ -223,7 +247,19 @@ export default function MiRNADetail() {
                             <Info size={16} className="mt-1 flex-shrink-0" style={{ opacity: 0.7 }}/>
                             <div>
                                 <p className="fw-bold mb-1">{currentSituation.label}</p>
-                                <p className="mb-0 lh-base" style={{ opacity: 0.9 }}>{currentSituation.description}</p>
+                                <p className="mb-0 lh-base" style={{ opacity: 0.9 }}>
+                                  {mirna.situation === 'novel' ? (
+                                    (!mirna.family || mirna.family.trim() === '' || mirna.family === 'Unclassified') ? (
+                                      "No family assignment could be made based on seed sequence similarity to known plant miRNA families."
+                                    ) : (
+                                      <span>
+                                        Not previously annotated in <em>Eucalyptus grandis</em>, but assigned to the conserved plant family {
+                                          mirna.family.endsWith('.0') ? mirna.family.slice(0, -2) : mirna.family
+                                        } based on seed sequence similarity.
+                                      </span>
+                                    )
+                                  ) : currentSituation.description}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -231,7 +267,7 @@ export default function MiRNADetail() {
                         <div className="d-flex flex-column gap-4 animate-fade-in">
                             <div>
                               <span className="small fw-bold text-ema-muted text-uppercase d-block mb-1">Family name</span>
-                              <p className="h3 fw-bold text-ema-text mb-0">{mirna.family || 'Unclassified'}</p>
+                              <p className="h3 fw-bold text-ema-text mb-0">{mirna.family && mirna.family !== 'Unclassified' ? (mirna.family.endsWith('.0') ? mirna.family.slice(0, -2) : mirna.family) : 'Unclassified'}</p>
                               {mirna.precursors?.[0]?.classification_reason && (
                                 <div className="mt-2 text-muted small lh-sm">
                                   <span className="font-mono bg-light px-2 py-0.5 rounded border" style={{ fontSize: '0.75rem' }}>{mirna.precursors[0].classification_reason}</span>
@@ -378,6 +414,7 @@ export default function MiRNADetail() {
         {/* ABA: EXPRESSION & DEG */}
         {activeTab === 'expression' && (
           <div className="animate-fade-in">
+
             <div className="row g-4">
               <div className="col-12 col-lg-7">
                 <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
@@ -546,7 +583,6 @@ export default function MiRNADetail() {
                                         <p className="small fw-bold text-secondary-emphasis lh-sm mb-1">{target.annotation.description}</p>
                                         <div className="d-flex flex-wrap gap-1">
                                             {target.annotation.best_hit_arabi && <span className="badge bg-secondary-subtle text-secondary border" style={{ fontSize: '0.625rem' }}>{target.annotation.best_hit_arabi}</span>}
-                                            {target.annotation.go_terms && target.annotation.go_terms !== "nan" && <span className="badge bg-info-subtle text-info border" style={{ fontSize: '0.5625rem' }}><Tag size={8}/> GO</span>}
                                         </div>
                                     </div>
                                 ) : <span className="small text-muted fst-italic">No annotation</span>}
@@ -599,22 +635,18 @@ export default function MiRNADetail() {
                                 <div className="p-2 bg-info-subtle text-info rounded-3 shadow-sm"><BookOpen size={20}/></div>
                                 <div>
                                     <h4 className="h5 fw-bold text-ema-text mb-0">{authorId}</h4>
-                                    <span 
-                                        className={`badge rounded-pill shadow-sm border cursor-help ${ref.detection_source === 'per_sample_quantification' ? 'bg-success-subtle text-success border-success' : 'bg-secondary-subtle text-secondary border-secondary'}`} 
-                                        style={{ fontSize: '0.65rem' }}
-                                        title={ref.detection_source === 'per_sample_quantification'
-                                            ? "This miRNA's expression was measured in this study's samples, though it was not the study where it was first identified."
-                                            : "This miRNA was identified de novo in this study's sequencing data."
-                                        }
-                                    >
-                                        {ref.detection_source === 'per_sample_quantification' ? 'Quantified' : 'Detected'}
-                                    </span>
                                 </div>
                             </div>
                             <a href={details ? details.doi : '#'} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-primary rounded-3 fw-bold">Paper <ExternalLink size={12}/></a>
                         </div>
                         <div className="card-body p-4">
-                            <p className="text-secondary fst-italic border-start border-3 border-ema-primary ps-3 small mb-4 lh-base">"{details ? details.citation : 'Citation not available'}"</p>
+                            <p className="text-secondary fst-italic border-start border-3 border-ema-primary ps-3 small mb-4 lh-base">"{details ? formatCitation(details.citation) : 'Citation not available'}"</p>
+                            {study?.age_label && (
+                                <div className="d-flex align-items-center gap-2 mb-4 small">
+                                  <span className="fw-bold text-ema-muted text-uppercase" style={{ fontSize: '0.7rem' }}>Study Age:</span>
+                                  <span className="fw-medium text-ema-text">{study.age_label}</span>
+                                </div>
+                            )}
                             <div className="d-flex flex-wrap gap-2">
                                 {tissues.map((t: any) => <span key={t} className="badge bg-success-subtle text-success border border-success px-2 py-1 shadow-sm"><Microscope size={12}/> {t}</span>)}
                             </div>

@@ -1,0 +1,221 @@
+[
+  {
+    "group_id": 1,
+    "sequence_variants": [
+      "UGAUUGAAGACGACCUUGGC",
+      "UGAUUGAAGACGACCUUGGCA"
+    ],
+    "group_size": 3,
+    "member_accessions": [
+      "Chr01_1680",
+      "Chr01_1896",
+      "scaffold_368_45308"
+    ]
+  },
+  {
+    "group_id": 2,
+    "sequence_variants": [
+      "UUGGAUGUCUUCAAGGAAAC",
+      "UUGGAUGUCUUCAAGGAAACU"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr01_1685",
+      "scaffold_368_47485"
+    ]
+  },
+  {
+    "group_id": 3,
+    "sequence_variants": [
+      "CGUGAUAUUGGUCCGGCUCAUC"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr01_2889",
+      "Chr01_2891"
+    ]
+  },
+  {
+    "group_id": 4,
+    "sequence_variants": [
+      "AAGCUCAGGAGGGAUAGCGC"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr02_5754",
+      "Chr11_41982"
+    ]
+  },
+  {
+    "group_id": 5,
+    "sequence_variants": [
+      "CAGCCAAGGAUGACUUGCCG"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr03_12234",
+      "Chr03_14086"
+    ]
+  },
+  {
+    "group_id": 6,
+    "sequence_variants": [
+      "UGCCUGGCUCCCUGUAUGCC",
+      "UGCCUGGCUCCCUGUAUGCCA",
+      "UGCCUGGCUCCCUGUAUGCCAU"
+    ],
+    "group_size": 3,
+    "member_accessions": [
+      "Chr05_17624",
+      "Chr07_28646",
+      "Chr10_41575"
+    ]
+  },
+  {
+    "group_id": 7,
+    "sequence_variants": [
+      "CGCCAAAGGAGAAUUGCCCU"
+    ],
+    "group_size": 7,
+    "member_accessions": [
+      "Chr05_19932",
+      "Chr05_20206",
+      "Chr05_20208",
+      "Chr05_20214",
+      "Chr05_23089",
+      "scaffold_46_44237",
+      "scaffold_46_44239"
+    ]
+  },
+  {
+    "group_id": 8,
+    "sequence_variants": [
+      "AAUCGAAGUAGGUUGUGGGUGC"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr05_19036",
+      "Chr05_21615"
+    ]
+  },
+  {
+    "group_id": 9,
+    "sequence_variants": [
+      "CGCCAAGGGAGAAUUGCCCU"
+    ],
+    "group_size": 4,
+    "member_accessions": [
+      "Chr05_23094",
+      "Chr05_23096",
+      "Chr05_23098",
+      "scaffold_46_44242"
+    ]
+  },
+  {
+    "group_id": 10,
+    "sequence_variants": [
+      "AUUGGUUGCAUCUGAGGGAU"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr06_24998",
+      "Egr-miRN5652"
+    ]
+  },
+  {
+    "group_id": 11,
+    "sequence_variants": [
+      "UUGUAUUGGAUGAUGUUGAU"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr08_35572",
+      "scaffold_60_44348"
+    ]
+  },
+  {
+    "group_id": 12,
+    "sequence_variants": [
+      "UCGCAAGGAGAGACGGCACU"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Chr09_36718",
+      "scaffold_1630_46529"
+    ]
+  },
+  {
+    "group_id": 13,
+    "sequence_variants": [
+      "UUGACAGAAGAGAGUGAGCACA"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Egr-miR156a",
+      "Egr-miR156b"
+    ]
+  },
+  {
+    "group_id": 14,
+    "sequence_variants": [
+      "UGACAGAAGAGAGUGAGCA"
+    ],
+    "group_size": 6,
+    "member_accessions": [
+      "Egr-miR156d",
+      "Egr-miR156e",
+      "Egr-miR156f",
+      "Egr-miR156h",
+      "Egr-miR156i",
+      "Egr-miR156j"
+    ]
+  },
+  {
+    "group_id": 15,
+    "sequence_variants": [
+      "UUGACAGAAGAUAGAGAGCA"
+    ],
+    "group_size": 3,
+    "member_accessions": [
+      "Egr-miR156l",
+      "Egr-miR156m",
+      "Egr-miR156n"
+    ]
+  },
+  {
+    "group_id": 16,
+    "sequence_variants": [
+      "UCGGACCAGGCUUCAUUCCC",
+      "UCGGACCAGGCUUCAUUCCCC",
+      "UCGGACCAGGCUUCAUUCCCCU"
+    ],
+    "group_size": 3,
+    "member_accessions": [
+      "Egr-miR165b",
+      "Egr-miR165e",
+      "Egr-miR165f"
+    ]
+  },
+  {
+    "group_id": 17,
+    "sequence_variants": [
+      "UUCCACAGCUUUCUUGAACU"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Egr-miR396a",
+      "Egr-miR396c"
+    ]
+  },
+  {
+    "group_id": 18,
+    "sequence_variants": [
+      "UGACAACGAGAGAGAGCACG"
+    ],
+    "group_size": 2,
+    "member_accessions": [
+      "Egr-miR535a",
+      "Egr-miR535b"
+    ]
+  }
+]

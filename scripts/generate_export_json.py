@@ -115,40 +115,40 @@ def main():
         1: { # QIN-2021
             "study_name": "QIN-2021",
             "citation_short": "QIN, Z. et al. Genome-wide identification of microRNAs involved in somatic embryogenesis. G3, 2021.",
-            "biological_context": "somatic embryogenesis; juvenile phase",
-            "phase": ["juvenile phase"],
-            "age": [],
-            "study_tags": ["QIN-2021", "somatic embryogenesis", "juvenile phase", "callus", "stem", "GL9", "DH201-2"],
+            "biological_context": "somatic embryogenesis",
+            "age_label": None,
+            "age_confidence": None,
+            "age_source_note": None,
+            "study_tags": ["QIN-2021", "somatic embryogenesis", "callus", "stem", "GL9", "DH201-2"],
             "fallback_tissues": ["callus", "stem"],
             "fallback_conditions": ["somatic embryogenesis"],
             "fallback_genotypes": ["DH201-2", "GL9"],
-            "fallback_phases": ["juvenile phase"],
             "fallback_ages": []
         },
         3: { # TOLENTINO-2022
             "study_name": "TOLENTINO-2022",
             "citation_short": "TOLENTINO-2022",
-            "biological_context": "mechanically induced wood formation; juvenile phase (10 months)",
-            "phase": ["juvenile phase"],
-            "age": ["10 months"],
-            "study_tags": ["TOLENTINO-2022", "juvenile phase", "10 months", "stem", "tension_wood", "opposite_wood", "unbent_control"],
+            "biological_context": "mechanically induced wood formation; 10 months",
+            "age_label": "10 months",
+            "age_confidence": None,
+            "age_source_note": None,
+            "study_tags": ["TOLENTINO-2022", "10 months", "stem", "tension_wood", "opposite_wood", "unbent_control"],
             "fallback_tissues": ["stem"],
             "fallback_conditions": ["tension_wood", "opposite_wood", "unbent_control"],
             "fallback_genotypes": [],
-            "fallback_phases": ["juvenile phase"],
             "fallback_ages": ["10 months"]
         },
         4: { # LIN-2018
             "study_name": "LIN-2018",
             "citation_short": "LIN-2018",
-            "biological_context": "vegetative tissues; juvenile phase (5-month-old plants)",
-            "phase": ["juvenile phase"],
-            "age": ["5 months"],
-            "study_tags": ["LIN-2018", "juvenile phase", "5 months", "leaves", "stem"],
+            "biological_context": "vegetative tissues; 5-month-old plants",
+            "age_label": "5 months",
+            "age_confidence": None,
+            "age_source_note": None,
+            "study_tags": ["LIN-2018", "5 months", "leaves", "stem"],
             "fallback_tissues": ["leaves", "stem"],
             "fallback_conditions": [],
             "fallback_genotypes": [],
-            "fallback_phases": ["juvenile phase"],
             "fallback_ages": ["5 months"]
         }
     }
@@ -181,6 +181,12 @@ def main():
     cursor.execute("SELECT COUNT(*) FROM mirna_precursors WHERE tier_classification IN ('known_reference_supported','novel_multi_study_replicated');")
     total_high_confidence = cursor.fetchone()[0]
     
+    cursor.execute("SELECT COUNT(*) FROM mirna_paralog_groups;")
+    paralog_groups_count = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*) FROM mirna_core WHERE paralog_group_id IS NOT NULL;")
+    mirnas_in_paralog_groups = cursor.fetchone()[0]
+    
     stats = {
         "total_mirnas": total_mirnas,
         "known_mirnas": known_mirnas,
@@ -189,11 +195,29 @@ def main():
         "total_targets": total_targets,
         "total_studies": total_studies,
         "total_samples": total_samples,
-        "total_high_confidence": total_high_confidence
+        "total_high_confidence": total_high_confidence,
+        "paralog_groups": paralog_groups_count,
+        "mirnas_in_paralog_groups": mirnas_in_paralog_groups
     }
     
     with open(os.path.join(export_dir, "stats.json"), "w", encoding="utf-8") as f:
         json.dump(stats, f, indent=2)
+
+    # ----------------------------------------------------
+    # GENERATING mirna_paralog_groups.json
+    # ----------------------------------------------------
+    print("=== Generating mirna_paralog_groups.json ===")
+    cursor.execute("SELECT group_id, sequence_variants, group_size, member_accessions FROM mirna_paralog_groups;")
+    paralog_groups_list = []
+    for row in cursor.fetchall():
+        paralog_groups_list.append({
+            "group_id": row[0],
+            "sequence_variants": [x.strip() for x in row[1].split(";") if x.strip()],
+            "group_size": row[2],
+            "member_accessions": [x.strip() for x in row[3].split(",") if x.strip()]
+        })
+    with open(os.path.join(export_dir, "mirna_paralog_groups.json"), "w", encoding="utf-8") as f:
+        json.dump(paralog_groups_list, f, indent=2)
         
     # ----------------------------------------------------
     # GENERATING manifest.json
@@ -220,11 +244,16 @@ def main():
     cursor.execute("SELECT study_id, author_id, doi, title FROM studies;")
     studies_list = []
     for row in cursor.fetchall():
+        sid = row[0]
+        meta = study_metadata.get(sid)
         studies_list.append({
-            "study_id": row[0],
+            "study_id": sid,
             "author_id": row[1],
             "doi": row[2],
-            "title": row[3]
+            "title": row[3],
+            "age_label": meta["age_label"] if meta else None,
+            "age_confidence": meta["age_confidence"] if meta else None,
+            "age_source_note": meta["age_source_note"] if meta else None
         })
     with open(os.path.join(export_dir, "studies.json"), "w", encoding="utf-8") as f:
         json.dump(studies_list, f, indent=2)
@@ -291,20 +320,17 @@ def main():
     # ----------------------------------------------------
     # PRE-FETCH DATA FOR miRNA GENERATION
     # ----------------------------------------------------
-    cursor.execute("SELECT accession, mirna_id, mature_sequence, situation, family, curation_status, entry_date, last_modification FROM mirna_core;")
+    cursor.execute("SELECT accession, mirna_id, mature_sequence, situation, family, curation_status, entry_date, last_modification, paralog_group_id FROM mirna_core;")
     mirnas_db = cursor.fetchall()
     
     mirnas_list = []
     browser_items = []
     
     # Facet counters for browser index
-    # We will compute them using sample counts as requested:
-    # "browser_filter_index.json: facets de studies/tissues/conditions/ genotypes devem vir de contagem real da tabela samples (20 linhas). O tratamento de idade/fase segue a Etapa 1."
     studies_facet = {}
     tissues_facet = {}
     conditions_facet = {}
     genotypes_facet = {}
-    phases_facet = {}
     ages_facet = {}
     tags_facet = {} # Counts of miRNAs having that tag
     
@@ -324,25 +350,21 @@ def main():
             g = s["genotype"]
             genotypes_facet[g] = genotypes_facet.get(g, 0) + 1
             
-        # Age/phase follow Etapa 1 mapping (sample study_id -> age/phase list)
+        # Age follows study_metadata age_label
         meta = study_metadata.get(s["study_id"])
-        if meta:
-            for p in meta["phase"]:
-                phases_facet[p] = phases_facet.get(p, 0) + 1
-            for a in meta["age"]:
-                ages_facet[a] = ages_facet.get(a, 0) + 1
+        if meta and "age_label" in meta:
+            ages_facet[meta["age_label"]] = ages_facet.get(meta["age_label"], 0) + 1
                 
     print("Computed Sample facets:")
     print("  studies:", studies_facet)
     print("  tissues:", tissues_facet)
     print("  conditions:", conditions_facet)
     print("  genotypes:", genotypes_facet)
-    print("  phases:", phases_facet)
     print("  ages:", ages_facet)
     
     # Process each miRNA
     for row in mirnas_db:
-        acc, mirna_id, mature_seq, situation, family, curation, entry_date, last_mod = row
+        acc, mirna_id, mature_seq, situation, family, curation, entry_date, last_mod, paralog_group_id = row
         
         # 1. Fetch visible loci
         cursor.execute("""
@@ -439,18 +461,41 @@ def main():
         visible_loci_count = len(visible_loci)
         visible_studies_count = len(visible_study_ids)
         
-        # 2. Fetch expression records for visible studies
+        # 3. Fetch all references for this miRNA
+        # Table mirna_ref columns: ref_id, mirna_core_accession, study_id, acc_in_work, detection_source
+        references_list = []
+        cursor.execute("""
+            SELECT ref_id, mirna_core_accession, study_id, acc_in_work, detection_source
+            FROM mirna_ref
+            WHERE mirna_core_accession = ?;
+        """, (acc,))
+        for r in cursor.fetchall():
+            # CRITICAL REQUIREMENT: Only include references/studies that have a high-quality/visible locus!
+            if r[2] in visible_study_ids:
+                references_list.append({
+                    "ref_id": r[0],
+                    "mirna_core_accession": r[1],
+                    "study_id": r[2],
+                    "acc_in_work": r[3] if r[3] else None,
+                    "detection_source": r[4]
+                })
+        references_count = len(references_list)
+
+        # Collect all associated studies (strictly restricted to studies with a high-quality locus!)
+        associated_study_ids = set(visible_study_ids)
+
+        # 2. Fetch expression records for associated studies
         # Table mirna_expression columns: id, mirna_core_accession, srr_accession, raw_count, cpm
         expressions_list = []
-        if visible_study_ids:
-            placeholders = ",".join("?" for _ in visible_study_ids)
+        if associated_study_ids:
+            placeholders = ",".join("?" for _ in associated_study_ids)
             query = f"""
                 SELECT e.id, e.mirna_core_accession, e.srr_accession, e.raw_count, e.cpm, s.study_id, s.tissue, s.genotype, s.condition, s.replicate, s.total_mapped_reads
                 FROM mirna_expression e
                 JOIN samples s ON e.srr_accession = s.srr_accession
                 WHERE e.mirna_core_accession = ? AND s.study_id IN ({placeholders});
             """
-            params = [acc] + list(visible_study_ids)
+            params = [acc] + list(associated_study_ids)
             cursor.execute(query, params)
             for r in cursor.fetchall():
                 meta = study_metadata.get(r[5])
@@ -466,45 +511,21 @@ def main():
                     "condition": r[8] if r[8] else None,
                     "replicate": r[9],
                     "total_mapped_reads": r[10],
-                    "phase": meta["phase"] if meta else [],
-                    "age": meta["age"] if meta else []
+                    "age": [meta["age_label"]] if meta else []
                 })
         expression_samples_count = len(expressions_list)
         
-        # 3. Fetch references for visible studies
-        # Table mirna_ref columns: ref_id, mirna_core_accession, study_id, acc_in_work, detection_source
-        references_list = []
-        if visible_study_ids:
-            placeholders = ",".join("?" for _ in visible_study_ids)
-            query = f"""
-                SELECT ref_id, mirna_core_accession, study_id, acc_in_work, detection_source
-                FROM mirna_ref
-                WHERE mirna_core_accession = ? AND study_id IN ({placeholders});
-            """
-            params = [acc] + list(visible_study_ids)
-            cursor.execute(query, params)
-            for r in cursor.fetchall():
-                references_list.append({
-                    "ref_id": r[0],
-                    "mirna_core_accession": r[1],
-                    "study_id": r[2],
-                    "acc_in_work": r[3] if r[3] else None,
-                    "detection_source": r[4]
-                })
-        references_count = len(references_list)
-        
-        # 4. Fetch DEGs (Differential Expression) for visible studies
+        # 4. Fetch DEGs (Differential Expression) for associated studies
         # Table mirna_deg: id, mirna_core_accession, study_id, comparison, log2_fold_change, padj, direction
         degs_list = []
-        if visible_study_ids:
-            placeholders = ",".join("?" for _ in visible_study_ids)
-            # Simplifications applied: comparison, study_id, log2_fold_change, padj, direction only!
+        if associated_study_ids:
+            placeholders = ",".join("?" for _ in associated_study_ids)
             query = f"""
                 SELECT comparison, study_id, log2_fold_change, padj, direction
                 FROM mirna_deg
                 WHERE mirna_core_accession = ? AND study_id IN ({placeholders});
             """
-            params = [acc] + list(visible_study_ids)
+            params = [acc] + list(associated_study_ids)
             cursor.execute(query, params)
             for r in cursor.fetchall():
                 degs_list.append({
@@ -636,6 +657,21 @@ def main():
                 "bitscore": fam_row[4]
             }
 
+        # Fetch paralog group info
+        paralog_group = None
+        if paralog_group_id is not None:
+            cursor.execute("SELECT group_id, group_size, member_accessions FROM mirna_paralog_groups WHERE group_id = ?;", (paralog_group_id,))
+            pg_row = cursor.fetchone()
+            if pg_row:
+                g_id, g_size, mem_acc_str = pg_row
+                members = [m.strip() for m in mem_acc_str.split(",") if m.strip()]
+                other_members = [m for m in members if m != mirna_id]
+                paralog_group = {
+                    "group_id": g_id,
+                    "group_size": g_size,
+                    "other_members": other_members
+                }
+
         # ----------------------------------------------------
         # WRITE detail JSONs
         # ----------------------------------------------------
@@ -648,12 +684,14 @@ def main():
                 "family": family,
                 "curation_status": curation,
                 "entry_date": entry_date,
-                "last_modification": last_mod
+                "last_modification": last_mod,
+                "paralog_group_id": paralog_group_id
             },
             "family_info": family_info,
+            "paralog_group": paralog_group,
             "visible_study_ids": sorted(list(visible_study_ids)),
             "visible_loci_count": visible_loci_count,
-            "studies": [studies_by_id[sid] for sid in sorted(list(visible_study_ids)) if sid in studies_by_id],
+            "studies": [studies_by_id[sid] for sid in sorted(list(associated_study_ids)) if sid in studies_by_id],
             "references": references_list,
             "expressions": expressions_list,
             "degs": degs_list,
@@ -699,7 +737,6 @@ def main():
         item_tissues = set()
         item_conditions = set()
         item_genotypes = set()
-        item_phases = set()
         item_ages = set()
         
         item_study_entries = []
@@ -720,20 +757,17 @@ def main():
             expressed_t = sorted(list(set(e["tissue"] for e in study_exprs if e["tissue"])))
             expressed_c = sorted(list(set(e["condition"] for e in study_exprs if e["condition"])))
             expressed_g = sorted(list(set(e["genotype"] for e in study_exprs if e["genotype"])))
-            expressed_p = meta["phase"] if has_expr and meta["phase"] else []
-            expressed_a = meta["age"] if has_expr and meta["age"] else []
+            expressed_a = [meta["age_label"]] if (has_expr and meta["age_label"]) else []
             
             fallback_t = [] if has_expr else meta["fallback_tissues"]
             fallback_c = [] if has_expr else meta["fallback_conditions"]
             fallback_g = [] if has_expr else meta["fallback_genotypes"]
-            fallback_p = [] if has_expr else meta["fallback_phases"]
             fallback_a = [] if has_expr else meta["fallback_ages"]
             
             # Union for this study
             for t in (expressed_t + fallback_t): item_tissues.add(t)
             for c in (expressed_c + fallback_c): item_conditions.add(c)
             for g in (expressed_g + fallback_g): item_genotypes.add(g)
-            for p in (expressed_p + fallback_p): item_phases.add(p)
             for a in (expressed_a + fallback_a): item_ages.add(a)
             
             # Format samples_with_expression inside study entry
@@ -743,8 +777,7 @@ def main():
                 if e["tissue"]: tag_set.append(e["tissue"])
                 if e["condition"]: tag_set.append(e["condition"])
                 if e["genotype"]: tag_set.append(e["genotype"])
-                for p in meta["phase"]: tag_set.append(p)
-                for a in meta["age"]: tag_set.append(a)
+                if meta["age_label"]: tag_set.append(meta["age_label"])
                 
                 samples_we.append({
                     "srr_accession": e["srr_accession"],
@@ -756,8 +789,7 @@ def main():
                     "genotype": e["genotype"],
                     "replicate": e["replicate"],
                     "total_mapped_reads": e["total_mapped_reads"],
-                    "phase": meta["phase"],
-                    "age": meta["age"],
+                    "age": [meta["age_label"]] if meta["age_label"] else [],
                     "sample_tags": sorted(list(set(tag_set)))
                 })
                 
@@ -769,7 +801,6 @@ def main():
             for t in (expressed_t + fallback_t): se_tags.append(t)
             for c in (expressed_c + fallback_c): se_tags.append(c)
             for g in (expressed_g + fallback_g): se_tags.append(g)
-            for p in (expressed_p + fallback_p): se_tags.append(p)
             for a in (expressed_a + fallback_a): se_tags.append(a)
             se_tags = sorted(list(set(se_tags)))
             
@@ -778,18 +809,17 @@ def main():
                 "study_name": st_name,
                 "citation_short": meta["citation_short"],
                 "biological_context": meta["biological_context"],
-                "phase": meta["phase"],
-                "age": meta["age"],
+                "age": meta["age_label"],
+                "age_confidence": meta["age_confidence"],
+                "age_source_note": meta["age_source_note"],
                 "study_tags": se_tags,
                 "expressed_tissues": expressed_t,
                 "expressed_conditions": expressed_c,
                 "expressed_genotypes": expressed_g,
-                "expressed_phases": expressed_p,
                 "expressed_ages": expressed_a,
                 "fallback_tissues": fallback_t,
                 "fallback_conditions": fallback_c,
                 "fallback_genotypes": fallback_g,
-                "fallback_phases": fallback_p,
                 "fallback_ages": fallback_a,
                 "optimized_tags": se_tags,
                 "samples_with_expression": samples_we,
@@ -831,7 +861,6 @@ def main():
         for t in item_tissues: item_opt_tags.append(t)
         for c in item_conditions: item_opt_tags.append(c)
         for g in item_genotypes: item_opt_tags.append(g)
-        for p in item_phases: item_opt_tags.append(p)
         for a in item_ages: item_opt_tags.append(a)
         item_opt_tags = sorted(list(set(item_opt_tags)))
         
@@ -852,7 +881,6 @@ def main():
                 "tissues": sorted(list(item_tissues)),
                 "conditions": sorted(list(item_conditions)),
                 "genotypes": sorted(list(item_genotypes)),
-                "phases": sorted(list(item_phases)),
                 "ages": sorted(list(item_ages))
             },
             "optimized_tags": item_opt_tags,
@@ -861,11 +889,11 @@ def main():
         
     # Re-calculate facet counts to be the number of matching miRNAs (items) instead of sample counts,
     # as the filters operate on miRNAs, matching user expectations and preventing display mismatch.
+    # EXCEPT for ages, which should reflect the number of samples as requested.
     studies_facet = {}
     tissues_facet = {}
     conditions_facet = {}
     genotypes_facet = {}
-    phases_facet = {}
     ages_facet = {}
     
     for item in browser_items:
@@ -878,8 +906,6 @@ def main():
             conditions_facet[val] = conditions_facet.get(val, 0) + 1
         for val in fac["genotypes"]:
             genotypes_facet[val] = genotypes_facet.get(val, 0) + 1
-        for val in fac["phases"]:
-            phases_facet[val] = phases_facet.get(val, 0) + 1
         for val in fac["ages"]:
             ages_facet[val] = ages_facet.get(val, 0) + 1
 
@@ -897,7 +923,6 @@ def main():
             "tissues": tissues_facet,
             "conditions": conditions_facet,
             "genotypes": genotypes_facet,
-            "phases": phases_facet,
             "ages": ages_facet,
             "tags": tags_facet
         },

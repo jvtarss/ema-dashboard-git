@@ -133,7 +133,6 @@ export const miRNAApi = {
       tissues?: string[];
       conditions?: string[];
       genotypes?: string[];
-      phases?: string[];
       ages?: string[];
       studies?: string[];
     }
@@ -143,27 +142,39 @@ export const miRNAApi = {
 
     // 1. FILTROS ESTRUTURADOS
     if (params.filters) {
-      const { tissues, conditions, genotypes, phases, ages, studies } = params.filters;
-      const hasAnyFilter = (tissues?.length || 0) + (conditions?.length || 0) + (genotypes?.length || 0) + (phases?.length || 0) + (ages?.length || 0) + (studies?.length || 0) > 0;
+      const { tissues, conditions, genotypes, ages, studies } = params.filters;
+      const hasAnyFilter = (tissues?.length || 0) + (conditions?.length || 0) + (genotypes?.length || 0) + (ages?.length || 0) + (studies?.length || 0) > 0;
 
       if (hasAnyFilter) {
         mirnas = mirnas.filter((mirna: any) => {
-          let hasMatchingStudyEntry = false;
+          const itemFacets = mirna.facets || {};
+          const itemStudies = itemFacets.studies || [];
+          const itemTissues = itemFacets.tissues || [];
+          const itemConditions = itemFacets.conditions || [];
+          const itemGenotypes = itemFacets.genotypes || [];
+          const itemAges = itemFacets.ages || [];
+
+          const globalStudyMatches = !studies || studies.length === 0 || studies.every((s: string) => itemStudies.includes(s));
+          const globalTissueMatches = !tissues || tissues.length === 0 || tissues.every((t: string) => itemTissues.includes(t));
+          const globalConditionMatches = !conditions || conditions.length === 0 || conditions.every((c: string) => itemConditions.includes(c));
+          const globalGenotypeMatches = !genotypes || genotypes.length === 0 || genotypes.every((g: string) => itemGenotypes.includes(g));
+          const globalAgeMatches = !ages || ages.length === 0 || ages.every((a: string) => itemAges.includes(a));
+
+          if (!(globalStudyMatches && globalTissueMatches && globalConditionMatches && globalGenotypeMatches && globalAgeMatches)) {
+            return false;
+          }
+
           const filteredLoci: any[] = [];
 
           for (const entry of mirna.study_entries) {
-            // Study filter
+            // Study filter subset matching
             const studyMatches = !studies || studies.length === 0 || studies.includes(entry.study_name) || studies.includes(entry.study_id.toString());
             
-            // NEW STRICT REQUIREMENT: Only consider this study entry if it has visible loci
-            // Visible criteria: passed_am2018_filters = 1 AND score_total >= 0
             const visibleLoci = (entry.loci || []).filter((l: any) => l.passed_am2018_filters === 1 && l.score_total >= 0);
-            
             if (visibleLoci.length === 0) continue;
 
             const samples = entry.samples_with_expression || [];
             
-            // Biological filters evaluation (Samples OR Fallbacks)
             const tissueMatches = !tissues || tissues.length === 0 || 
               samples.some((s: any) => tissues.includes(s.tissue) || s.tissue_terms?.some((t:string) => tissues.includes(t))) ||
               entry.fallback_tissues?.some((t: string) => tissues.includes(t));
@@ -176,25 +187,17 @@ export const miRNAApi = {
               samples.some((s: any) => genotypes.includes(s.genotype)) ||
               entry.fallback_genotypes?.some((g: string) => genotypes.includes(g));
 
-            const phaseMatches = !phases || phases.length === 0 || 
-              samples.some((s: any) => s.phase?.some((p:string) => phases.includes(p))) ||
-              entry.fallback_phases?.some((p: string) => phases.includes(p));
-
             const ageMatches = !ages || ages.length === 0 || 
               samples.some((s: any) => s.age?.some((a:string) => ages.includes(a))) ||
               entry.fallback_ages?.some((a: string) => ages.includes(a));
 
-            if (studyMatches && tissueMatches && conditionMatches && genotypeMatches && phaseMatches && ageMatches) {
-              hasMatchingStudyEntry = true;
+            if (studyMatches && tissueMatches && conditionMatches && genotypeMatches && ageMatches) {
               filteredLoci.push(...visibleLoci);
             }
           }
 
-          if (hasMatchingStudyEntry) {
-            mirna._filtered_loci = filteredLoci;
-            return true;
-          }
-          return false;
+          mirna._filtered_loci = filteredLoci;
+          return true;
         });
       } else {
         // No filters: provide only visible loci
@@ -307,6 +310,10 @@ export const miRNAApi = {
 
   getStats: async () => {
     return dataManager.getStats();
+  },
+
+  getStudies: async () => {
+    return dataManager.getStudies();
   },
 
   getMiRNADetail: async (id: number | string) => {

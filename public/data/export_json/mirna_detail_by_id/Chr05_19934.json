@@ -6,10 +6,12 @@
     "situation": "novel",
     "family": "miR399.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-06 19:43:34",
-    "last_modification": "2026-07-06 19:43:34"
+    "entry_date": "2026-07-07 18:15:20",
+    "last_modification": "2026-07-07 18:15:20",
+    "paralog_group_id": null
   },
   "family_info": null,
+  "paralog_group": null,
   "visible_study_ids": [
     1
   ],
@@ -19,7 +21,10 @@
       "study_id": 1,
       "author_id": "QIN-2021",
       "doi": "10.1093/g3journal/jkab070",
-      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus"
+      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus",
+      "age_label": null,
+      "age_confidence": null,
+      "age_source_note": null
     }
   ],
   "references": [
@@ -44,10 +49,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 16073686,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 353,
@@ -61,10 +65,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 16264504,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 354,
@@ -78,10 +81,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 13585273,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 355,
@@ -95,10 +97,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 15130611,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 356,
@@ -112,10 +113,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 12434908,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 357,
@@ -129,10 +129,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 14784548,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 358,
@@ -146,10 +145,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 16194801,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     }
   ],
   "degs": [

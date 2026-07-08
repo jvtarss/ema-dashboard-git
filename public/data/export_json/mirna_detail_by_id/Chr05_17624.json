@@ -6,10 +6,19 @@
     "situation": "novel",
     "family": "miR160.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-06 19:43:34",
-    "last_modification": "2026-07-06 19:43:34"
+    "entry_date": "2026-07-07 18:15:20",
+    "last_modification": "2026-07-07 18:15:20",
+    "paralog_group_id": 6
   },
   "family_info": null,
+  "paralog_group": {
+    "group_id": 6,
+    "group_size": 3,
+    "other_members": [
+      "Chr07_28646",
+      "Chr10_41575"
+    ]
+  },
   "visible_study_ids": [
     3
   ],
@@ -19,7 +28,10 @@
       "study_id": 3,
       "author_id": "TOLENTINO-2022",
       "doi": "10.1007/s40626-022-00259-9",
-      "title": "Identification of microRNAs and their expression profiles on tension and opposite wood of Eucalyptus"
+      "title": "Identification of microRNAs and their expression profiles on tension and opposite wood of Eucalyptus",
+      "age_label": "10 months",
+      "age_confidence": null,
+      "age_source_note": null
     }
   ],
   "references": [
@@ -44,9 +56,6 @@
       "condition": "tension_wood",
       "replicate": 1,
       "total_mapped_reads": 4951372,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]
@@ -63,9 +72,6 @@
       "condition": "opposite_wood",
       "replicate": 1,
       "total_mapped_reads": 4700293,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]
@@ -82,9 +88,6 @@
       "condition": "unbent_control",
       "replicate": 1,
       "total_mapped_reads": 5619779,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]
@@ -101,9 +104,6 @@
       "condition": "tension_wood",
       "replicate": 2,
       "total_mapped_reads": 5447186,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]
@@ -120,9 +120,6 @@
       "condition": "opposite_wood",
       "replicate": 2,
       "total_mapped_reads": 3710091,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]
@@ -139,9 +136,6 @@
       "condition": "unbent_control",
       "replicate": 2,
       "total_mapped_reads": 4506917,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "10 months"
       ]

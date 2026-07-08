@@ -6,10 +6,19 @@
     "situation": "novel",
     "family": "miR160.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-06 19:43:34",
-    "last_modification": "2026-07-06 19:43:34"
+    "entry_date": "2026-07-07 18:15:20",
+    "last_modification": "2026-07-07 18:15:20",
+    "paralog_group_id": 6
   },
   "family_info": null,
+  "paralog_group": {
+    "group_id": 6,
+    "group_size": 3,
+    "other_members": [
+      "Chr05_17624",
+      "Chr10_41575"
+    ]
+  },
   "visible_study_ids": [
     1,
     4
@@ -20,13 +29,19 @@
       "study_id": 1,
       "author_id": "QIN-2021",
       "doi": "10.1093/g3journal/jkab070",
-      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus"
+      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus",
+      "age_label": null,
+      "age_confidence": null,
+      "age_source_note": null
     },
     {
       "study_id": 4,
       "author_id": "LIN-2018",
       "doi": null,
-      "title": null
+      "title": null,
+      "age_label": "5 months",
+      "age_confidence": null,
+      "age_source_note": null
     }
   ],
   "references": [
@@ -58,10 +73,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 13578251,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 584,
@@ -75,10 +89,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 16073686,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 585,
@@ -92,10 +105,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 16264504,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 586,
@@ -109,10 +121,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 13585273,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 587,
@@ -126,10 +137,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 12593516,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 588,
@@ -143,10 +153,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 13304126,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 589,
@@ -160,10 +169,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 12895100,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 590,
@@ -177,10 +185,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 15130611,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 591,
@@ -194,10 +201,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 14492232,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 592,
@@ -211,10 +217,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 12434908,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 593,
@@ -228,10 +233,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 14784548,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 594,
@@ -245,10 +249,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 16194801,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 601,
@@ -262,9 +265,6 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 14400854,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "5 months"
       ]
@@ -281,9 +281,6 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 22544199,
-      "phase": [
-        "juvenile phase"
-      ],
       "age": [
         "5 months"
       ]

@@ -6,8 +6,9 @@
     "situation": "known",
     "family": "miR165.0",
     "curation_status": "union_curated",
-    "entry_date": "2026-07-06 19:43:34",
-    "last_modification": "2026-07-06 19:43:34"
+    "entry_date": "2026-07-07 18:15:20",
+    "last_modification": "2026-07-07 18:15:20",
+    "paralog_group_id": 16
   },
   "family_info": {
     "accession": 84,
@@ -16,6 +17,14 @@
     "pident": null,
     "evalue": null,
     "bitscore": null
+  },
+  "paralog_group": {
+    "group_id": 16,
+    "group_size": 3,
+    "other_members": [
+      "Egr-miR165b",
+      "Egr-miR165f"
+    ]
   },
   "visible_study_ids": [
     1
@@ -26,7 +35,10 @@
       "study_id": 1,
       "author_id": "QIN-2021",
       "doi": "10.1093/g3journal/jkab070",
-      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus"
+      "title": "Genome-wide identification of microRNAs involved in the somatic embryogenesis of Eucalyptus",
+      "age_label": null,
+      "age_confidence": null,
+      "age_source_note": null
     }
   ],
   "references": [
@@ -51,10 +63,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 13578251,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1268,
@@ -68,10 +79,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 16073686,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1269,
@@ -85,10 +95,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 16264504,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1270,
@@ -102,10 +111,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 13585273,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1271,
@@ -119,10 +127,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 12593516,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1272,
@@ -136,10 +143,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 13304126,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1273,
@@ -153,10 +159,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 12895100,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1274,
@@ -170,10 +175,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 15130611,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1275,
@@ -187,10 +191,9 @@
       "condition": null,
       "replicate": 3,
       "total_mapped_reads": 14492232,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1276,
@@ -204,10 +207,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 12434908,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1277,
@@ -221,10 +223,9 @@
       "condition": null,
       "replicate": 2,
       "total_mapped_reads": 14784548,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     },
     {
       "id": 1278,
@@ -238,10 +239,9 @@
       "condition": null,
       "replicate": 1,
       "total_mapped_reads": 16194801,
-      "phase": [
-        "juvenile phase"
-      ],
-      "age": []
+      "age": [
+        null
+      ]
     }
   ],
   "degs": [

@@ -6,5 +6,7 @@
   "total_targets": 1773,
   "total_studies": 3,
   "total_samples": 20,
-  "total_high_confidence": 47
+  "total_high_confidence": 47,
+  "paralog_groups": 18,
+  "mirnas_in_paralog_groups": 51
 }

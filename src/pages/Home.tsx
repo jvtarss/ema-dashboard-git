@@ -154,8 +154,8 @@ export default function Home() {
           <div className="d-flex flex-column gap-4">
             <div className="d-flex gap-3 align-items-start border-start border-3 border-ema-primary ps-3">
               <div>
-                <span className="small fw-bold text-ema-primary d-block">July 6, 2026</span>
-                <p className="text-ema-text mb-0">EMA online and version 1.0 released</p>
+                <span className="small fw-bold text-ema-primary d-block">July 8, 2026</span>
+                <p className="text-ema-text mb-0">EMA online and version 1.0 released.</p>
               </div>
             </div>
           </div>
