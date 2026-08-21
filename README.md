@@ -34,16 +34,6 @@ ema-dashboard-git/
 
 The data displayed in this dashboard is derived from the curated SQLite database maintained in [jvtarss/ema-2026](https://github.com/jvtarss/ema-2026). Any updates to the underlying catalog (new datasets, corrected annotations, expanded confidence tiers) are versioned there first, then propagated to this frontend.
 
-## Citation
-
-If you use EMA in your research, please cite:
-
-> [FULL CITATION PENDING,  add once published]
-
-## License
-
-[PENDING,  to be finalized once the target journal/venue is confirmed]
-
 ## Contact
 
-For questions, bug reports, or to propose additional datasets for a future EMA release, contact the corresponding author: [EMAIL PENDING]
+For questions, bug reports, or to propose additional datasets for a future EMA release, contact the corresponding author: joao.aires1@uft.edu.br
