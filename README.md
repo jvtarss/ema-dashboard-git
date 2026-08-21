@@ -1,0 +1,67 @@
+# EMA Dashboard
+
+Frontend of the Eucalyptus MicroRNA Archive (EMA), a curated database of microRNAs in *Eucalyptus grandis*. This repository contains only the web dashboard; the curated database, backend schema, and analysis pipeline live in a separate repository ([jvtarss/ema-2026](https://github.com/jvtarss/ema-2026)).
+
+**Live dashboard:** https://jvtarss.github.io/ema-dashboard-git
+
+## About EMA
+
+EMA integrates three independent public small RNA sequencing studies (vegetative tissue, somatic embryogenesis, tension wood formation) into a single, locus-resolved catalog of 99 curated miRNAs, with study-level evidence tracking, expression profiles, differential expression results, and predicted miRNA-target and protein-protein interaction networks. See the main repository for the curated data files, database schema, and full methodology.
+
+## Tech stack
+
+- React + TypeScript
+- Vite (build tool)
+- Bootstrap + SASS for styling
+- Lucide React for iconography
+
+## Repository structure
+
+```
+ema-dashboard-git/
+├── .github/workflows/    GitHub Actions workflow for automated deployment to GitHub Pages
+├── public/               static assets served as-is
+├── scripts/              data preparation/build scripts (Python) that transform curated exports into the static data consumed by the frontend
+├── src/                  application source (components, pages, styles)
+├── index.html
+├── vite.config.ts
+├── tsconfig*.json
+├── eslint.config.js
+├── package.json
+└── package-lock.json
+```
+
+## Running locally
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+Deployment to GitHub Pages is automated via the workflow in `.github/workflows/deploy.yml`, triggered on push to `main`.
+
+## Data source
+
+The data displayed in this dashboard is derived from the curated SQLite database maintained in [jvtarss/ema-2026](https://github.com/jvtarss/ema-2026). Any updates to the underlying catalog (new datasets, corrected annotations, expanded confidence tiers) are versioned there first, then propagated to this frontend.
+
+## Citation
+
+If you use EMA in your research, please cite:
+
+> [FULL CITATION PENDING,  add once published]
+
+## License
+
+[PENDING,  to be finalized once the target journal/venue is confirmed]
+
+## Contact
+
+For questions, bug reports, or to propose additional datasets for a future EMA release, contact the corresponding author: [EMAIL PENDING]
