@@ -1,5 +1,5 @@
 # EMA Dashboard
-
+![EMA logo](public/logo-branca.svg)
 Frontend of the Eucalyptus MicroRNA Archive (EMA), a curated database of microRNAs in *Eucalyptus grandis*. This repository contains only the web dashboard; **the curated database, backend schema, and analysis pipeline are not available publicly.**
 
 **Live dashboard:** https://jvtarss.github.io/ema-dashboard-git
