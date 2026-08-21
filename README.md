@@ -1,13 +1,12 @@
 # EMA Dashboard
 
-Frontend of the Eucalyptus MicroRNA Archive (EMA), a curated database of microRNAs in *Eucalyptus grandis*. This repository contains only the web dashboard; the curated database, backend schema, and analysis pipeline live in a separate repository ([jvtarss/ema-2026](https://github.com/jvtarss/ema-2026)).
+Frontend of the Eucalyptus MicroRNA Archive (EMA), a curated database of microRNAs in *Eucalyptus grandis*. This repository contains only the web dashboard; **the curated database, backend schema, and analysis pipeline are not available publicly.**
 
 **Live dashboard:** https://jvtarss.github.io/ema-dashboard-git
 
 ## About EMA
 
-EMA integrates three independent public small RNA sequencing studies (vegetative tissue, somatic embryogenesis, tension wood formation) into a single, locus-resolved catalog of 99 curated miRNAs, with study-level evidence tracking, expression profiles, differential expression results, and predicted miRNA-target and protein-protein interaction networks. See the main repository for the curated data files, database schema, and full methodology.
-
+EMA integrates three independent public small RNA sequencing studies (vegetative tissue, somatic embryogenesis, tension wood formation) into a single, locus-resolved catalog of 99 curated miRNAs, with study-level evidence tracking, expression profiles, differential expression results, and predicted miRNA-target and protein-protein interaction networks. 
 ## Stacks
 
 - React + TypeScript
