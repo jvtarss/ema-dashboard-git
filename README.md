@@ -8,14 +8,14 @@ Frontend of the Eucalyptus MicroRNA Archive (EMA), a curated database of microRN
 
 EMA integrates three independent public small RNA sequencing studies (vegetative tissue, somatic embryogenesis, tension wood formation) into a single, locus-resolved catalog of 99 curated miRNAs, with study-level evidence tracking, expression profiles, differential expression results, and predicted miRNA-target and protein-protein interaction networks. See the main repository for the curated data files, database schema, and full methodology.
 
-## Tech stack
+## Stacks
 
 - React + TypeScript
 - Vite (build tool)
 - Bootstrap + SASS for styling
 - Lucide React for iconography
 
-## Repository structure
+## Repo structure
 
 ```
 ema-dashboard-git/
@@ -30,24 +30,6 @@ ema-dashboard-git/
 ├── package.json
 └── package-lock.json
 ```
-
-## Running locally
-
-```bash
-npm install
-npm run dev
-```
-
-Build for production:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-Deployment to GitHub Pages is automated via the workflow in `.github/workflows/deploy.yml`, triggered on push to `main`.
-
 ## Data source
 
 The data displayed in this dashboard is derived from the curated SQLite database maintained in [jvtarss/ema-2026](https://github.com/jvtarss/ema-2026). Any updates to the underlying catalog (new datasets, corrected annotations, expanded confidence tiers) are versioned there first, then propagated to this frontend.
