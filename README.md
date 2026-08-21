@@ -31,7 +31,7 @@ ema-dashboard-git/
 ```
 ## Data source
 
-The data displayed in this dashboard is derived from the curated SQLite database maintained in [jvtarss/ema-2026](https://github.com/jvtarss/ema-2026). Any updates to the underlying catalog (new datasets, corrected annotations, expanded confidence tiers) are versioned there first, then propagated to this frontend.
+The data displayed in this dashboard is derived from the curated SQLite database not publicly released yet. Any updates to the underlying catalog (new datasets, corrected annotations, expanded confidence tiers) are versioned there first, then propagated to this frontend.
 
 ## Contact
 
